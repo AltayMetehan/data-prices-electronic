@@ -1,0 +1,34 @@
+PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
+PREFIX schema: <http://schema.org/>
+
+SELECT ?jahr ?gemeinde_nr ?gemeinde ?netzbetreiber_id ?netzbetreiber ?produkt ?kategorie
+       ?total ?energie ?netznutzung ?abgaben ?netzzuschlag ?messtarif
+       ?messtarif_chf_jahr
+WHERE {
+  <https://energy.ld.admin.ch/elcom/electricityprice>
+      <https://cube.link/observationSet>/<https://cube.link/observation> ?obs .
+
+  ?obs strom:period       ?period ;
+       strom:municipality ?m ;
+       strom:operator     ?op ;
+       strom:product      ?p ;
+       strom:category     ?c ;
+       strom:total        ?total .
+
+  FILTER(STR(?period) = "2021")
+
+  OPTIONAL { ?obs strom:energy             ?energie }
+  OPTIONAL { ?obs strom:gridusage          ?netznutzung }
+  OPTIONAL { ?obs strom:charge             ?abgaben }
+  OPTIONAL { ?obs strom:aidfee             ?netzzuschlag }
+  OPTIONAL { ?obs strom:meteringrate       ?messtarif }
+  OPTIONAL { ?obs strom:annualmeteringcost ?messtarif_chf_jahr }
+  OPTIONAL { ?m  schema:name ?gemeinde }
+  OPTIONAL { ?op schema:name ?netzbetreiber }
+
+  BIND(STR(?period)                        AS ?jahr)
+  BIND(STRAFTER(STR(?m),  "municipality/") AS ?gemeinde_nr)
+  BIND(STRAFTER(STR(?op), "operator/")     AS ?netzbetreiber_id)
+  BIND(STRAFTER(STR(?p),  "product/")      AS ?produkt)
+  BIND(STRAFTER(STR(?c),  "category/")     AS ?kategorie)
+}
