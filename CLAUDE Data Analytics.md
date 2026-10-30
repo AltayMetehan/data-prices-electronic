@@ -42,9 +42,15 @@ erfüllt das.
 
 ### Erwartete Resultate
 
-Die Hypothese, die geprüft wird: Nicht die Geografie über die Netzkosten erklärt die
-Unterschiede zwischen Gemeinden, sondern die Beschaffungsstrategie der Netzbetreiber
-über den Energieanteil. Und dieses Gewicht hat sich mit der Krise verschoben.
+Wir erwarten, dass Gemeindemerkmale den Strompreis nur schwach erklären. Nicht die
+Lage einer Gemeinde entscheidet, sondern von welchem Netzbetreiber sie beliefert wird
+und wie dieser seinen Strom eingekauft hat. Der Energieanteil erklärte 2024 rund
+80 Prozent der Unterschiede zwischen Gemeinden, und er ist eine Einkaufsentscheidung
+des Betreibers.
+
+Wir rechnen deshalb mit einem niedrigen R², vermutlich unter 0.3. Das ist kein
+Misserfolg, sondern das Resultat: Der Strompreis einer Gemeinde hängt weniger von ihr
+selbst ab als von ihrem Versorger.
 
 ---
 
@@ -97,8 +103,10 @@ Diese Entscheide sind getroffen. Nicht ohne Rücksprache mit der Gruppe ändern.
   Betreiber mehrere Produkte anbietet, und deckt je nach Jahr nur 742 bis 1207
   Gemeinden ab statt über 2100. Wer damit rechnet, vergleicht pro Jahr eine andere
   Auswahl und merkt es nicht.
-- **Nur die 2087 Gemeinden**, die in allen drei Jahren vorkommen. 2021 sind es 2203,
-  2024 noch 2140, 2027 noch 2109. Die Differenz sind Gemeindefusionen.
+- **Nur die 2087 Gemeinden**, die in allen drei Jahren vorkommen. 2021 sind es 2201,
+  2024 noch 2140, 2027 noch 2109. Die Differenz sind Gemeindefusionen. Alle Zahlen in
+  diesem Abschnitt beziehen sich auf die Auswahl H4/standard; die Rohdateien enthalten
+  über alle Kategorien und beide Produkte mehr Gemeinden.
 - **Mehrere Netzbetreiber pro Gemeinde**: betrifft 6 bis 7 Prozent, maximal fünf in
   einer Gemeinde. Mittelwert bilden und dokumentieren.
 - **gemeinde_nr als Ganzzahl einlesen**, nicht als Text. Die ElCom-Daten haben keine
@@ -185,6 +193,42 @@ sich verändert, und sie verändern sich gerade wieder zurück.
 
 ---
 
+## 5b. Methodischer Vorbehalt: Preise werden pro Netzbetreiber gesetzt
+
+Strompreise legen nicht die Gemeinden fest, sondern die Netzbetreiber. Alle Gemeinden
+desselben Betreibers haben denselben Preis. Eine Gemeinde ist in unseren Daten also
+keine eigenständige Beobachtung, sondern eine Verwaltungseinheit, die einem Betreiber
+zugeordnet ist.
+
+Nachgerechnet am 30.10.2026, H4/standard, die 2087 Gemeinden aus allen drei Jahren.
+Weil 119 bis 150 Gemeinden mehrere Betreiber haben, ist jede Gemeinde dem Betreiber
+mit der kleinsten `netzbetreiber_id` zugeordnet:
+
+| | 2021 | 2024 | 2027 |
+|---|---|---|---|
+| Gemeinden | 2087 | 2087 | 2087 |
+| Netzbetreiber | 512 | 496 | 485 |
+| Varianz zwischen Betreibern | 98.0 % | 95.6 % | 96.8 % |
+| Varianz innerhalb der Betreiber | 2.0 % | 4.4 % | 3.2 % |
+| Grösster Betreiber versorgt | 257 | 314 | 315 Gemeinden |
+| Betreiber mit nur einer Gemeinde | 414 | 396 | 387 |
+
+**Folge:** Die 2087 Beobachtungen sind nicht unabhängig voneinander. Die effektive
+Fallzahl liegt bei rund 500, nicht bei 2087.
+
+**Folge für die Modellierung:** Standardfehler werden unterschätzt, p-Werte wirken
+stärker als sie sind. Wer eine Gemeindevariable findet, die mit dem Preis korreliert,
+findet womöglich nur die Betreiberzugehörigkeit.
+
+**Empfehlung an Subraj:** Die Regression zusätzlich auf Betreiberebene rechnen, rund
+500 Fälle, und die Koeffizienten vergleichen. Das ist zugleich ein Vergleich zwischen
+Aggregationsebenen, wie ihn Pflicht 5 verlangt.
+
+Dieser Vorbehalt gehört in die Interpretation (Pflicht 7) und in die Präsentation.
+Ihn zu verschweigen wäre der grösste Angriffspunkt.
+
+---
+
 ## 6. Arbeitsteilung
 
 Aufgeteilt nach drei Regeln: Reihenfolge der Abhängigkeiten, Ferienplan, Know-how.
@@ -225,7 +269,19 @@ weiss schon, welcher Test sich lohnt.
    verlorene und gewonnene Datensätze → Pflicht 2. Widersprüche heisst hier:
    abweichende Gemeindenamen und Schreibweisen, Gemeindefusionen, unterschiedliche
    Formate der Gemeindenummer
-4. Gemeindegrenzen und Karte → Bonus 3
+4. Prüfen, ob die ausgeschlossenen Gemeinden systematisch abweichen. Bei H4/standard
+   umfasst 2021 2201 Gemeinden, 2027 noch 2109, behalten werden 2087. Die 114
+   ausgeschlossenen sind Gemeindefusionen, und Fusionen treffen kleine und ländliche
+   Gemeinden häufiger. Falls wir systematisch die kleinen ausschliessen, verzerrt das
+   jede Aussage über Stadt und Land. Zu vergleichen sind Grösse, Kanton und
+   Preisniveau der Ausgeschlossenen gegen die Behaltenen. Das Resultat gehört in die
+   Integrationsdokumentation → Pflicht 2
+5. Die Wahl von H4 und `produkt == "standard"` begründen, nicht nur festlegen. H4 ist
+   die Kategorie, die ElCom und die Medien für den Durchschnittshaushalt verwenden,
+   4500 kWh im Jahr. `standard` deckt über 2100 Gemeinden ab, `cheapest` je nach Jahr
+   nur 742 bis 1207, was den Vergleich über die Zeit verfälschen würde. Beides gehört
+   in den Bericht
+6. Gemeindegrenzen und Karte → Bonus 3
 
 Laufend: eigene AI-Notizen, Code auf GitHub, Punkteliste führen, AI-Doku aller drei
 bündeln → Pflicht 8. Im Januar: PDF mit Anhang und Punkteauflistung.
@@ -393,6 +449,12 @@ Rechner.
 - Datumsfehler auf Moodle bei der Abgabe des Endprojekts: Der Titel nennt den
   10.01.2027, das Fälligkeitsfeld darunter den 11.01.2026. Bei den Dozenten
   nachfragen
+- Auf welcher Ebene erwartet der Dozent die Analyse, Gemeinde oder Netzbetreiber.
+  In der Mail an die Dozenten fragen
+- Die BFS-Datenquelle ist noch nicht verifiziert. Unklar ist, ob Einwohner, Fläche,
+  Dichte, Gemeindetypologie, Kanton und Sprachregion in einer Datei liegen oder ob es
+  mehrere Quellen braucht. Die Gemeindetypologie stammt vermutlich vom ARE, nicht
+  vom BFS
 
 ---
 
@@ -410,3 +472,9 @@ selber korrigieren.
   `ai_dokumentation_lenny.md`, `moodle_aufgabenstellung.pdf`
 
 Beim Committen nur die eigenen Dateien auswählen, nie alles auf einmal.
+
+### Quellenregel
+
+Jede Zahl im Bericht und in der Präsentation stammt aus unseren eigenen Daten und ist
+nachgerechnet. Medienberichte dienen nur der Einleitung als Beleg, dass das Thema
+öffentlich diskutiert wird, nie als Beleg für eine Zahl.
