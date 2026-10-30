@@ -62,8 +62,12 @@ fertige Datensätze als Primärquelle ausdrücklich aus.
 Dateien im Repo: `Daten_Strompreise_2021.csv`, `_2024.csv`, `_2027.csv`.
 Skript: `strompreise_holen.py`. Abfrage: `query.txt`.
 
-Spalten: jahr, gemeinde_nr, gemeinde, netzbetreiber_id, netzbetreiber, produkt,
-kategorie, total, energie, netznutzung, abgaben, netzzuschlag, fixkosten.
+Spalten, 14 insgesamt: jahr, gemeinde_nr, gemeinde, netzbetreiber_id,
+netzbetreiber, produkt, kategorie, total, energie, netznutzung, abgaben,
+netzzuschlag, messtarif, messtarif_chf_jahr.
+
+Stand 27.10.2026: Metehan hat die Abfrage angepasst. `messtarif` und
+`messtarif_chf_jahr` sind neu dazugekommen, `fixkosten` ist weggefallen.
 
 ### Quelle 2: Gemeindedaten des Bundesamts für Statistik
 
@@ -73,6 +77,14 @@ Verknüpfung über die BFS-Gemeindenummer.
 Für die zweite Quelle ist ein Download zulässig. Die Vorgabe zur eigenen Erhebung
 gilt nur für die Primärquelle, die Aufgabenstellung nennt als Beispiel ausdrücklich
 «scraped data enriched with data from opendataswiss».
+
+### Geodaten für die Karte
+
+Für die Gemeindegrenzen (Bonus 3) kommt das Kurs-Repo von Dr. Gellrich infrage:
+`https://github.com/mario-gellrich-zhaw/data_analytics`, Woche 05, Ordner `Geodata`.
+Laut Moodle liegen dort die Geodaten aus dem Unterricht. Daneben gibt es
+`https://github.com/mario-gellrich-zhaw/spatial_data_analysis`. Das ist eine vom
+Dozenten selbst gesetzte Quelle. Wird in Phase 5 geprüft.
 
 ---
 
@@ -103,18 +115,32 @@ weglässt und sie später braucht, fängt von vorn an.
 
 ---
 
-## 4. Bekanntes Datenproblem: Messtarif ab 2026
+## 4. Messtarif ab 2026
 
-In 2021 und 2024 ergibt die Summe aus energie, netznutzung, abgaben und netzzuschlag
-exakt den Wert in `total`, die grösste Abweichung ist 0.001 Rappen. In 2027 fehlen
-im Schnitt 1.675 Rappen, und zwar bei 100 Prozent der Zeilen. Ursache ist ein
-Bestandteil, den die ElCom ab 2026 zusätzlich ausweist.
+Ab 2026 weist die ElCom einen zusätzlichen Preisbestandteil aus, den Messtarif.
+Die Abfrage holt ihn separat mit, als `messtarif` in Rappen pro kWh und als
+`messtarif_chf_jahr` als jährliche Grundgebühr in Franken.
+
+Geprüft am 27.10.2026 über alle drei Dateien: `energie + netznutzung + abgaben +
+netzzuschlag + messtarif` ergibt genau `total`. Die grösste Abweichung beträgt
+0.001 Rappen und stammt vom Runden auf drei Nachkommastellen. In 2021 und 2024
+ist das Feld durchgehend leer, weil es den Messtarif damals nicht gab, in 2027
+ist es in allen 41 440 Zeilen gefüllt.
 
 **Folge für die Analyse:** Für den Vergleich über die Zeit die vier Bestandteile
-summieren, nicht `total` verwenden. Diese vier gibt es in allen drei Jahren.
-`total` nur für absolute Preise eines einzelnen Jahres.
+energie, netznutzung, abgaben und netzzuschlag summieren und den Messtarif
+weglassen, weil es ihn in 2021 und 2024 nicht gibt. `total` nur für absolute
+Preise eines einzelnen Jahres.
 
-Ohne diese Korrektur wird der Preisanstieg um rund 1.7 Rappen überschätzt.
+Für H4/standard beträgt der Messtarif 2027 im Mittel 1.67 Rappen. Wer ihn in den
+Zeitvergleich einrechnet, überschätzt den Preisanstieg um genau diesen Betrag. Zu den
+Unterschieden zwischen den Gemeinden trägt er dagegen kaum bei: nur 0.4 Prozent der
+Streuung des Gesamtpreises.
+
+Vollständigkeit 2027, geprüft am 30.10.2026: Bei H4/standard liefert 2027 2109
+Gemeinden, die Datei insgesamt 41 440 Zeilen, und die fünf Bestandteile ergeben in
+jeder Zeile den Gesamtpreis. 2027 liegt damit vollständig vor, ein Ausweichen auf
+2026 ist nicht nötig.
 
 Dieser Fund gehört in die Integrationsdokumentation. Eine Veränderung der
 Datenstruktur mitten im Vergleichszeitraum zu finden und zu korrigieren ist genau
@@ -140,13 +166,16 @@ zwischen den Gemeinden haben sich normalisiert, das Preisniveau nicht.
 
 ### Welcher Bestandteil erklärt die Unterschiede zwischen Gemeinden
 
-Anteil an der Streuung des Gesamtpreises:
+Anteil an der Streuung des Gesamtpreises, berechnet als Kovarianz(Bestandteil,
+Gesamtpreis) geteilt durch Varianz(Gesamtpreis). Jede Spalte ergibt 100 Prozent:
 
 | | 2021 | 2024 | 2027 |
 |---|---|---|---|
-| Energie | 31.6 % | 79.6 % | 44.8 % |
-| Netznutzung | 56.6 % | 21.8 % | 54.5 % |
-| Abgaben | 11.1 % | −1.3 % | 0.4 % |
+| Energie | 32.0 % | 80.3 % | 44.8 % |
+| Netznutzung | 55.8 % | 21.2 % | 54.4 % |
+| Abgaben | 11.4 % | −1.4 % | 0.4 % |
+| Netzzuschlag | 0.8 % | −0.0 % | −0.0 % |
+| Messtarif | 0.0 % | 0.0 % | 0.4 % |
 
 2021 erklärte die Netznutzung die Unterschiede, also die Geografie. 2024 kippte es
 zur Energie, also zur Beschaffungsstrategie der Betreiber. 2027 schwingt es zurück.
@@ -192,7 +221,10 @@ weiss schon, welcher Test sich lohnt.
 
 1. Zweite Datenquelle holen, BFS-Gemeindedaten → Pflicht 2
 2. Probe-Join mit Metehans Daten, passen die Gemeindenummern
-3. Vollständiger Join und Dokumentation: Matching-Keys, verlorene Datensätze → Pflicht 2
+3. Vollständiger Join und Dokumentation: Matching-Keys, Widersprüche auflösen,
+   verlorene und gewonnene Datensätze → Pflicht 2. Widersprüche heisst hier:
+   abweichende Gemeindenamen und Schreibweisen, Gemeindefusionen, unterschiedliche
+   Formate der Gemeindenummer
 4. Gemeindegrenzen und Karte → Bonus 3
 
 Laufend: eigene AI-Notizen, Code auf GitHub, Punkteliste führen, AI-Doku aller drei
@@ -219,21 +251,36 @@ echte Engpass. Danach arbeiten alle drei gleichzeitig auf derselben Tabelle.
 | Nr | Anforderung | Wer |
 |---|---|---|
 | Pflicht 1 | Datenbeschaffung per Web Scraping oder Web API, keine fertigen Datensätze als Primärquelle | Metehan |
-| Pflicht 2 | Zwei Quellen, Integration dokumentiert: Matching-Keys, Joins, verlorene und gewonnene Datensätze | Lenny |
+| Pflicht 2 | Zwei Quellen, Integration dokumentiert: Matching-Keys, Joins, Widersprüche auflösen, verlorene und gewonnene Datensätze | Lenny |
 | Pflicht 3 | SQLite mit SQL-Abfragen aus Python | Metehan |
 | Pflicht 4 | Ausführliche EDA, grafisch und nicht-grafisch | Subraj |
 | Pflicht 5 | Regression oder Klassifikation, Forschungsfrage über reine Vorhersage hinaus | Subraj |
-| Pflicht 6 | Modellgüte mit passenden Massen, R², RMSE | Subraj |
+| Pflicht 6 | Modellgüte mit passenden Massen, R², RMSE, bei Klassifikation accuracy, recall, precision | Subraj |
 | Pflicht 7 | Korrekte Interpretation der Resultate | Subraj |
-| Pflicht 8 | Dokumentation der AI-Nutzung | alle, Lenny bündelt |
-| Pflicht 9 | Material auf Moodle verfügbar machen | Metehan |
+| Pflicht 8 | Dokumentation der AI-Nutzung für den Code und die Präsentation | alle, Lenny bündelt |
+| Pflicht 9 | Material auf Moodle verfügbar machen | Subraj |
 | Bonus 1 | Kreativität, alles was nicht in Lektionen und Übungen vorkommt | alle |
 | Bonus 2 | PostgreSQL zusätzlich, nicht SQLite, mit Joins und Aggregationen | Metehan |
 | Bonus 3 | Integration und Visualisierung von Geodaten | Lenny |
 | Bonus 4 | Chi-Quadrat, ANOVA oder Korrelation, jeweils mit p-Wert | Subraj |
 | Bonus 5 | k-means zusätzlich zum Regressions- oder Klassifikationsmodell | Subraj |
 | Bonus 6 | Öffentliches GitHub-Repo, URL in der Präsentation nennen | Metehan |
-| Video, 7 Pkt | 15 Minuten, je 5 Minuten pro Person | alle drei |
+| Video, 7 Pkt | Sieben Kriterien, siehe unten. 15 Minuten, je 5 Minuten pro Person | alle drei |
+
+### Die sieben Kriterien des Videos
+
+1. Structure & outline
+2. Topic presentation, Thema klar definiert und überzeugend präsentiert
+3. Content, Substanz, Tiefe, Gewichtung der Teile
+4. Language / auxiliary tools, frei gesprochen
+5. Quality of the presentation & slides
+6. Reflection on AI usage. Originalwortlaut: «the presentation (slides and video)
+   must include which AI tools were used and how, the advantages and disadvantages
+   you found when using AI, and where something did not work with the help of AI»
+7. Time keeping: Länge in Minuten = Anzahl Studierende pro Gruppe × 5
+
+Kriterium 6 ist eine eigene Anforderung zusätzlich zu Pflicht 8: Die AI-Reflexion
+muss in den Folien und im Video vorkommen, nicht nur in der Dokumentation.
 
 ### Zur AI-Dokumentation
 
@@ -247,6 +294,10 @@ am Schluss nicht rekonstruieren. Laufend mitschreiben.
 Im Anhang des Präsentations-PDF muss stehen, was für welche Punkte gemacht wurde,
 mit Screenshots und Code-Ausschnitten. Die Punkteliste ist also nicht nur internes
 Hilfsmittel, sondern Teil der Abgabe.
+
+Der Dozent bewertet aber nicht allein nach unserer Auflistung. Originalwortlaut:
+«Note that the final evaluation will be made by the lecturer, not exclusively based
+on your listing!»
 
 ---
 
@@ -276,8 +327,9 @@ Vier der acht Kriterien brauchen keine Daten: Struktur, Hintergrund, Forschungsf
 und erwartete Resultate. Nur Kriterium 4 verlangt, dass die Daten bis dahin
 tatsächlich vorliegen.
 
-Das PDF der Präsentation wird vor dem 8. Dezember auf Moodle hochgeladen. Die dort
-angegebene Frist vom 10. Januar ist mit hoher Wahrscheinlichkeit ein Kopierfehler.
+Auf Moodle gibt es zwei Abgaben, beide mit Frist 10.01.2027: das PDF der
+Konzept-Präsentation und das Endprojekt. Das Präsentations-PDF laden wir trotzdem
+schon vor dem 8. Dezember hoch, weil wir an dem Tag präsentieren.
 
 ---
 
@@ -323,15 +375,38 @@ aufzulösen sind, weil in der Datei nicht nur Code steht, sondern auch alle Ausg
 
 Am Schluss werden die Resultate zusammengeführt, nicht die Dateien während der Arbeit.
 
-Die Umgebung ist GitHub Codespaces mit Python und Jupyter. Es wird nichts lokal
-installiert, damit alle drei dieselbe Umgebung haben.
+Lokal arbeiten oder in GitHub Codespaces ist beides erlaubt. Massgebend ist die
+`requirements.txt`. Wer lokal arbeitet, legt eine virtuelle Umgebung `.venv` an und
+installiert die Pakete daraus. So haben alle drei dieselben Pakete, unabhängig vom
+Rechner.
 
 ---
 
 ## 11. Noch offen
 
 - Gruppennummer von Moodle, für die Dateinamen bei der Abgabe
-- Ob der Messtarif ab 2026 als eigene Spalte aus der SPARQL-Abfrage zu holen ist
-- Ob 2027 in den ElCom-Daten vollständig vorliegt, sonst 2026 nehmen
 - Mail an die Dozenten für eine Ersteinschätzung, falls Fragen auftauchen.
   Laut Aufgabenstellung genügen zwei bis drei Sätze mit Thema und Forschungsfrage
+- Wer lädt die drei Dateien hoch. Das Original verlangt, dass eine Person pro Gruppe
+  Video, zip und PDF hochlädt. Das Erstellen bleibt auf drei Personen verteilt, aber
+  die hochladende Person müssen wir bestimmen
+- Datumsfehler auf Moodle bei der Abgabe des Endprojekts: Der Titel nennt den
+  10.01.2027, das Fälligkeitsfeld darunter den 11.01.2026. Bei den Dozenten
+  nachfragen
+
+---
+
+## 12. Zuständigkeit für Dateien
+
+Jeder bearbeitet nur seine eigenen Dateien. Fremde Dateien werden gelesen, aber nie
+geändert. Wenn an einer fremden Datei etwas falsch scheint: der Person melden, nicht
+selber korrigieren.
+
+- Metehan: `strompreise_holen.py`, `query.txt`, `Daten_Strompreise_*.csv`,
+  `01_daten_elcom_metehan.ipynb`, alles zu SQLite und PostgreSQL
+- Subraj: `03_analyse_subraj.ipynb`
+- Lenny: `02_daten_bfs_lenny.ipynb`, alles unter `daten/bfs/`, `README.md`,
+  `CLAUDE Data Analytics.md`, `punkteliste.md`, `folien_entwurf_lenny.md`,
+  `ai_dokumentation_lenny.md`, `moodle_aufgabenstellung.pdf`
+
+Beim Committen nur die eigenen Dateien auswählen, nie alles auf einmal.

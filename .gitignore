@@ -1,0 +1,14 @@
+# Virtuelle Umgebung: wird aus requirements.txt neu aufgebaut
+.venv/
+
+# Automatische Zwischenspeicherung von Jupyter
+.ipynb_checkpoints/
+
+# Von Python erzeugte, vorkompilierte Dateien
+__pycache__/
+
+# macOS-Systemdateien
+.DS_Store
+
+# Screenshots: der dazugehörige PDF liegt im Repo
+screencapture-*.png

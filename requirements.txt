@@ -1,0 +1,28 @@
+# Data Analytics Projekt: Strompreise der Schweizer Gemeinden
+# ZHAW, HS2026 - Gruppe Frei / Metehan / Sub Raj
+#
+# Installation:
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+
+# Daten einlesen, aufbereiten, zusammenführen
+pandas>=3.1.0
+
+# Diagramme
+matplotlib>=3.11.2
+
+# Notebooks
+jupyter>=1.1.1
+
+# Daten über Web-APIs abholen
+requests>=2.34.2
+
+# Excel-Dateien lesen (BFS-Regionalporträts kommen als .xlsx)
+openpyxl>=3.1.5
+
+# Geodaten: Gemeindegrenzen einlesen und verarbeiten
+geopandas>=1.2.0
+
+# Interaktive Karten im Notebook
+folium>=0.20.0
