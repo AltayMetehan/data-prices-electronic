@@ -118,13 +118,14 @@ Diese Entscheide sind getroffen. Nicht ohne Rücksprache mit der Gruppe ändern.
   einer Gemeinde. Mittelwert bilden und dokumentieren.
 - **gemeinde_nr als Ganzzahl einlesen**, nicht als Text. Die ElCom-Daten haben keine
   führenden Nullen. Sonst findet `4811` seinen Partner `04811` nicht.
-- **Fixkosten: bis zur Klärung keine Aussage.** Die Spalte `fixkosten` wird bei der
-  aktuellen Abfrage nicht mehr mitgeholt. Laut Kommentar in `strompreise_holen.py`
-  sind die Fixkosten in der Netznutzung enthalten und auf Rappen pro kWh umgerechnet.
-  Diese Angabe ist bislang nicht gegen die ElCom-Dokumentation geprüft. Bis zur
-  Klärung treffen wir keine Aussage darüber, ob der Preis die Grundgebühr enthält.
-  Siehe Abschnitt 11. Korrigiert am 01.11.2026: Hier stand vorher die ungeprüfte
-  Behauptung, die Analyse unterschätze die Kosten bei hoher Grundgebühr.
+- **Die Grundgebühren stecken bereits im Rappenpreis.** Geklärt am 01.11.2026 an der
+  ElCom-Wegleitung zur Tarifdeklaration 2026: Grund- und Leistungspreise werden in
+  Rappen pro kWh umgerechnet, der Messtarif wird dabei berücksichtigt. Die
+  veröffentlichten Rappenwerte enthalten die jährlichen Grundgebühren also schon,
+  umgerechnet auf den Verbrauch der jeweiligen Kategorie. Der Kommentar in
+  `strompreise_holen.py` stimmt, die Spalte `fixkosten` wird nicht gebraucht.
+  Korrigiert: Hier stand vorher die Behauptung, die Analyse unterschätze die
+  tatsächlichen Kosten bei hoher Grundgebühr. Das ist falsch.
 
 ### Beim Beschaffen immer alles holen
 
@@ -133,51 +134,79 @@ weglässt und sie später braucht, fängt von vorn an.
 
 ---
 
-## 4. Messtarif ab 2026
+## 4. Messtarif ab 2026: ein Umbau, keine neue Position
 
-Ab 2026 weist die ElCom einen zusätzlichen Preisbestandteil aus, den Messtarif.
-Die Abfrage holt ihn separat mit, als `messtarif` in Rappen pro kWh und als
-`messtarif_chf_jahr` in Franken pro Jahr.
+Ab 2026 weist die ElCom den Messtarif **separat** aus. Er ist dadurch nicht neu
+entstanden: Vorher steckte er in der Netznutzung.
+
+> «Der Messtarif wird neu separat ausgewiesen. Er war bislang im Netznutzungstarif
+> integriert», weshalb «grundsätzlich keine neue Belastung für die Endverbraucherinnen
+> und Endverbraucher verbunden ist».
+>
+> ElCom, Mitteilung zu den Tarifen 2026,
+> https://www.elcom.admin.ch/de/newnsb/8nuE_fvwnfqCu8OHNOwKu
+
+Die Wegleitung zur Tarifdeklaration 2026 hält fest, dass die Messkosten ab 2026
+eigenständig tarifiert werden und «nicht mehr Teil der Netznutzung» sind. Der
+Grundpreis darf keine Komponenten für Messung und Zählermiete mehr enthalten, und der
+Messtarif wird bei der Umrechnung von Grund- und Leistungspreis in Rappen pro kWh
+berücksichtigt
+(https://www.elcom.admin.ch/dam/elcom/de/dokumente/2025/wegleitung-tarife-2026.pdf.download.pdf).
+
+**Was das für die Daten heisst:**
+
+| | 2021 und 2024 | ab 2026, also 2027 |
+|---|---|---|
+| `netznutzung` | enthält die Messkosten | enthält sie **nicht** mehr |
+| `messtarif` | leer | separat ausgewiesen |
+| `total` | enthält die Messkosten | enthält sie ebenfalls |
+
+**Folge für die Analyse:** Für den Vergleich über die Zeit **`total` verwenden**. Nur
+`total` enthält in allen drei Jahren dieselben Bestandteile.
+
+Die Summe der vier Bestandteile energie, netznutzung, abgaben und netzzuschlag ist
+über die Jahre **nicht** vergleichbar: Für 2021 und 2024 ergibt sie den vollen Preis,
+für 2027 den Preis **ohne** Messkosten. Wer so rechnet, macht 2027 künstlich um rund
+1.67 Rappen billiger und unterschätzt den Preisanstieg.
 
 Geprüft am 27.10.2026 über alle drei Dateien: `energie + netznutzung + abgaben +
-netzzuschlag + messtarif` ergibt genau `total`. Die grösste Abweichung beträgt
-0.001 Rappen und stammt vom Runden auf drei Nachkommastellen. In 2021 und 2024
-ist das Feld durchgehend leer, weil es den Messtarif damals nicht gab, in 2027
-ist es in allen 41 440 Zeilen gefüllt.
+netzzuschlag + messtarif` ergibt in jeder Zeile genau `total`, grösste Abweichung
+0.001 Rappen aus der Rundung auf drei Nachkommastellen.
 
-**Folge für die Analyse:** Für den Vergleich über die Zeit die vier Bestandteile
-energie, netznutzung, abgaben und netzzuschlag summieren und den Messtarif
-weglassen, weil es ihn in 2021 und 2024 nicht gibt. `total` nur für absolute
-Preise eines einzelnen Jahres.
-
-Für H4/standard beträgt der Messtarif 2027 im Mittel 1.67 Rappen. Wer ihn in den
-Zeitvergleich einrechnet, überschätzt den Preisanstieg um genau diesen Betrag. Zu den
-Unterschieden zwischen den Gemeinden trägt er dagegen kaum bei: nur 0.4 Prozent der
-Streuung des Gesamtpreises.
+Für H4/standard beträgt der Messtarif 2027 im Mittel **1.67 Rappen**. Die ElCom nennt
+als Referenzwert 1.65 Rp./kWh bei H4, das passt. Zu den Unterschieden **zwischen**
+Gemeinden trägt er kaum bei: nur 0.4 Prozent der Streuung des Gesamtpreises.
 
 Vollständigkeit 2027, geprüft am 30.10.2026: Bei H4/standard liefert 2027 2109
-Gemeinden, die Datei insgesamt 41 440 Zeilen, und die fünf Bestandteile ergeben in
-jeder Zeile den Gesamtpreis. 2027 liegt damit vollständig vor, ein Ausweichen auf
-2026 ist nicht nötig.
+Gemeinden, die Datei insgesamt 41 440 Zeilen. 2027 liegt vollständig vor, ein
+Ausweichen auf 2026 ist nicht nötig.
 
-Dieser Fund gehört in die Integrationsdokumentation. Eine Veränderung der
-Datenstruktur mitten im Vergleichszeitraum zu finden und zu korrigieren ist genau
-das, was die Aufgabenstellung bei Integration und Interpretation bewertet.
+**Korrigiert am 01.11.2026.** Hier stand seit dem 27.10. die umgekehrte Regel: Den
+Messtarif gebe es vor 2026 nicht, darum sei er beim Zeitvergleich wegzulassen. Diese
+Annahme war plausibel, aber falsch, und sie war bereits in die ausgelieferten Daten
+eingebaut. Aufgefallen ist sie nur, weil der Kommentar in `strompreise_holen.py` etwas
+anderes sagte als diese Anleitung. Geklärt wurde sie an der ElCom-Dokumentation.
+
+Dieser Vorgang gehört in die Integrationsdokumentation und in die AI-Dokumentation.
 
 ---
 
 ## 5. Bisherige Resultate
 
-H4, standard, 2087 Gemeinden in allen drei Jahren:
+H4, standard, 2087 Gemeinden in allen drei Jahren, Gesamtpreis `total`:
 
-| | 2021 | 2024 | 2027 | 2027 bereinigt |
-|---|---|---|---|---|
-| Mittelwert | 20.86 Rp | 31.99 Rp | 27.25 Rp | 25.58 Rp |
-| Standardabweichung | 2.99 | 3.71 | 3.05 | 3.05 |
+| | 2021 | 2024 | 2027 |
+|---|---|---|---|
+| Mittelwert | 20.86 Rp | 31.99 Rp | 27.25 Rp |
+| Standardabweichung | 2.99 | 3.71 | 3.05 |
 
-Netto 2021 bis 2027 bereinigt: **+4.72 Rp**.
-**14.5 Prozent** der Gemeinden sind 2027 wieder unter dem Niveau von 2021,
-85.5 Prozent zahlen weiterhin mehr.
+Netto 2021 bis 2027: **+6.39 Rp**.
+**10.9 Prozent** der Gemeinden (227 von 2087) sind 2027 wieder unter dem Niveau von
+2021, 89.1 Prozent zahlen weiterhin mehr.
+
+Korrigiert am 01.11.2026: Hier standen vorher eine Spalte «2027 bereinigt» mit
+25.58 Rp, ein Netto von +4.72 Rp und 14.5 Prozent. Diese Zahlen beruhten auf der
+falschen Annahme, der Messtarif sei 2027 neu hinzugekommen. Siehe Abschnitt 4.
 
 Die Streuung ist dagegen fast wieder auf dem Vorkrisenniveau. Die Unterschiede
 zwischen den Gemeinden haben sich normalisiert, das Preisniveau nicht.
@@ -469,15 +498,6 @@ Rechner.
   swissBOUNDARIES3D von swisstopo, das die Regionalporträts selbst als Grundlage nennen
 - Gemeindetypologie, tiefste Priorität. Es gibt eine vom BFS und eine vom ARE; welche
   gemeint ist, in der Mail an die Dozenten mitfragen
-- Stecken die Fixkosten in der Netznutzung? Der Kommentar in `strompreise_holen.py`
-  sagt ja, geprüft ist es nicht. Gegen die ElCom-Dokumentation abgleichen, bevor im
-  Bericht eine Aussage zur Grundgebühr steht
-- War der Messtarif vor 2026 in der Netznutzung enthalten? Abschnitt 4 geht davon aus,
-  dass es ihn vorher nicht gab. Der Kommentar in `strompreise_holen.py` sagt dagegen,
-  er sei vorher in der Netznutzung enthalten gewesen. Davon hängt ab, ob der
-  Zeitvergleich den Messtarif weglassen oder mitrechnen muss. Dringend klären, weil
-  die Regel in Abschnitt 4 und die Spalten `vergleichbar_*` in
-  `daten/verbunden/strompreise_gemeinden.csv` darauf aufbauen
 
 ---
 

@@ -84,6 +84,10 @@ weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
 - Eine eigene Zahl korrigiert: Der Anteil der herausfallenden Gemeinden war mündlich
   mit «gut 17 Prozent» angegeben worden; das galt für die alte Merkmalswahl. Richtig
   sind **gut 9 Prozent**.
+- Am selben Tag kam heraus, dass eine seit dem 27.10. geltende Regel zum Messtarif
+  falsch herum war. Sie steckte bereits in der ausgelieferten CSV. Siehe Fall 7.
+  Abschnitt 4 und 5 der Projektanleitung, das Notebook, die Integrationsdokumentation
+  und die Tabelle wurden korrigiert.
 
 ---
 
@@ -198,17 +202,19 @@ Dateien. Am 30.10. wurde nachgesehen: Die KML-Datei enthält 166 Gemeinden mit
 BFS-Nummern zwischen 0 und 298, also nur den Kanton Zürich. Die Behauptung stand vier
 Tage lang unwidersprochen in der Projektanleitung.
 
-**c) Eine Einschränkung, die vermutlich falsch ist.** Anleitung und geplanter Bericht
-sagten, die Fixkosten blieben aussen vor und für Gemeinden mit hoher Grundgebühr
-unterschätze die Analyse die Kosten. Der Kommentar im Skript sagt das Gegenteil: Die
-Fixkosten stecken bereits in der Netznutzung. Welche Fassung stimmt, ist offen. Die
-Behauptung wurde durch den ehrlichen Stand ersetzt und als offener Punkt vermerkt.
+**c) Eine Einschränkung, die falsch war.** Anleitung und geplanter Bericht sagten, die
+Fixkosten blieben aussen vor und für Gemeinden mit hoher Grundgebühr unterschätze die
+Analyse die Kosten. Der Kommentar im Skript sagte das Gegenteil: Die Fixkosten stecken
+bereits in der Netznutzung. Noch am selben Tag an der ElCom-Wegleitung zur
+Tarifdeklaration 2026 geklärt: Grund- und Leistungspreise werden in Rappen pro kWh
+umgerechnet, die Rappenwerte enthalten die Grundgebühren also bereits. Der
+Skriptkommentar stimmt, die Einschränkung war falsch und wurde gestrichen.
 
 **Ein vierter Widerspruch, beim selben Abgleich gefunden:** Abschnitt 4 der Anleitung
-geht davon aus, dass es den Messtarif vor 2026 nicht gab. Das Skript sagt, er sei
-vorher in der Netznutzung enthalten gewesen. Davon hängt ab, ob der Vergleich über die
-Zeit den Messtarif weglassen oder mitrechnen muss – also die Richtung einer Korrektur
-von 1.67 Rappen. Ebenfalls als offener Punkt vermerkt.
+ging davon aus, dass es den Messtarif vor 2026 nicht gab. Das Skript sagte, er sei
+vorher in der Netznutzung enthalten gewesen. Davon hing die Richtung einer Korrektur
+von 1.67 Rappen ab. Dieser Punkt wurde ebenfalls noch am selben Tag geklärt und
+erwies sich als der folgenreichste von allen – siehe Fall 7.
 
 **Lehre:** Eine Projektanleitung altert gegenüber dem Code, und zwar unbemerkt. Beide
 wurden von Menschen und AI gemeinsam geschrieben, aber nie gegeneinander gelesen. Dass
@@ -218,6 +224,58 @@ Dokumentation schreibt, muss sie gegen die Quelle prüfen, nicht gegen die Erinn
 Bemerkenswert ist Fall b: Hier hat die AI nicht eine fremde Angabe übernommen, sondern
 selbst eine plausible Behauptung aufgestellt, ohne sie zu prüfen – und sie dann vier
 Tage später selbst widerlegt.
+
+### 7. Eine falsche Annahme war bereits in die Daten eingebaut (27.10. bis 01.11.2026)
+
+Das ist der lehrreichste Fall bisher, weil der Fehler nicht in einem Text stand,
+sondern **in einer Datei, die an zwei Teammitglieder gehen sollte**.
+
+**Die Annahme.** Am 27.10. hielt die AI fest: Der Messtarif sei ab 2026 ein neuer
+Preisbestandteil, den es 2021 und 2024 nicht gab, und darum beim Vergleich über die
+Zeit wegzulassen. Die Beobachtung dahinter stimmte: Das Feld `messtarif` ist 2021 und
+2024 leer und 2027 in jeder Zeile gefüllt. Der Schluss daraus war plausibel – und
+falsch.
+
+**Wie weit sie sich ausgebreitet hatte.** Bis zum 01.11. stand die Regel
+- in Abschnitt 4 der Projektanleitung,
+- hinter den Zahlen in Abschnitt 5 (Mittelwert 2027, Nettoanstieg, Anteil der
+  Gemeinden unter dem Niveau von 2021),
+- als drei eigene Spalten `vergleichbar_*` in
+  `daten/verbunden/strompreise_gemeinden.csv`,
+- und in einer ausdrücklichen Empfehlung an Subraj, für Zeitvergleiche genau diese
+  Spalten zu verwenden.
+
+**Wie sie aufflog.** Nicht durch Nachdenken, sondern durch einen Abgleich: Beim
+Durchlesen von Metehans Beschaffungsskript fand sich der Kommentar «Erst ab 2026
+separat ausgewiesen, vorher in der Netznutzung enthalten». Das widersprach der
+Projektanleitung direkt. Die AI hat den Widerspruch gemeldet, statt eine Seite zu
+wählen, und beide Fassungen als ungeklärt markiert.
+
+**Wie sie geklärt wurde.** An der Primärquelle. Die ElCom schreibt zu den Tarifen 2026
+wörtlich: «Der Messtarif wird neu separat ausgewiesen. Er war bislang im
+Netznutzungstarif integriert.» Damit war die Richtung eindeutig: Die Messkosten gab es
+vorher auch, sie standen nur in der Netznutzung.
+
+**Was falsch gewesen wäre.** 2027 ohne Messkosten gegen 2021 mit Messkosten zu
+vergleichen. Das hätte 2027 um rund 1.67 Rappen zu billig gemacht und den
+Preisanstieg unterschätzt:
+
+| | vorher | richtig |
+|---|---|---|
+| Mittelwert 2027 | 25.58 Rp | 27.25 Rp |
+| Netto 2021 bis 2027 | +4.72 Rp | +6.39 Rp |
+| Gemeinden unter dem Niveau 2021 | 14.5 % | 10.9 % |
+
+**Lehre:** Eine Annahme, die einmal in die Daten eingebaut ist, verbreitet sich. Sie
+stand nicht nur in einem Dokument, das man korrigieren kann, sondern bereits in einer
+CSV-Datei, die an zwei Teammitglieder gehen sollte, zusammen mit der Empfehlung, sie zu
+verwenden. Wer die Datei benutzt hätte, hätte den Fehler übernommen, ohne ihn sehen zu
+können.
+
+Zwei Dinge haben hier funktioniert: dass der Widerspruch **gemeldet** statt aufgelöst
+wurde, und dass die Klärung an der **Primärquelle** erfolgte und nicht an der
+plausibelsten Erklärung. Die drei betroffenen Spalten wurden entfernt und nicht nur
+umbenannt – eine Spalte, die niemand verwenden soll, wird früher oder später verwendet.
 
 ---
 

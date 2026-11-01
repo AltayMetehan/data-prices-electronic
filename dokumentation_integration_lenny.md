@@ -115,7 +115,7 @@ Probleme.
 | Gemeindenummer als Text gegen Ganzzahl | beidseitig als Ganzzahl eingelesen, Format vorher geprüft |
 | Gemeindefusionen zwischen 2021 und 2027 | nur Gemeinden, die in allen drei Jahren vorkommen |
 | Mehrere Netzbetreiber je Gemeinde | Mittelwert des Preises; für die Betreiberzuordnung der Betreiber mit der kleinsten `netzbetreiber_id` |
-| Messtarif erst ab 2026 | eigene Spalte `vergleichbar` ohne Messtarif für den Zeitvergleich |
+| Messtarif ab 2026 separat statt in der Netznutzung | für den Zeitvergleich `total` verwenden, siehe Abschnitt 4 der Projektanleitung |
 | Kennzahlen aus verschiedenen Jahren | zwei Kennzahlen ausgeschlossen, Bezugsjahre dokumentiert |
 
 Zur Betreiberzuordnung: Die Regel «kleinste `netzbetreiber_id`» ist willkürlich, aber
@@ -194,7 +194,7 @@ Gemeindemerkmalen.
 
 ## 9. Die verbundene Tabelle
 
-`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 15 Spalten
+`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 12 Spalten
 
 | Spalte | Inhalt |
 |---|---|
@@ -202,13 +202,21 @@ Gemeindemerkmalen.
 | `gemeinde` | Gemeindename |
 | `netzbetreiber_id`, `netzbetreiber` | Netzbetreiber, bei mehreren der mit der kleinsten id |
 | `total_2021`, `total_2024`, `total_2027` | Gesamtpreis in Rappen pro kWh |
-| `vergleichbar_2021`, `_2024`, `_2027` | Summe aus energie, netznutzung, abgaben, netzzuschlag – **ohne Messtarif** |
 | `einwohner`, `dichte`, `flaeche_total`, `beschaeftigte`, `anteil_65plus` | die fünf Gemeindemerkmale |
 
-**Wichtig für Metehan und Subraj:** Für Vergleiche **über die Zeit** die Spalten
-`vergleichbar_*` verwenden, nicht `total_*`. Den Messtarif gibt es erst ab 2026; wer
-`total` über die Jahre vergleicht, überschätzt den Anstieg 2027 um rund 1.67 Rappen.
-`total_*` ist richtig für absolute Preise **eines einzelnen Jahres**.
+**Wichtig für Metehan und Subraj:** Für Vergleiche über die Zeit **die Spalten
+`total_*` verwenden**. Nur sie enthalten in allen drei Jahren dieselben Bestandteile.
+
+Eine Summe aus energie, netznutzung, abgaben und netzzuschlag ist über die Jahre
+**nicht** vergleichbar: Bis 2024 steckten die Messkosten in der Netznutzung, ab 2026
+werden sie separat als `messtarif` ausgewiesen. Eine solche Summe wäre für 2027 um
+rund 1.67 Rappen zu tief.
+
+**Korrigiert am 01.11.2026.** Diese Datei enthielt zuvor drei Spalten
+`vergleichbar_2021/2024/2027` mit genau dieser falschen Summe, verbunden mit der
+Empfehlung, sie für den Zeitvergleich zu verwenden. Die Spalten wurden entfernt, statt
+nur umbenannt: Eine Spalte, die niemand verwenden soll, wird früher oder später
+verwendet. Hintergrund in Abschnitt 4 der Projektanleitung.
 
 Die Spalte `netzbetreiber_id` liegt bei, weil die Preise laut Abschnitt 5b der
 Projektanleitung pro Netzbetreiber gesetzt werden und die Regression zusätzlich auf
@@ -216,7 +224,35 @@ dieser Ebene gerechnet werden soll.
 
 ---
 
-## 10. Offen
+## 10. Eine Annahme, die sich als falsch erwies
+
+Vom 27.10. bis zum 01.11.2026 galt in diesem Projekt die Regel, der Messtarif sei ab
+2026 neu hinzugekommen und für den Vergleich über die Zeit wegzulassen. Die Regel war
+plausibel: Das Feld ist 2021 und 2024 leer und 2027 gefüllt.
+
+Sie war falsch. Die ElCom schreibt zu den Tarifen 2026: «Der Messtarif wird neu separat
+ausgewiesen. Er war bislang im Netznutzungstarif integriert.» Die Messkosten gab es
+vorher also auch, sie standen nur in einer anderen Spalte.
+
+Die Folge der falschen Regel wäre gewesen, dass 2027 ohne Messkosten gegen 2021 mit
+Messkosten verglichen wird – 2027 also um rund 1.67 Rappen zu billig erscheint und der
+Preisanstieg unterschätzt wird.
+
+Aufgefallen ist es nur, weil der Kommentar in Metehans Beschaffungsskript etwas anderes
+sagte als die Projektanleitung. Zu diesem Zeitpunkt war die Annahme bereits in die
+ausgelieferte Tabelle eingebaut und Subraj empfohlen worden.
+
+Betroffene Zahlen, korrigiert:
+
+| | vorher | richtig |
+|---|---|---|
+| Mittelwert 2027 | 25.58 Rp | **27.25 Rp** |
+| Netto 2021 bis 2027 | +4.72 Rp | **+6.39 Rp** |
+| Gemeinden unter dem Niveau 2021 | 14.5 % | **10.9 %** |
+
+---
+
+## 11. Offen
 
 - Kanton und Sprachregion aus dem amtlichen Gemeindeverzeichnis
 - Gemeindegrenzen für die Karte, Bonus 3
