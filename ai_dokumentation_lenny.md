@@ -64,6 +64,27 @@ weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
   statt 100 Prozent kam.
 - Neuer Abschnitt 5b zum methodischen Vorbehalt auf Betreiberebene (siehe unten).
 
+### 1. November 2026 – Zweite Datenquelle, Join, und ein Abgleich von Code und Doku
+
+- Die BFS-Quelle **vor** dem Herunterladen geprüft: Die AI hat zuerst die
+  Metadaten-Beilage ausgelesen und die Indikatorenliste gezeigt. Dabei stellte sich
+  heraus, dass Gemeindetypologie und Sprachregion **nicht** enthalten sind und dass die
+  Kennzahlen aus verschiedenen Jahren stammen, von 2016 bis 2019. Zwei Kennzahlen mit
+  Bezug 2004/2009 wurden daraufhin ausgeschlossen.
+- Die Geodaten aus dem Kurs-Repo geprüft, bevor sie verwendet wurden: Sie decken nur
+  den Kanton Zürich ab. Siehe Fall 6 unten.
+- Join gebaut: Regionalporträts 2021 ins Breitformat gedreht, über die
+  BFS-Gemeindenummer mit den Preisdaten verbunden. **Trefferquote 100 Prozent**, kein
+  Datensatz verloren.
+- Bei der Prüfung der fehlenden Werte fiel auf, dass das ursprünglich geplante Merkmal
+  «Arbeitsstätten» bei 269 Gemeinden fehlt, «Beschäftigte» dagegen nur bei 88, bei einer
+  Korrelation von 0.986. Der Tausch brachte 181 Gemeinden zurück ins Modell.
+- Notebook `02_daten_bfs_lenny.ipynb` erstellt und ausgeführt, Dokumentation zu
+  Pflicht 2 geschrieben.
+- Eine eigene Zahl korrigiert: Der Anteil der herausfallenden Gemeinden war mündlich
+  mit «gut 17 Prozent» angegeben worden; das galt für die alte Merkmalswahl. Richtig
+  sind **gut 9 Prozent**.
+
 ---
 
 ## Wo etwas mit AI nicht funktioniert hat
@@ -158,6 +179,46 @@ Mehrfach hat die AI gesagt, dass sie etwas nicht wisse, statt zu raten:
 - Zur Frage, wie sich das Cloud-Guthaben aktivieren lässt, hat die AI gesagt, sie
   kenne den genauen Befehl nicht, statt einen zu erfinden.
 
+### 6. Dokumentation und Code liefen auseinander (01.11.2026)
+
+Beim Abgleich der Projektanleitung mit Metehans Beschaffungsskript kamen **drei
+Stellen** heraus, an denen die Dokumentation etwas anderes sagt als der Code. Alle drei
+stammen aus Angaben, die niemand gegen die Quelle geprüft hatte.
+
+**a) Falsche Endpunkt-Adressen.** Die Anleitung nannte
+`https://lindas.admin.ch/query` und `https://lindas.admin.ch/elcom/electricityprice`.
+Im Skript stehen `https://ld.admin.ch/query` und
+`https://energy.ld.admin.ch/elcom/electricityprice`. Wer die Adressen aus unserer
+Dokumentation ausprobiert hätte, wäre ins Leere gelaufen.
+
+**b) Eine Behauptung über Geodaten, die die AI selbst erfunden hatte.** Am 27.10. hatte
+die AI in die Anleitung geschrieben, im Kurs-Repo von Dr. Gellrich lägen brauchbare
+Gemeindegrenzen. Grundlage war ein Hinweis auf Moodle, **nicht** ein Blick in die
+Dateien. Am 30.10. wurde nachgesehen: Die KML-Datei enthält 166 Gemeinden mit
+BFS-Nummern zwischen 0 und 298, also nur den Kanton Zürich. Die Behauptung stand vier
+Tage lang unwidersprochen in der Projektanleitung.
+
+**c) Eine Einschränkung, die vermutlich falsch ist.** Anleitung und geplanter Bericht
+sagten, die Fixkosten blieben aussen vor und für Gemeinden mit hoher Grundgebühr
+unterschätze die Analyse die Kosten. Der Kommentar im Skript sagt das Gegenteil: Die
+Fixkosten stecken bereits in der Netznutzung. Welche Fassung stimmt, ist offen. Die
+Behauptung wurde durch den ehrlichen Stand ersetzt und als offener Punkt vermerkt.
+
+**Ein vierter Widerspruch, beim selben Abgleich gefunden:** Abschnitt 4 der Anleitung
+geht davon aus, dass es den Messtarif vor 2026 nicht gab. Das Skript sagt, er sei
+vorher in der Netznutzung enthalten gewesen. Davon hängt ab, ob der Vergleich über die
+Zeit den Messtarif weglassen oder mitrechnen muss – also die Richtung einer Korrektur
+von 1.67 Rappen. Ebenfalls als offener Punkt vermerkt.
+
+**Lehre:** Eine Projektanleitung altert gegenüber dem Code, und zwar unbemerkt. Beide
+wurden von Menschen und AI gemeinsam geschrieben, aber nie gegeneinander gelesen. Dass
+die Fehler auffielen, lag allein an einem ausdrücklichen Abgleich Zeile für Zeile. Wer
+Dokumentation schreibt, muss sie gegen die Quelle prüfen, nicht gegen die Erinnerung.
+
+Bemerkenswert ist Fall b: Hier hat die AI nicht eine fremde Angabe übernommen, sondern
+selbst eine plausible Behauptung aufgestellt, ohne sie zu prüfen – und sie dann vier
+Tage später selbst widerlegt.
+
 ---
 
 ## Was gut funktioniert hat
@@ -195,4 +256,4 @@ Mehrfach hat die AI gesagt, dass sie etwas nicht wisse, statt zu raten:
 
 ---
 
-*Letzte Nachführung: 30. Oktober 2026*
+*Letzte Nachführung: 1. November 2026*

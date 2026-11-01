@@ -58,8 +58,13 @@ selbst ab als von ihrem Versorger.
 
 ### Quelle 1, primär: ElCom Strompreise
 
-Über den SPARQL-Endpunkt von LINDAS, `https://lindas.admin.ch/query`,
-Datensatz `https://lindas.admin.ch/elcom/electricityprice`.
+Über den SPARQL-Endpunkt `https://ld.admin.ch/query`, Cube
+`https://energy.ld.admin.ch/elcom/electricityprice`, Dimensionen unter
+`https://energy.ld.admin.ch/elcom/electricityprice/dimension/`.
+
+Massgebend sind die Werte in `strompreise_holen.py` und `query.txt`, nicht diese
+Zusammenfassung. Korrigiert am 01.11.2026: Hier standen vorher Adressen unter
+`lindas.admin.ch`, die ins Leere laufen.
 
 Abgeholt per Python-Skript, nicht von Hand heruntergeladen. Das ist Pflicht:
 Die Aufgabenstellung verlangt Erhebung per Web Scraping oder Web API und schliesst
@@ -86,11 +91,13 @@ gilt nur für die Primärquelle, die Aufgabenstellung nennt als Beispiel ausdrü
 
 ### Geodaten für die Karte
 
-Für die Gemeindegrenzen (Bonus 3) kommt das Kurs-Repo von Dr. Gellrich infrage:
-`https://github.com/mario-gellrich-zhaw/data_analytics`, Woche 05, Ordner `Geodata`.
-Laut Moodle liegen dort die Geodaten aus dem Unterricht. Daneben gibt es
-`https://github.com/mario-gellrich-zhaw/spatial_data_analysis`. Das ist eine vom
-Dozenten selbst gesetzte Quelle. Wird in Phase 5 geprüft.
+Geprüft am 30.10.2026: Die Geodaten im Kurs-Repo von Dr. Gellrich
+(`https://github.com/mario-gellrich-zhaw/data_analytics`, Woche 05, Ordner `Geodata`)
+decken **nur den Kanton Zürich** ab. `municipality_map_epsg4326.kml` enthält
+166 Gemeinden mit BFS-Nummern zwischen 0 und 298, `municipalities_canton_ZH.shp`
+ebenfalls nur Zürich. Für eine Karte der 2087 Gemeinden sind sie unbrauchbar.
+
+Die Gemeindegrenzen müssen aus einer anderen Quelle kommen, siehe Abschnitt 11.
 
 ---
 
@@ -111,10 +118,13 @@ Diese Entscheide sind getroffen. Nicht ohne Rücksprache mit der Gruppe ändern.
   einer Gemeinde. Mittelwert bilden und dokumentieren.
 - **gemeinde_nr als Ganzzahl einlesen**, nicht als Text. Die ElCom-Daten haben keine
   führenden Nullen. Sonst findet `4811` seinen Partner `04811` nicht.
-- **Fixkosten bleiben aussen vor.** Die jährliche Grundgebühr in Franken wird nicht
-  umgerechnet und nicht dazugezählt, weil nicht dokumentiert ist, wie sie im
-  Gesamtpreis berücksichtigt ist. Als Einschränkung im Bericht erwähnen: Für
-  Gemeinden mit hoher Grundgebühr unterschätzt die Analyse die tatsächlichen Kosten.
+- **Fixkosten: bis zur Klärung keine Aussage.** Die Spalte `fixkosten` wird bei der
+  aktuellen Abfrage nicht mehr mitgeholt. Laut Kommentar in `strompreise_holen.py`
+  sind die Fixkosten in der Netznutzung enthalten und auf Rappen pro kWh umgerechnet.
+  Diese Angabe ist bislang nicht gegen die ElCom-Dokumentation geprüft. Bis zur
+  Klärung treffen wir keine Aussage darüber, ob der Preis die Grundgebühr enthält.
+  Siehe Abschnitt 11. Korrigiert am 01.11.2026: Hier stand vorher die ungeprüfte
+  Behauptung, die Analyse unterschätze die Kosten bei hoher Grundgebühr.
 
 ### Beim Beschaffen immer alles holen
 
@@ -127,7 +137,7 @@ weglässt und sie später braucht, fängt von vorn an.
 
 Ab 2026 weist die ElCom einen zusätzlichen Preisbestandteil aus, den Messtarif.
 Die Abfrage holt ihn separat mit, als `messtarif` in Rappen pro kWh und als
-`messtarif_chf_jahr` als jährliche Grundgebühr in Franken.
+`messtarif_chf_jahr` in Franken pro Jahr.
 
 Geprüft am 27.10.2026 über alle drei Dateien: `energie + netznutzung + abgaben +
 netzzuschlag + messtarif` ergibt genau `total`. Die grösste Abweichung beträgt
@@ -459,6 +469,15 @@ Rechner.
   swissBOUNDARIES3D von swisstopo, das die Regionalporträts selbst als Grundlage nennen
 - Gemeindetypologie, tiefste Priorität. Es gibt eine vom BFS und eine vom ARE; welche
   gemeint ist, in der Mail an die Dozenten mitfragen
+- Stecken die Fixkosten in der Netznutzung? Der Kommentar in `strompreise_holen.py`
+  sagt ja, geprüft ist es nicht. Gegen die ElCom-Dokumentation abgleichen, bevor im
+  Bericht eine Aussage zur Grundgebühr steht
+- War der Messtarif vor 2026 in der Netznutzung enthalten? Abschnitt 4 geht davon aus,
+  dass es ihn vorher nicht gab. Der Kommentar in `strompreise_holen.py` sagt dagegen,
+  er sei vorher in der Netznutzung enthalten gewesen. Davon hängt ab, ob der
+  Zeitvergleich den Messtarif weglassen oder mitrechnen muss. Dringend klären, weil
+  die Regel in Abschnitt 4 und die Spalten `vergleichbar_*` in
+  `daten/verbunden/strompreise_gemeinden.csv` darauf aufbauen
 
 ---
 
