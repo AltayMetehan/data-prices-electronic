@@ -15,3 +15,9 @@ Preisanstieg 2023 verändert?
 
 Projektanleitung siehe `CLAUDE Data Analytics.md`,
 Anforderungen siehe `moodle_aufgabenstellung.pdf`.
+
+## Stand
+
+- Letzte Änderung: 01.11.2026
+- Fertig: Datenbeschaffung (Metehan), Join der zwei Quellen (Lenny)
+- Als Nächstes: SQLite (Metehan), EDA (Subraj)

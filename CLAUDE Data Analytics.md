@@ -451,10 +451,14 @@ Rechner.
   nachfragen
 - Auf welcher Ebene erwartet der Dozent die Analyse, Gemeinde oder Netzbetreiber.
   In der Mail an die Dozenten fragen
-- Die BFS-Datenquelle ist noch nicht verifiziert. Unklar ist, ob Einwohner, Fläche,
-  Dichte, Gemeindetypologie, Kanton und Sprachregion in einer Datei liegen oder ob es
-  mehrere Quellen braucht. Die Gemeindetypologie stammt vermutlich vom ARE, nicht
-  vom BFS
+- Kanton und Sprachregion fehlen noch. Die Regionalporträts enthalten sie nicht,
+  geprüft am 01.11.2026. Sie müssen aus dem amtlichen Gemeindeverzeichnis des BFS
+  kommen
+- Gemeindegrenzen für die Karte fehlen noch (Bonus 3). Die Geodaten im Kurs-Repo von
+  Dr. Gellrich decken nur den Kanton Zürich ab, geprüft am 30.10.2026. Vermutlich
+  swissBOUNDARIES3D von swisstopo, das die Regionalporträts selbst als Grundlage nennen
+- Gemeindetypologie, tiefste Priorität. Es gibt eine vom BFS und eine vom ARE; welche
+  gemeint ist, in der Mail an die Dozenten mitfragen
 
 ---
 
@@ -467,9 +471,10 @@ selber korrigieren.
 - Metehan: `strompreise_holen.py`, `query.txt`, `Daten_Strompreise_*.csv`,
   `01_daten_elcom_metehan.ipynb`, alles zu SQLite und PostgreSQL
 - Subraj: `03_analyse_subraj.ipynb`
-- Lenny: `02_daten_bfs_lenny.ipynb`, alles unter `daten/bfs/`, `README.md`,
+- Lenny: `02_daten_bfs_lenny.ipynb`, alles unter `daten/`, `README.md`,
   `CLAUDE Data Analytics.md`, `punkteliste.md`, `folien_entwurf_lenny.md`,
-  `ai_dokumentation_lenny.md`, `moodle_aufgabenstellung.pdf`
+  `ai_dokumentation_lenny.md`, `dokumentation_integration_lenny.md`,
+  `moodle_aufgabenstellung.pdf`
 
 Beim Committen nur die eigenen Dateien auswählen, nie alles auf einmal.
 
