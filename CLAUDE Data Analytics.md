@@ -464,11 +464,35 @@ Die Gruppennummer ist noch zu klären.
 schlecht mit Git. Bei gemeinsamer Bearbeitung entstehen Konflikte, die kaum sauber
 aufzulösen sind, weil in der Datei nicht nur Code steht, sondern auch alle Ausgaben.
 
-- `01_daten_elcom_metehan.ipynb`
-- `02_daten_bfs_lenny.ipynb`
-- `03_analyse_subraj.ipynb`
+- `scripts/01_daten_bfs_lenny.ipynb` (Lenny, zweite Quelle und Join)
+- `scripts/02_sqlite_metehan.ipynb` (Metehan, SQLite)
+- `scripts/03_analyse_subraj.ipynb` (Subraj, EDA und Modell, noch anzulegen)
+
+Die Nummern folgen der Reihenfolge der Arbeit, nicht den Personen: Erst der Join,
+dann die Datenbank darauf, dann die Analyse.
 
 Am Schluss werden die Resultate zusammengeführt, nicht die Dateien während der Arbeit.
+
+### Ordnerstruktur
+
+```
+daten/strompreise/   ElCom-Rohdaten, eine CSV pro Jahr
+daten/bfs/           BFS-Gemeindedaten mit Herkunftsnachweis
+daten/verbunden/     die verbundene Tabelle für alle drei
+scripts/             Beschaffungsskript und Notebooks
+sql/                 SQLite-Datenbank
+ai-doku/             AI-Dokumentation und Integrationsdokumentation
+```
+
+Die Notebooks liegen in `scripts/`, die Daten in `daten/`. Damit das aus jedem
+Arbeitsverzeichnis funktioniert, bestimmt jedes Notebook in der ersten Code-Zelle die
+Repo-Wurzel selber (`finde_wurzel`) und leitet alle Pfade davon ab. Keine relativen
+Pfade wie `daten/bfs/...` direkt im Code.
+
+**Wer Dateien verschiebt**, zieht die Pfade in beiden Notebooks und in
+`scripts/strompreise_holen.py` nach und lässt beide Notebooks einmal durchlaufen.
+Am 07.11.2026 wurde die Struktur umgebaut, ohne die Pfade nachzuziehen; danach brachen
+beide Notebooks auf einem frischen Klon mit `FileNotFoundError` ab.
 
 Lokal arbeiten oder in GitHub Codespaces ist beides erlaubt. Massgebend ist die
 `requirements.txt`. Wer lokal arbeitet, legt eine virtuelle Umgebung `.venv` an und
@@ -507,13 +531,15 @@ Jeder bearbeitet nur seine eigenen Dateien. Fremde Dateien werden gelesen, aber 
 geändert. Wenn an einer fremden Datei etwas falsch scheint: der Person melden, nicht
 selber korrigieren.
 
-- Metehan: `strompreise_holen.py`, `query.txt`, `Daten_Strompreise_*.csv`,
-  `01_daten_elcom_metehan.ipynb`, alles zu SQLite und PostgreSQL
-- Subraj: `03_analyse_subraj.ipynb`
-- Lenny: `02_daten_bfs_lenny.ipynb`, alles unter `daten/`, `README.md`,
-  `CLAUDE Data Analytics.md`, `punkteliste.md`, `folien_entwurf_lenny.md`,
-  `ai_dokumentation_lenny.md`, `dokumentation_integration_lenny.md`,
-  `moodle_aufgabenstellung.pdf`
+- Metehan: `scripts/strompreise_holen.py`, `query.txt`,
+  `daten/strompreise/Daten_Strompreise_*.csv`, `scripts/02_sqlite_metehan.ipynb`,
+  `sql/`, alles zu SQLite und PostgreSQL,
+  `ai-doku/AI-Dokumentation_*_Metehan.md`
+- Subraj: `scripts/03_analyse_subraj.ipynb`
+- Lenny: `scripts/01_daten_bfs_lenny.ipynb`, `daten/bfs/`, `daten/verbunden/`,
+  `README.md`, `CLAUDE Data Analytics.md`, `dokumentation_integration_lenny.md`,
+  `punkteliste.md`, `folien_entwurf_lenny.md`,
+  `ai-doku/ai_dokumentation_lenny.md`, `moodle_aufgabenstellung.pdf`
 
 Beim Committen nur die eigenen Dateien auswählen, nie alles auf einmal.
 

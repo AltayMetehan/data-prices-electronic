@@ -3,12 +3,15 @@ Strompreise der Schweizer Gemeinden von der ElCom holen (via LINDAS SPARQL).
 
 Holt ALLE Tarife (alle Gemeinden, alle Netzbetreiber, alle Verbrauchskategorien
 H1-H8 und C1-C7, Produkt "standard" und "cheapest") und speichert JEDES JAHR
-in einer eigenen CSV-Datei: strompreise_2021.csv, strompreise_2024.csv, strompreise_2027.csv
+in einer eigenen CSV-Datei unter daten/strompreise/:
+Daten_Strompreise_2021.csv, Daten_Strompreise_2024.csv, Daten_Strompreise_2027.csv
 
 Ausfuehren:   pip install requests pandas
-              python strompreise_holen.py            -> alle drei Jahre
-              python strompreise_holen.py 2024       -> nur ein Jahr
-              python strompreise_holen.py 2021 2027  -> mehrere bestimmte Jahre
+              python scripts/strompreise_holen.py            -> alle drei Jahre
+              python scripts/strompreise_holen.py 2024       -> nur ein Jahr
+              python scripts/strompreise_holen.py 2021 2027  -> mehrere bestimmte Jahre
+Die Ablage ist unabhaengig vom Arbeitsverzeichnis: Das Skript legt die Dateien immer
+unter daten/strompreise/ im Repo ab, nicht im aktuellen Ordner.
 
 Einheiten: alle Preise in Rappen pro kWh (Rp./kWh), ausser messtarif_chf_jahr.
 Spalten:
@@ -20,20 +23,24 @@ Spalten:
   abgaben       Abgaben an das Gemeinwesen
   netzzuschlag  Netzzuschlag nach Art. 35 EnG (national einheitlich)
   messtarif     Tarif fuer das Messwesen. Erst ab 2026 separat ausgewiesen,
-                vorher in der Netznutzung enthalten. Fuer 2021/2024 daher 0.
+                vorher in der Netznutzung enthalten. Fuer 2021/2024 daher leer.
   messtarif_chf_jahr  Messtarif in CHF pro Jahr (nur Info, steckt schon in messtarif)
 """
 
 import io
 import sys
 import time
+from pathlib import Path
 
 import pandas as pd
 import requests
 
 ENDPOINT = "https://ld.admin.ch/query"  # Alternative: https://lindas-cached.cluster.ldbar.ch/query
 JAHRE = [2021, 2024, 2027]
-OUTPUT_MUSTER = "strompreise_{jahr}.csv"
+# Das Skript liegt in scripts/, die Daten gehoeren in daten/strompreise/ daneben.
+WURZEL = Path(__file__).resolve().parent.parent
+AUSGABE_ORDNER = WURZEL / "daten" / "strompreise"
+OUTPUT_MUSTER = "Daten_Strompreise_{jahr}.csv"
 
 QUERY_TEMPLATE = """
 PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
@@ -96,18 +103,20 @@ def hole_jahr(jahr: int) -> pd.DataFrame:
 
 
 def bereinige(df: pd.DataFrame) -> pd.DataFrame:
-    """Doppelte Zeilen entfernen, Messtarif auffuellen, Summe kontrollieren."""
+    """Doppelte Zeilen entfernen und die Summe der Bestandteile kontrollieren."""
     # Falls ein Netzbetreiber/Gemeinde mehrere Namen hat, entstehen doppelte Zeilen
     vorher = len(df)
     df = df.drop_duplicates(subset=SCHLUESSEL)
     if vorher != len(df):
         print(f"  {vorher - len(df)} doppelte Zeilen entfernt")
 
-    # Messtarif gibt es erst ab 2026 separat. Vorher steckt er in der Netznutzung -> 0
-    df["messtarif"] = df["messtarif"].fillna(0.0)
-
-    # Kontrolle: Summe der Bestandteile muss das Total ergeben
-    differenz = (df["total"] - df[BESTANDTEILE].sum(axis=1)).abs()
+    # Der messtarif bleibt leer, wo ihn die ElCom nicht liefert. Beim Beschaffen wird
+    # nichts veraendert, das passiert spaeter im Code (Abschnitt 3 der Anleitung).
+    # Sachlich war der Messtarif 2021/2024 auch nicht null, sondern in der Netznutzung
+    # enthalten; eine 0 in der Datei wuerde das verdecken.
+    # Nur fuer die folgende Kontrolle wird die Luecke als 0 gerechnet.
+    kontrolle = df[BESTANDTEILE].fillna(0.0).sum(axis=1)
+    differenz = (df["total"] - kontrolle).abs()
     print(f"  Zeilen, bei denen die Summe nicht aufs Total aufgeht: {(differenz > 0.01).sum()}")
 
     return df.sort_values(SCHLUESSEL).reset_index(drop=True)
@@ -125,14 +134,15 @@ def main():
             continue
 
         df = bereinige(df)
-        datei = OUTPUT_MUSTER.format(jahr=jahr)
+        AUSGABE_ORDNER.mkdir(parents=True, exist_ok=True)
+        datei = AUSGABE_ORDNER / OUTPUT_MUSTER.format(jahr=jahr)
         df.to_csv(datei, index=False, encoding="utf-8")
 
         h4 = df[(df["kategorie"] == "H4") & (df["produkt"] == "standard")]
         print(f"  {len(df)} Zeilen, {df['gemeinde_nr'].nunique()} Gemeinden "
               f"({time.time() - t0:.1f} s)")
         print(f"  Median H4 (Standardprodukt): {h4['total'].median():.2f} Rp./kWh")
-        print(f"  Gespeichert: {datei}")
+        print(f"  Gespeichert: {datei.relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":

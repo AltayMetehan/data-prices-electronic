@@ -79,7 +79,7 @@ weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
 - Bei der Prüfung der fehlenden Werte fiel auf, dass das ursprünglich geplante Merkmal
   «Arbeitsstätten» bei 269 Gemeinden fehlt, «Beschäftigte» dagegen nur bei 88, bei einer
   Korrelation von 0.986. Der Tausch brachte 181 Gemeinden zurück ins Modell.
-- Notebook `02_daten_bfs_lenny.ipynb` erstellt und ausgeführt, Dokumentation zu
+- Notebook `scripts/01_daten_bfs_lenny.ipynb` erstellt und ausgeführt, Dokumentation zu
   Pflicht 2 geschrieben.
 - Eine eigene Zahl korrigiert: Der Anteil der herausfallenden Gemeinden war mündlich
   mit «gut 17 Prozent» angegeben worden; das galt für die alte Merkmalswahl. Richtig

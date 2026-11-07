@@ -16,8 +16,33 @@ Preisanstieg 2023 verändert?
 Projektanleitung siehe `CLAUDE Data Analytics.md`,
 Anforderungen siehe `moodle_aufgabenstellung.pdf`.
 
+## Ordnerstruktur
+
+```
+daten/strompreise/   ElCom-Rohdaten, eine CSV pro Jahr        (Metehan)
+daten/bfs/           BFS-Gemeindedaten mit Herkunftsnachweis  (Lenny)
+daten/verbunden/     die verbundene Tabelle für alle drei     (Lenny)
+scripts/             Beschaffungsskript und Notebooks
+sql/                 SQLite-Datenbank                         (Metehan)
+ai-doku/             AI-Dokumentation der drei Teammitglieder
+```
+
+`sql/strompreise.db` wird vom Notebook `scripts/02_sqlite_metehan.ipynb` bei jedem
+Lauf neu gebaut. Die Bytes unterscheiden sich danach auch dann, wenn sich inhaltlich
+nichts geändert hat. Die Datei deshalb nur committen, wenn sich am Datenmodell oder an
+den Daten wirklich etwas geändert hat, nicht nach jedem Durchlauf.
+
+Die Notebooks in `scripts/` bestimmen die Repo-Wurzel selber und leiten alle Pfade
+davon ab. Sie laufen deshalb sowohl aus `scripts/` als auch aus der Repo-Wurzel.
+
+**Wer Dateien verschiebt**, zieht die Pfade in beiden Notebooks und in
+`scripts/strompreise_holen.py` nach und lässt beide Notebooks einmal komplett
+durchlaufen. Am 07.11.2026 wurde die Struktur umgebaut, ohne die Pfade nachzuziehen –
+danach brachen beide Notebooks auf einem frischen Klon ab.
+
 ## Stand
 
-- Letzte Änderung: 01.11.2026
-- Fertig: Datenbeschaffung (Metehan), Join der zwei Quellen (Lenny)
-- Als Nächstes: SQLite (Metehan), EDA (Subraj)
+- Letzte Änderung: 07.11.2026
+- Fertig: Datenbeschaffung (Metehan), Join der zwei Quellen (Lenny), SQLite (Metehan)
+- Als Nächstes: EDA und Statistik (Subraj), Geodaten und Karte (Lenny),
+  PostgreSQL (Metehan)

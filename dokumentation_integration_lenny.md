@@ -2,7 +2,8 @@
 
 **Pflichtanforderung 2** · Lenny Frei · Data Analytics, ZHAW, HS2026 · 1. November 2026
 
-Der vollständige Weg mit Code und Ausgaben steht in `02_daten_bfs_lenny.ipynb`.
+Der vollständige Weg mit Code und Ausgaben steht in
+`scripts/01_daten_bfs_lenny.ipynb`.
 Dieses Dokument fasst zusammen, was zusammengeführt wurde, wie, und was dabei
 verloren ging.
 

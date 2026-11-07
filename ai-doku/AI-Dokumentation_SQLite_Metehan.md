@@ -4,7 +4,7 @@ ZHAW Data Analytics HS2026 · Altay Metehan · Stand 2. November 2026
 
 ## Überblick
 
-Für die SQLite-Datenbank (Pflicht 3) hat Claude das Datenmodell entworfen, die Datenbank gebaut und das Notebook `02_sqlite_datenbank.ipynb` geschrieben. Das Ergebnis stimmt bei allen 2'087 Gemeinden mit Lennys Join überein.
+Für die SQLite-Datenbank (Pflicht 3) hat Claude das Datenmodell entworfen, die Datenbank gebaut und das Notebook `scripts/02_sqlite_metehan.ipynb` geschrieben. Das Ergebnis stimmt bei allen 2'087 Gemeinden mit Lennys Join überein.
 
 | Punkt | Angabe |
 | --- | --- |
