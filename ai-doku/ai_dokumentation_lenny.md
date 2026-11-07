@@ -89,6 +89,21 @@ weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
   Abschnitt 4 und 5 der Projektanleitung, das Notebook, die Integrationsdokumentation
   und die Tabelle wurden korrigiert.
 
+### 7. November 2026 – Reparatur nach einem Umbau der Ordnerstruktur
+
+- Metehans AI hatte die Dateien in Unterordner sortiert (`daten/strompreise/`,
+  `daten/bfs/`, `daten/verbunden/`, `scripts/`, `sql/`, `ai-doku/`), ohne die Pfade in
+  den Notebooks nachzuziehen. Beide Notebooks waren dadurch kaputt. Siehe Fall 8.
+- Beide Notebooks bekamen einen Anker auf die Repo-Wurzel, `finde_wurzel`, und leiten
+  alle Pfade davon ab. Getestet aus drei Arbeitsverzeichnissen.
+- `scripts/strompreise_holen.py`: Ausgabepfad und Dateinamen angeglichen,
+  `fillna(0.0)` auf dem gespeicherten DataFrame entfernt. Es gilt nur noch innerhalb
+  der Summenkontrolle.
+- Notebooks umbenannt nach der Reihenfolge der Arbeit:
+  `01_daten_bfs_lenny.ipynb`, `02_sqlite_metehan.ipynb`.
+- Bei der Vorbereitung der Karte kam heraus, dass die Projektanleitung die zweite
+  Datenquelle falsch beschrieben hatte. Siehe Fall 9.
+
 ---
 
 ## Wo etwas mit AI nicht funktioniert hat
@@ -277,6 +292,54 @@ wurde, und dass die Klärung an der **Primärquelle** erfolgte und nicht an der
 plausibelsten Erklärung. Die drei betroffenen Spalten wurden entfernt und nicht nur
 umbenannt – eine Spalte, die niemand verwenden soll, wird früher oder später verwendet.
 
+### 8. Eine AI räumte auf und zerstörte dabei stillschweigend beide Notebooks (07.11.2026)
+
+Metehans AI hat die Ordnerstruktur umgebaut und die Dateien sauber in Unterordner
+sortiert. Die Sortierung selbst war gut. Nur wurden die Pfade in den Notebooks nicht
+nachgezogen.
+
+Danach brachen **beide** Notebooks auf einem frischen Klon mit `FileNotFoundError` ab,
+und zwar aus jedem Arbeitsverzeichnis: Aus `scripts/` suchte `daten/bfs/...` nach
+`scripts/daten/bfs/...`, aus der Wurzel fand Metehans Notebook die Preisdateien nicht
+mehr, weil sie inzwischen eine Ebene tiefer lagen.
+
+**Warum es niemandem auffiel:** Die Ausgaben in den Notebooks stammten noch von vor
+dem Umbau und waren mit eingecheckt. Wer die Dateien auf GitHub öffnete, sah
+vollständige Tabellen, Zahlen und Resultate. Es sah korrekt aus. Kaputt war es erst,
+wenn man es ausführte – und ausgeführt hatte es seit dem Umbau niemand.
+
+**Lehre:** Eine AI, die eine Struktur verändert, prüft nicht von selber, ob der Code
+danach noch läuft. Eingebettete Ausgaben in einem Notebook sind kein Beleg dafür, dass
+es heute noch funktioniert; sie sind ein Foto von gestern.
+
+Die Regel steht jetzt im README und in Abschnitt 10 der Projektanleitung: Wer Dateien
+verschiebt, zieht die Pfade in beiden Notebooks und im Beschaffungsskript nach und
+lässt beide Notebooks einmal komplett durchlaufen.
+
+### 9. Eine Datenquelle beschrieben, ohne sie anzusehen (27.10. bis 07.11.2026)
+
+In Abschnitt 2 der Projektanleitung stand, die BFS-Regionalporträts enthielten
+Einwohner, Fläche, Dichte, **Gemeindetypologie, Kanton und Sprachregion**. Die letzten
+drei stimmen nicht. Die Rohdatei hat acht Spalten – `PERIOD_REF`, `PERIOD_COMP`,
+`CODE_REGION`, `REGION`, `INDICATORS`, `UNIT_MES`, `VALUE`, `STATUS` – und unter den
+41 Kennzahlen ist keine davon. Die ElCom-Daten enthalten sie ebenfalls nicht.
+
+Aufgefallen ist es erst am 07.11., bei der Vorbereitung der Karte. Zwischen der
+falschen Beschreibung und dem Fund lag **eine Woche**.
+
+**Folge:** Unterfrage 1 der Forschungsfrage, die Unterschiede zwischen Kantonen und
+Sprachregionen, und die ANOVA dazu (Bonus 4) sind mit dem aktuellen Datenstand nicht
+rechenbar. Es braucht eine dritte Datenquelle. Subraj beginnt gerade mit der Analyse
+und wäre genau dort aufgelaufen.
+
+**Lehre:** Die Beschreibung einer Datenquelle, die aus einer AI stammt und nie gegen
+die Datei geprüft wurde, ist eine Vermutung, kein Fakt. Sie liest sich aber wie einer,
+weil sie plausibel und konkret klingt. Beim Arbeiten mit den Daten fiel es nicht auf,
+weil wir genau die Merkmale verwendet hatten, die tatsächlich vorhanden sind.
+
+Das ist derselbe Fehlertyp wie Fall 7, nur mit umgekehrtem Vorzeichen: Dort stand eine
+ungeprüfte Annahme in den Daten, hier eine ungeprüfte Behauptung über die Daten.
+
 ---
 
 ## Was gut funktioniert hat
@@ -292,6 +355,12 @@ umbenannt – eine Spalte, die niemand verwenden soll, wird früher oder später
   `.gitignore` waren in wenigen Minuten erledigt und kommentiert.
 - **Unlesbare Quellen erschliessen.** Ein 21 546 Pixel hoher Screenshot und ein
   1795-seitiges PDF wurden maschinell zerlegt und durchsucht.
+- **Eine Reparatur, die nachprüfbar war (07.11.2026).** Beim Nachziehen der Pfade
+  wurde nichts behauptet, sondern gezeigt: der sha256-Hash der Ergebnisdatei vor und
+  nach dem Lauf (identisch), die Kontrollzelle in Metehans Notebook mit 0 Abweichungen
+  in allen acht Spalten, beide Notebooks mit 0 Fehlern aus `scripts/` heraus
+  ausgeführt, und der Anker aus drei verschiedenen Arbeitsverzeichnissen getestet.
+  Ein Umbau an fremdem Code lässt sich so absichern, dass man nicht hoffen muss.
 
 ## Was mühsam war
 
@@ -314,4 +383,4 @@ umbenannt – eine Spalte, die niemand verwenden soll, wird früher oder später
 
 ---
 
-*Letzte Nachführung: 1. November 2026*
+*Letzte Nachführung: 7. November 2026*

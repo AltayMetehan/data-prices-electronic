@@ -70,8 +70,8 @@ Abgeholt per Python-Skript, nicht von Hand heruntergeladen. Das ist Pflicht:
 Die Aufgabenstellung verlangt Erhebung per Web Scraping oder Web API und schliesst
 fertige Datensätze als Primärquelle ausdrücklich aus.
 
-Dateien im Repo: `Daten_Strompreise_2021.csv`, `_2024.csv`, `_2027.csv`.
-Skript: `strompreise_holen.py`. Abfrage: `query.txt`.
+Dateien im Repo: `daten/strompreise/Daten_Strompreise_2021.csv`, `_2024.csv`,
+`_2027.csv`. Skript: `scripts/strompreise_holen.py`. Abfrage: `query.txt`.
 
 Spalten, 14 insgesamt: jahr, gemeinde_nr, gemeinde, netzbetreiber_id,
 netzbetreiber, produkt, kategorie, total, energie, netznutzung, abgaben,
@@ -82,8 +82,32 @@ Stand 27.10.2026: Metehan hat die Abfrage angepasst. `messtarif` und
 
 ### Quelle 2: Gemeindedaten des Bundesamts für Statistik
 
-Regionalporträts: Einwohner, Fläche, Dichte, Gemeindetypologie, Kanton, Sprachregion.
-Verknüpfung über die BFS-Gemeindenummer.
+Regionalporträts 2021, Kennzahlen aller Gemeinden. Verknüpfung über die
+BFS-Gemeindenummer, in der Datei als `CODE_REGION`.
+
+**Was wirklich drin ist**, geprüft am 01.11.2026 an der Rohdatei. Sie hat acht
+Spalten: `PERIOD_REF`, `PERIOD_COMP`, `CODE_REGION`, `REGION`, `INDICATORS`,
+`UNIT_MES`, `VALUE`, `STATUS`. Im Langformat, eine Zeile je Gemeinde und Kennzahl,
+41 Kennzahlen:
+
+| Thema | Kennzahlen |
+|---|---|
+| Bevölkerung | Einwohner, Veränderung, Dichte, Altersgruppen, Ausländeranteil, Haushalte |
+| Fläche | Gesamtfläche, Siedlung, Landwirtschaft, Wald, unproduktiv |
+| Wirtschaft | Beschäftigte und Arbeitsstätten, je total und nach Sektor |
+| Wohnen | Leerwohnungsziffer, neu gebaute Wohnungen |
+| Soziales | Sozialhilfequote |
+| Politik | Wähleranteile der Parteien |
+
+**Was nicht drin ist: Kanton, Sprachregion und Gemeindetypologie.** Keines dieser
+drei Merkmale kommt in der Datei vor, und die ElCom-Daten enthalten sie auch nicht.
+
+Korrigiert am 07.11.2026: Hier stand vorher, die Regionalporträts enthielten
+Gemeindetypologie, Kanton und Sprachregion. Das war nie geprüft und ist falsch.
+
+**Folge:** Unterfrage 1 der Forschungsfrage, die Unterschiede zwischen Kantonen und
+Sprachregionen, und die ANOVA dazu (Bonus 4) sind mit dem aktuellen Datenstand nicht
+rechenbar. Es braucht eine dritte Quelle, siehe Abschnitt 11.
 
 Für die zweite Quelle ist ein Download zulässig. Die Vorgabe zur eigenen Erhebung
 gilt nur für die Primärquelle, die Aufgabenstellung nennt als Beispiel ausdrücklich
@@ -514,9 +538,12 @@ Rechner.
   nachfragen
 - Auf welcher Ebene erwartet der Dozent die Analyse, Gemeinde oder Netzbetreiber.
   In der Mail an die Dozenten fragen
-- Kanton und Sprachregion fehlen noch. Die Regionalporträts enthalten sie nicht,
-  geprüft am 01.11.2026. Sie müssen aus dem amtlichen Gemeindeverzeichnis des BFS
-  kommen
+- **Dritte Quelle nötig für Kanton, Sprachregion und Gemeindetypologie.** Weder die
+  Regionalporträts noch die ElCom-Daten enthalten diese Merkmale, geprüft am
+  01.11.2026. Ohne sie sind Unterfrage 1 (Unterschiede zwischen Kantonen und
+  Sprachregionen) und die ANOVA dazu (Bonus 4) nicht rechenbar. Kanton und
+  Sprachregion vermutlich aus dem amtlichen Gemeindeverzeichnis des BFS. Dringend,
+  weil Subraj darauf wartet
 - Gemeindegrenzen für die Karte fehlen noch (Bonus 3). Die Geodaten im Kurs-Repo von
   Dr. Gellrich decken nur den Kanton Zürich ab, geprüft am 30.10.2026. Vermutlich
   swissBOUNDARIES3D von swisstopo, das die Regionalporträts selbst als Grundlage nennen
