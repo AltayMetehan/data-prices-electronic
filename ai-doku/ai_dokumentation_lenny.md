@@ -104,6 +104,13 @@ weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
 - Bei der Vorbereitung der Karte kam heraus, dass die Projektanleitung die zweite
   Datenquelle falsch beschrieben hatte. Siehe Fall 9.
 
+**Zweite Sitzung am selben Tag:** Dritte Quelle eingebaut. «Die Raumgliederungen der
+Schweiz 2019» liefert Kanton, Sprachregion und Gemeindetypologie in einer Datei. Vier
+Gemeinden fehlten dort, weil ihr Gebietsstand 2019 ist; sie wurden über die
+Mutationstabelle des historisierten Gemeindeverzeichnisses maschinell aufgelöst, nicht
+von Hand. Bei drei von vieren stimmten alle Vorgänger überein, bei Prez (2237) nicht
+in der Typologie – dort wurde nichts eingetragen, statt zu raten. Siehe Fall 10.
+
 ---
 
 ## Wo etwas mit AI nicht funktioniert hat
@@ -340,6 +347,29 @@ weil wir genau die Merkmale verwendet hatten, die tatsächlich vorhanden sind.
 Das ist derselbe Fehlertyp wie Fall 7, nur mit umgekehrtem Vorzeichen: Dort stand eine
 ungeprüfte Annahme in den Daten, hier eine ungeprüfte Behauptung über die Daten.
 
+### 10. Zwei Fälle, in denen das Prüfen vor dem Bauen etwas gebracht hat (07.11.2026)
+
+Diesmal ging nichts schief, und genau das ist dokumentationswürdig: Beide Male
+verhinderte eine Prüfung einen Fehler, der sonst in den Bericht gewandert wäre.
+
+**a) Eine Quelle vor dem Herunterladen geöffnet.** Vor dem Einbau der dritten Quelle
+wurde die Datei in einen Zwischenordner geladen und ihre Spalten gelesen, statt sich
+auf die Beschreibung der Infoseite zu verlassen. Erst dadurch war klar, dass sie
+Kanton, Sprachgebiet **und** Gemeindetypologie zugleich liefert – drei Merkmale aus
+einer Datei statt aus dreien. Nach Fall 9 war das die direkte Konsequenz.
+
+**b) Eine Plausibilitätsprüfung, die zuerst falsch aussah.** Erwartet wurden rund
+drei Viertel deutschsprachige Gemeinden, herausgekommen sind 65.4 Prozent. Statt die
+Zahl zu akzeptieren oder zu «korrigieren», wurde gegen alle 2212 Schweizer Gemeinden
+gerechnet: Dort sind es 64.2 Prozent. Unsere Auswahl entspricht also der
+Gesamtschweiz; die Erwartung stammte vom **Bevölkerungsanteil**, nicht von der Zahl
+der Gemeinden. Beides zu verwechseln wäre ein Fehler im Bericht gewesen, und zwar
+einer, den man im Video nicht hätte erklären können.
+
+**Lehre:** Eine Zahl, die von der Erwartung abweicht, ist nicht automatisch falsch.
+Erst der Vergleich mit einer unabhängigen Grundgesamtheit zeigt, ob die Daten oder
+die Erwartung daneben liegen.
+
 ---
 
 ## Was gut funktioniert hat
@@ -383,4 +413,4 @@ ungeprüfte Annahme in den Daten, hier eine ungeprüfte Behauptung über die Dat
 
 ---
 
-*Letzte Nachführung: 7. November 2026*
+*Letzte Nachführung: 7. November 2026, zweite Sitzung*

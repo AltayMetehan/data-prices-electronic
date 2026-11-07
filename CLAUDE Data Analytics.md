@@ -113,6 +113,26 @@ Für die zweite Quelle ist ein Download zulässig. Die Vorgabe zur eigenen Erheb
 gilt nur für die Primärquelle, die Aufgabenstellung nennt als Beispiel ausdrücklich
 «scraped data enriched with data from opendataswiss».
 
+### Quelle 3: Raumgliederungen der Schweiz
+
+Weil Quelle 2 Kanton, Sprachregion und Gemeindetypologie nicht enthält, kommt eine
+dritte Quelle dazu: «Die Raumgliederungen der Schweiz 2019» des BFS, eine XLSX mit
+2212 Gemeinden und 30 Spalten.
+
+- Download: `https://dam-api.bfs.admin.ch/hub/api/dam/assets/9046166/master`
+- Lizenz: OPEN-BY, freie Nutzung mit Quellenangabe
+- Gebietsstand: 01.01.2019
+- Join über `BFS Gde-nummer`, Ganzzahl ohne führende Nullen
+- Übernommen: `kanton`, `kanton_nr`, `sprachregion`, `gemeindetyp_9`
+
+Geholt wird sie per `scripts/hole_zusatzdaten.py`, abgelegt unter
+`daten/raumgliederungen/` mit Herkunftsnachweis.
+
+Weil der Gebietsstand 2019 ist, fehlen vier unserer 2087 Gemeinden, die 2020 und
+2021 durch Fusion entstanden sind. Sie werden über die Mutationstabelle des
+historisierten Gemeindeverzeichnisses aufgelöst, nicht von Hand. Siehe
+`dokumentation_integration_lenny.md`, Abschnitt 9b.
+
 ### Geodaten für die Karte
 
 Geprüft am 30.10.2026: Die Geodaten im Kurs-Repo von Dr. Gellrich

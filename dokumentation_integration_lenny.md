@@ -9,15 +9,18 @@ verloren ging.
 
 ---
 
-## 1. Die zwei Quellen
+## 1. Die Quellen
 
-| | Quelle 1 | Quelle 2 |
-|---|---|---|
-| Inhalt | Strompreise pro Gemeinde | Gemeindemerkmale |
-| Herausgeber | ElCom | Bundesamt für Statistik |
-| Bezug | SPARQL-Endpunkt von LINDAS, eigenes Python-Skript | Download, `regionalportraets_2021.csv` |
-| Zuständig | Metehan | Lenny |
-| Datenstand | 2021, 2024, 2027 | 01.01.2021 |
+| | Quelle 1 | Quelle 2 | Quelle 3 |
+|---|---|---|---|
+| Inhalt | Strompreise pro Gemeinde | Gemeindemerkmale | Kanton, Sprachregion, Typologie |
+| Herausgeber | ElCom | Bundesamt für Statistik | Bundesamt für Statistik |
+| Bezug | SPARQL-Endpunkt, eigenes Python-Skript | Download, `regionalportraets_2021.csv` | Download, `raumgliederungen_2019.xlsx` |
+| Zuständig | Metehan | Lenny | Lenny |
+| Datenstand | 2021, 2024, 2027 | 01.01.2021 | 01.01.2019 |
+
+Die Pflicht verlangt zwei Quellen; die dritte kam dazu, weil weder Quelle 1 noch
+Quelle 2 Kanton oder Sprachregion enthalten. Details in Abschnitt 9b.
 
 Die Aufgabenstellung verlangt eigene Erhebung nur für die Primärquelle und nennt für
 die Zweitquelle ausdrücklich das Beispiel «scraped data enriched with data from
@@ -195,7 +198,7 @@ Gemeindemerkmalen.
 
 ## 9. Die verbundene Tabelle
 
-`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 12 Spalten
+`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 16 Spalten
 
 | Spalte | Inhalt |
 |---|---|
@@ -204,6 +207,9 @@ Gemeindemerkmalen.
 | `netzbetreiber_id`, `netzbetreiber` | Netzbetreiber, bei mehreren der mit der kleinsten id |
 | `total_2021`, `total_2024`, `total_2027` | Gesamtpreis in Rappen pro kWh |
 | `einwohner`, `dichte`, `flaeche_total`, `beschaeftigte`, `anteil_65plus` | die fünf Gemeindemerkmale |
+| `kanton`, `kanton_nr` | Kanton, Kürzel und Nummer |
+| `sprachregion` | Deutsch, Französisch, Italienisch oder Rätoromanisch |
+| `gemeindetyp_9` | Gemeindetypologie 2012, 9 Typen |
 
 **Wichtig für Metehan und Subraj:** Für Vergleiche über die Zeit **die Spalten
 `total_*` verwenden**. Nur sie enthalten in allen drei Jahren dieselben Bestandteile.
@@ -222,6 +228,86 @@ verwendet. Hintergrund in Abschnitt 4 der Projektanleitung.
 Die Spalte `netzbetreiber_id` liegt bei, weil die Preise laut Abschnitt 5b der
 Projektanleitung pro Netzbetreiber gesetzt werden und die Regression zusätzlich auf
 dieser Ebene gerechnet werden soll.
+
+---
+
+## 9b. Dritte Quelle: Kanton, Sprachregion und Gemeindetypologie
+
+Weder die ElCom-Preisdaten noch die Regionalporträts enthalten diese drei Merkmale.
+Ohne sie ist Unterfrage 1 der Forschungsfrage – die Unterschiede zwischen Kantonen
+und Sprachregionen – nicht zu beantworten.
+
+| | |
+|---|---|
+| Datensatz | Die Raumgliederungen der Schweiz 2019 |
+| Herausgeber | Bundesamt für Statistik |
+| Bezogen am | 07.11.2026, per `scripts/hole_zusatzdaten.py` |
+| Lizenz | OPEN-BY, freie Nutzung mit Quellenangabe |
+| Gebietsstand | **01.01.2019** |
+| Join-Schlüssel | `BFS Gde-nummer`, Ganzzahl ohne führende Nullen |
+
+Übernommen werden vier Spalten: `kanton`, `kanton_nr`, `sprachregion` und
+`gemeindetyp_9` (Gemeindetypologie 2012, 9 Typen). Die Sprachregion steht in der
+Datei als Zahl; die Codeliste im selben Dokument lautet 1 = Deutsch,
+2 = Französisch, 3 = Italienisch, 4 = Rätoromanisch. In unserer Tabelle steht der
+Klartext, nicht der Code.
+
+### Widerspruch: ein Gebietsstand, der zwei Jahre zu alt ist
+
+Die Raumgliederungen haben den Stand 01.01.2019, unsere Analysemenge stammt aus den
+Preisdaten von 2021. **Vier unserer 2087 Gemeinden fehlen**, weil sie erst 2020 und
+2021 durch Fusion entstanden sind.
+
+Aufgelöst wurde das **nicht von Hand**, sondern über die Mutationstabelle des
+historisierten Gemeindeverzeichnisses des BFS. Jede Zeile dort verbindet eine
+Vorgängergemeinde (`InitialCode`) mit ihrer Nachfolgerin (`TerminalCode`). Die
+Merkmale der Nachfolgerin werden von den Vorgängern übernommen – aber nur, wenn
+diese übereinstimmen. Eine Fusion über eine Kantons- oder Sprachgrenze hätte keinen
+eindeutigen Wert ergeben; das wird im Code geprüft, nicht angenommen.
+
+| Nr | Gemeinde | Fusion | Vorgänger | Kanton | Sprachregion | Typ 9 |
+|---|---|---|---|---|---|---|
+| 889 | Thurnen | 01.01.2020 | 873 Kirchenthurnen, 874 Lohnstorf, 876 Mühlethurnen | BE (alle) | Deutsch (alle) | 22 (alle) |
+| 2117 | Villaz | 01.01.2020 | 2111 Villaz-Saint-Pierre, 2116 La Folliaz | FR (alle) | Französisch (alle) | 32 (alle) |
+| 2237 | Prez | 01.01.2020 | 2185 Corserey, 2213 Noréaz, 2221 Prez-vers-Noréaz | FR (alle) | Französisch (alle) | **uneinheitlich: 32, 23, 23** |
+| 2430 | Welschenrohr-Gänsbrunnen | 01.01.2021 | 2423 Gänsbrunnen, 2429 Welschenrohr | SO (alle) | Deutsch (alle) | 32 (alle) |
+
+Bei drei der vier Gemeinden stimmen alle Vorgänger in allen Merkmalen überein; die
+Übernahme ist eindeutig.
+
+**Offen bei Prez (2237):** Kanton und Sprachregion sind eindeutig und wurden
+übernommen. Die Gemeindetypologie der drei Vorgänger ist es nicht – Corserey hatte
+Typ 32, Noréaz und Prez-vers-Noréaz Typ 23. Es gibt keinen sachlich zwingenden Wert,
+darum steht dort vorläufig kein Eintrag. Das ist der einzige fehlende Wert in den
+vier neuen Spalten, bei 2087 Gemeinden.
+
+### Kontrollen nach dem Verbinden
+
+| Prüfung | Ergebnis |
+|---|---|
+| Zeilen | 2087, unverändert |
+| Fehlende Werte in `kanton`, `kanton_nr`, `sprachregion` | 0 |
+| Fehlende Werte in `gemeindetyp_9` | 1 (Prez, siehe oben) |
+| Anzahl Kantone | 26 |
+| Die zwölf bisherigen Spalten | **0 abweichende Werte**, Spalten- und Zeilenreihenfolge identisch |
+
+### Verteilung über die Sprachregionen
+
+| | unsere 2087 | alle 2212 Gemeinden der Schweiz |
+|---|---|---|
+| Deutsch | 1365 (65.4 %) | 1421 (64.2 %) |
+| Französisch | 595 (28.5 %) | 641 (29.0 %) |
+| Italienisch | 111 (5.3 %) | 130 (5.9 %) |
+| Rätoromanisch | 16 (0.8 %) | 20 (0.9 %) |
+
+Die Anteile stimmen fast genau mit der Gesamtschweiz überein. Unsere Auswahl ist
+sprachregional also **nicht verzerrt** – anders als bei Gemeindegrösse und
+Preisniveau, siehe Abschnitt 7.
+
+Ein Hinweis für den Bericht: Gemessen an der **Bevölkerung** ist die Deutschschweiz
+rund drei Viertel gross, gemessen an der **Zahl der Gemeinden** nur rund zwei
+Drittel. Die Westschweiz hat viele kleine Gemeinden. Wer die Gemeindezahl mit dem
+Bevölkerungsanteil verwechselt, hält unsere Zahlen für falsch.
 
 ---
 
@@ -255,6 +341,7 @@ Betroffene Zahlen, korrigiert:
 
 ## 11. Offen
 
-- Kanton und Sprachregion aus dem amtlichen Gemeindeverzeichnis
-- Gemeindegrenzen für die Karte, Bonus 3
-- Gemeindetypologie, tiefste Priorität
+- Gemeindegrenzen für die Karte, Bonus 3. Vermutlich swissBOUNDARIES3D von swisstopo
+- Gemeindetypologie von Prez (2237): Die Vorgänger hatten unterschiedliche Typen,
+  siehe Abschnitt 9b. Entweder bleibt der Wert leer, oder die Gruppe legt eine
+  nachvollziehbare Regel fest
