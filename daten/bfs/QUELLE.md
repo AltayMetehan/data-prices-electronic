@@ -8,6 +8,8 @@
 - **Download:** https://dam-api.bfs.admin.ch/hub/api/dam/assets/16484444/master
 - **Datensatzseite:** https://www.bfs.admin.ch/asset/de/ts-x-21.03.01
 - **Katalogeintrag:** https://ckan.opendata.swiss/dataset/regionalportrats-2021-kennzahlen-aller-gemeinden
+  (im Browser erreichbar; automatisierte Abfragen beantwortet opendata.swiss mit
+  HTTP 403, geprüft am 08.11.2026. Verbindlich ist die BFS-Seite oben.)
 - **Datenstand:** 01.01.2021
 - **Gemeindegrenzen:** Stand 01.01.2016, swissBOUNDARIES3D © swisstopo
 - **Format:** CSV, Semikolon getrennt, UTF-8 mit BOM, CRLF

@@ -58,9 +58,13 @@ selbst ab als von ihrem Versorger.
 
 ### Quelle 1, primär: ElCom Strompreise
 
-Über den SPARQL-Endpunkt `https://ld.admin.ch/query`, Cube
-`https://energy.ld.admin.ch/elcom/electricityprice`, Dimensionen unter
-`https://energy.ld.admin.ch/elcom/electricityprice/dimension/`.
+Über den SPARQL-Endpunkt <https://ld.admin.ch/query>, Cube
+<https://energy.ld.admin.ch/elcom/electricityprice>.
+
+Die Dimensionen tragen den Namensraum
+`https://energy.ld.admin.ch/elcom/electricityprice/dimension/`. Das ist eine Kennung
+innerhalb der Abfrage, **keine aufrufbare Seite** – im Browser gibt sie 404. Verwendet
+wird sie im `PREFIX strom:` von `query.txt`.
 
 Massgebend sind die Werte in `strompreise_holen.py` und `query.txt`, nicht diese
 Zusammenfassung. Korrigiert am 01.11.2026: Hier standen vorher Adressen unter
@@ -112,6 +116,25 @@ rechenbar. Es braucht eine dritte Quelle, siehe Abschnitt 11.
 Für die zweite Quelle ist ein Download zulässig. Die Vorgabe zur eigenen Erhebung
 gilt nur für die Primärquelle, die Aufgabenstellung nennt als Beispiel ausdrücklich
 «scraped data enriched with data from opendataswiss».
+
+### Zeitebenen in der verbundenen Tabelle
+
+Die Tabelle sieht aus wie ein Stand, ist aber aus fünf Quellen mit fünf
+Gebietsständen und sechs Datenjahren zusammengesetzt:
+
+| Spalten | Quelle | Gebietsstand | Bezugsjahr |
+|---|---|---|---|
+| Preise, Preisbestandteile, Netzbetreiber | ElCom | je Tarifjahr | 2021, 2024, 2027 |
+| `einwohner`, `dichte`, `anteil_65plus` | Regionalporträts | 01.01.2021 | **2019** |
+| `beschaeftigte` | Regionalporträts | 01.01.2021 | **2018** |
+| `flaeche_total` | Regionalporträts | 01.01.2021 | **2016** |
+| `kanton`, `sprachregion`, `gemeindetyp_9` | Raumgliederungen | 01.01.2019 | 2019 |
+| Geometrie | swissBOUNDARIES3D | Ausgabe 2026-01 | 2026 |
+
+**Ohne Beschönigung: Wir erklären Preise von 2021 bis 2027 mit Gemeindemerkmalen von
+2016 bis 2019.** Bei der Fläche sind das bis zu elf Jahre Abstand, bei den Einwohnern
+bis zu acht. Das gehört als Einschränkung in den Bericht. Die vollständige Tabelle
+Spalte für Spalte steht in `dokumentation_integration_lenny.md`, Abschnitt 7b.
 
 ### Quelle 3: Raumgliederungen der Schweiz
 
@@ -173,14 +196,24 @@ Diese Entscheide sind getroffen. Nicht ohne Rücksprache mit der Gruppe ändern.
   einer Gemeinde. Mittelwert bilden und dokumentieren.
 - **gemeinde_nr als Ganzzahl einlesen**, nicht als Text. Die ElCom-Daten haben keine
   führenden Nullen. Sonst findet `4811` seinen Partner `04811` nicht.
-- **Die Grundgebühren stecken bereits im Rappenpreis.** Geklärt am 01.11.2026 an der
-  ElCom-Wegleitung zur Tarifdeklaration 2026: Grund- und Leistungspreise werden in
-  Rappen pro kWh umgerechnet, der Messtarif wird dabei berücksichtigt. Die
-  veröffentlichten Rappenwerte enthalten die jährlichen Grundgebühren also schon,
-  umgerechnet auf den Verbrauch der jeweiligen Kategorie. Der Kommentar in
+- **Die Grundgebühren stecken bereits im Rappenpreis.** Belegt in der ElCom-Wegleitung
+  zur Tarifdeklaration für Tarife 2027, **Seite 10, Abschnitt 8.3**, Schritt 1:
+  «Vorab werden die Beträge für den Grundpreis und den Leistungspreis sowie den
+  Messtarif in Franken auf die Mengen der entsprechenden Verbrauchskategorie zurück
+  gerechnet.» Das Rechenbeispiel dort verwendet die Kategorie **H1 mit 1600 kWh**:
+  `120 CHF / 1600 kWh + 200 CHF / 1600 kWh = 20 Rp./kWh`. Die Methode ist allgemein
+  formuliert und gilt damit auch für H4; H4 wird an dieser Stelle aber nicht genannt.
+
+  Die veröffentlichten Rappenwerte enthalten die jährlichen Grundgebühren also
+  bereits, umgerechnet auf den Verbrauch der jeweiligen Kategorie. Der Kommentar in
   `strompreise_holen.py` stimmt, die Spalte `fixkosten` wird nicht gebraucht.
+
+  Quelle, geprüft am 08.11.2026, HTTP 200:
+  <https://www.elcom.admin.ch/dam/de/sd-web/r2cyvoFjFaT1/Wegleitung%20zur%20Tarifdeklaration%20f%C3%BCr%20Tarife%202027%20-%20DE.pdf>
+
   Korrigiert: Hier stand vorher die Behauptung, die Analyse unterschätze die
-  tatsächlichen Kosten bei hoher Grundgebühr. Das ist falsch.
+  tatsächlichen Kosten bei hoher Grundgebühr. Das ist falsch. Die zuvor hier
+  genannte Quelle war eine Adresse der ElCom, die ins Leere lief.
 
 ### Beim Beschaffen immer alles holen
 
@@ -201,13 +234,6 @@ entstanden: Vorher steckte er in der Netznutzung.
 > ElCom, Mitteilung zu den Tarifen 2026,
 > https://www.elcom.admin.ch/de/newnsb/8nuE_fvwnfqCu8OHNOwKu
 
-Die Wegleitung zur Tarifdeklaration 2026 hält fest, dass die Messkosten ab 2026
-eigenständig tarifiert werden und «nicht mehr Teil der Netznutzung» sind. Der
-Grundpreis darf keine Komponenten für Messung und Zählermiete mehr enthalten, und der
-Messtarif wird bei der Umrechnung von Grund- und Leistungspreis in Rappen pro kWh
-berücksichtigt
-(https://www.elcom.admin.ch/dam/elcom/de/dokumente/2025/wegleitung-tarife-2026.pdf.download.pdf).
-
 **Was das für die Daten heisst:**
 
 | | 2021 und 2024 | ab 2026, also 2027 |
@@ -223,6 +249,23 @@ Die Summe der vier Bestandteile energie, netznutzung, abgaben und netzzuschlag i
 über die Jahre **nicht** vergleichbar: Für 2021 und 2024 ergibt sie den vollen Preis,
 für 2027 den Preis **ohne** Messkosten. Wer so rechnet, macht 2027 künstlich um rund
 1.67 Rappen billiger und unterschätzt den Preisanstieg.
+
+**Zweite, unabhängige Bestätigung.** Die ElCom-Wegleitung zur Tarifdeklaration für
+Tarife 2027 sagt auf **Seite 8, Abschnitt 8.2.4**: «Gemäss Artikel 17a StromVG in der
+Version gültig ab 1. Januar 2026 legen die Netzbetreiber ab dem Tarifjahr 2026
+Messtarife fest. Die Messkosten sind nicht mehr Teil der Netznutzung, sondern werden
+separat berechnet und tarifiert.» Und auf **Seite 10**: «Bitte beachten Sie, dass der
+Grundpreis ab dem Tarifjahr 2026 keine Komponenten für Messung und Zählermiete
+ausweisen darf, da diese neu über die separaten Messtarife erhoben werden.»
+
+Entscheidend für uns: Die Wegleitung rechnet den **Messtarif ausdrücklich in die
+Rappen mit hinein** (Seite 10, Abschnitt 8.3, Schritt 1). Der auf der
+Strompreiswebseite veröffentlichte Gesamtpreis enthält ihn also. Damit ist unsere
+Regel, für den Vergleich über die Zeit `total` zu verwenden, aus einer zweiten
+unabhängigen Quelle bestätigt – nicht nur aus der Medienmitteilung.
+
+Quelle, geprüft am 08.11.2026, HTTP 200:
+<https://www.elcom.admin.ch/dam/de/sd-web/r2cyvoFjFaT1/Wegleitung%20zur%20Tarifdeklaration%20f%C3%BCr%20Tarife%202027%20-%20DE.pdf>
 
 Geprüft am 27.10.2026 über alle drei Dateien: `energie + netznutzung + abgaben +
 netzzuschlag + messtarif` ergibt in jeder Zeile genau `total`, grösste Abweichung

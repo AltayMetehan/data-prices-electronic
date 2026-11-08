@@ -405,6 +405,46 @@ kräftiges Blau und Rot bedeuten nicht gleich viele Rappen.
 man nachrechnen, ein Bild muss man ansehen – und zwar das fertige Bild, nicht den
 Code, der es erzeugt.
 
+### 12. Ein Audit des eigenen Teils, und was dabei herauskam (08.11.2026)
+
+Vor der Abgabe wurde mein Teil vollständig gegen die Aufgabenstellung und gegen die
+Rohdaten geprüft, mit der ausdrücklichen Auflage, keine Zahl aus der eigenen
+Dokumentation als gegeben zu nehmen. Vier Befunde, die sonst in den Bericht gewandert
+wären:
+
+**a) Ein Beleg, den es nicht gab.** Abschnitt 3 der Projektanleitung behauptete seit
+dem 1. November, die Grundgebühren steckten im Rappenpreis, und nannte als Quelle eine
+ElCom-Adresse. Beim Nachprüfen lieferte sie **404**. Insgesamt waren sechs geprüfte
+ElCom-Adressen tot – die ElCom hatte ihre Website auf `/dam/de/sd-web/` umgestellt. Die
+Aussage stimmt, wie die aufgefundene Wegleitung für die Tarife 2027 auf Seite 10 zeigt,
+aber zehn Tage lang stand im Dokument ein Beleg, den niemand aufgerufen hatte. Der
+Abschnitt trug dabei die Markierung «Geklärt am 01.11.2026».
+
+**b) Eine Behauptung, die der Test nicht hergab.** Die Integrationsdokumentation sagte,
+die ausgeschlossenen Gemeinden seien «deutlich kleiner und etwas teurer». Ein
+Permutationstest mit 20 000 Ziehungen zeigt: kleiner ja, klar belegt (p = 0.007 und
+p = 0.0003). Teurer nicht – bei den Fusionsgemeinden ist der Median zwar höher, der
+Mittelwert aber praktisch gleich (20.83 gegen 20.86 Rappen, p = 0.91), bei der zweiten
+Gruppe hält nicht einmal der Median stand (p = 0.25). Die Aussage beruhte auf einem
+Vergleich von drei Medianen ohne Test.
+
+**c) Eine Tabelle, die so nicht rechenbar war.** Unterfrage 1 fragt, welcher
+Preisbestandteil die Unterschiede ausmacht. Die ausgelieferte Tabelle enthielt nur
+`total`. Subraj hätte die Bestandteile selber aus den Rohdaten aggregieren müssen –
+und wäre dabei mit hoher Wahrscheinlichkeit in dieselbe Messtarif-Falle gelaufen wie
+wir im Oktober. Dasselbe galt für die «Grösse des Netzbetreibers» aus Unterfrage 2.
+
+**d) Verstreute Zeitebenen.** In einer Zeile der Tabelle stecken fünf Gebietsstände und
+sechs Datenjahre. Dokumentiert war das an sechs Stellen in vier Dateien, nirgends
+zusammengefasst. Niemand hätte beim Lesen gesehen, dass wir Preise von 2021 bis 2027
+mit Gemeindemerkmalen von 2016 bis 2019 erklären.
+
+**Lehre:** Eine Dokumentation prüft sich nicht selbst. Alle vier Befunde entstanden in
+Dokumenten, die mit AI geschrieben und vorher mehrfach gelesen worden waren – und alle
+vier fielen erst auf, als jemand gezielt gegen die Primärquelle und gegen die Rohdaten
+prüfte statt gegen den eigenen Text. Besonders tückisch war a): Eine Markierung wie
+«Geklärt am …» erzeugt Vertrauen, ohne dass irgendjemand den Link angeklickt hat.
+
 ---
 
 ## Was gut funktioniert hat
@@ -448,4 +488,4 @@ Code, der es erzeugt.
 
 ---
 
-*Letzte Nachführung: 7. November 2026, dritte Sitzung*
+*Letzte Nachführung: 8. November 2026*

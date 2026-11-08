@@ -150,14 +150,39 @@ Beide Gründe klingen harmlos. Zusammen betrachtet sind sie es nicht:
 | Raus: Beschäftigte unterdrückt | 88 | **313** | 21.03 Rp |
 | Raus: Gemeindefusion | 114 | **669** | 21.14 Rp |
 
-**Befund:** Beide ausgeschlossenen Gruppen sind deutlich **kleiner** und etwas
-**teurer** als die behaltenen. Die Verzerrungen ziehen in dieselbe Richtung und
-verstärken sich. Von den 2201 Gemeinden, die 2021 vorhanden waren, fallen 202 heraus,
-also gut 9 Prozent – überdurchschnittlich die kleinen und ländlichen.
+Mediane allein tragen keine Aussage. Darum ein **Permutationstest** mit 20 000
+Ziehungen: Die Werte beider Gruppen werden zufällig neu verteilt, und der p-Wert
+sagt, wie oft der Zufall einen mindestens so grossen Unterschied erzeugt. Das
+Verfahren braucht keine Verteilungsannahme, was hier passt, weil Einwohnerzahlen
+stark rechtsschief sind.
 
-Für eine Aussage über Stadt und Land ist das erheblich. Wer die Verzerrung nicht
-kennt, berichtet über eine Schweiz, in der die kleinen Gemeinden unterrepräsentiert
-sind.
+Jede Gruppe gegen die richtige Vergleichsgruppe: Die Fusionsgemeinden fielen **vor**
+dem Join heraus, sie werden mit allen 2087 verglichen. Die Gemeinden ohne
+Beschäftigtenzahl sind Teil der 2087 und werden mit den übrigen 1999 verglichen.
+
+| Gruppe | Einwohner, Diff. Median | p | Preis, Diff. Median | p | Preis, Diff. Mittel | p |
+|---|---|---|---|---|---|---|
+| Fusion (114), gegen alle 2087 | **−958** | **0.007** | +0.61 Rp | **0.009** | −0.03 Rp | 0.91 |
+| Beschäftigte unterdrückt (88), gegen 1999 | **−1404** | **0.0003** | +0.50 Rp | 0.25 | +0.34 Rp | 0.30 |
+
+**Befund, so weit die Zahlen tragen:**
+
+**Nach Gemeindegrösse ist die Auswahl verzerrt.** Beide ausgeschlossenen Gruppen sind
+deutlich kleiner, und beide Male ist der Unterschied klar belegt (p = 0.007 und
+p = 0.0003). Von den 2201 Gemeinden, die 2021 vorhanden waren, fallen 202 heraus,
+gut 9 Prozent, überdurchschnittlich die kleinen und ländlichen. Für jede Aussage über
+Stadt und Land ist das erheblich.
+
+**Nach Preisniveau ist eine Verzerrung nicht belegt.** Bei den Fusionsgemeinden liegt
+zwar der Median 0.61 Rappen höher (p = 0.009), der **Mittelwert ist jedoch praktisch
+identisch**: 20.83 gegen 20.86 Rappen, p = 0.91. Der höhere Median geht also auf die
+Verteilungsform zurück, nicht auf ein insgesamt teureres Preisniveau. Bei der zweiten
+Gruppe hält weder der Median (p = 0.25) noch der Mittelwert (p = 0.30) einer Prüfung
+stand.
+
+Eine frühere Fassung dieses Abschnitts sagte, beide Gruppen seien «deutlich kleiner
+und etwas teurer». Der erste Teil stimmt, der zweite war ohne Test formuliert und ist
+so nicht haltbar. Korrigiert am 08.11.2026.
 
 **Wie damit umgegangen wird.** Das Modell wird zweimal gerechnet:
 
@@ -183,6 +208,50 @@ die kleinen Gemeinden. Gewählt wurde stattdessen `Ind_06_03` Beschäftigte Tota
 
 ---
 
+## 7b. Wie viele Zeitebenen stecken in einer Zeile?
+
+Die verbundene Tabelle sieht aus wie ein Stand. Sie ist aber aus fünf Quellen mit
+fünf Gebietsständen und sechs Datenjahren zusammengesetzt. Wer das nicht weiss, liest
+sie falsch.
+
+| Spalte | Quelle | Gebietsstand | Bezugsjahr des Werts |
+|---|---|---|---|
+| `gemeinde_nr`, `gemeinde` | ElCom | je Tarifjahr | – |
+| `netzbetreiber_id`, `netzbetreiber` | ElCom | Tarifjahr 2027 | 2027 |
+| `anz_gemeinden_betreiber` | ElCom, abgeleitet | Tarifjahr 2027 | 2027 |
+| `total_2021` | ElCom | Tarifjahr 2021 | **2021** |
+| `total_2024` | ElCom | Tarifjahr 2024 | **2024** |
+| `total_2027` | ElCom | Tarifjahr 2027 | **2027** |
+| `energie_*`, `netznutzung_*`, `abgaben_*`, `netzzuschlag_*` | ElCom | je Tarifjahr | 2021, 2024, 2027 |
+| `messtarif_2027` | ElCom | Tarifjahr 2027 | **2027** |
+| `einwohner` | Regionalporträts | 01.01.2021 | **2019** |
+| `dichte` | Regionalporträts | 01.01.2021 | **2019** |
+| `anteil_65plus` | Regionalporträts | 01.01.2021 | **2019** |
+| `beschaeftigte` | Regionalporträts | 01.01.2021 | **2018** |
+| `flaeche_total` | Regionalporträts | 01.01.2021 | **2016** |
+| `kanton`, `kanton_nr` | Raumgliederungen | 01.01.2019 | 2019 |
+| `sprachregion` | Raumgliederungen | 01.01.2019 | Sprachgebiete 2011 |
+| `gemeindetyp_9` | Raumgliederungen | 01.01.2019 | Typologie 2012 |
+| Geometrie (`daten/geo/`) | swissBOUNDARIES3D | Ausgabe 2026-01 | 2026 |
+| vier Fusionsfälle | Historisiertes Gemeindeverzeichnis | Mutationen 2018–2022 | – |
+
+Die Bezugsjahre der BFS-Kennzahlen sind direkt aus der Spalte `PERIOD_REF` der
+Rohdatei gelesen, nicht aus einer Beschreibung übernommen.
+
+**Was das für die Interpretation bedeutet, ohne Beschönigung: Wir erklären Preise von
+2021 bis 2027 mit Gemeindemerkmalen von 2016 bis 2019.** Bei der Gemeindefläche sind
+das bis zu elf Jahre Abstand, bei den Einwohnerzahlen bis zu acht. Gemeindeflächen
+ändern sich fast nur durch Fusionen, und Fusionsgemeinden haben wir ausgeschlossen –
+dort ist der Abstand unkritisch. Einwohnerzahlen und Beschäftigte ändern sich dagegen
+laufend. Eine Gemeinde, die zwischen 2019 und 2027 stark gewachsen ist, wird in
+unserem Modell mit ihrer alten Grösse geführt.
+
+Das ist keine Nachlässigkeit, sondern die Folge der Datenlage: Die Regionalporträts
+2021 sind die aktuellste Ausgabe, die das BFS veröffentlicht hat. Es gehört aber als
+Einschränkung in den Bericht und nicht nur in diese Dokumentation.
+
+---
+
 ## 8. Ein bewusster Zug des Designs
 
 Die BFS-Merkmale stammen aus **einer einzigen Erhebung** und sind für alle drei
@@ -198,7 +267,7 @@ Gemeindemerkmalen.
 
 ## 9. Die verbundene Tabelle
 
-`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 16 Spalten
+`daten/verbunden/strompreise_gemeinden.csv` · 2087 Zeilen · 30 Spalten
 
 | Spalte | Inhalt |
 |---|---|
@@ -206,13 +275,26 @@ Gemeindemerkmalen.
 | `gemeinde` | Gemeindename |
 | `netzbetreiber_id`, `netzbetreiber` | Netzbetreiber, bei mehreren der mit der kleinsten id |
 | `total_2021`, `total_2024`, `total_2027` | Gesamtpreis in Rappen pro kWh |
+| `energie_*`, `netznutzung_*`, `abgaben_*`, `netzzuschlag_*` | die vier Preisbestandteile, je Jahr |
+| `messtarif_2027` | Messtarif, gibt es erst ab 2026 |
 | `einwohner`, `dichte`, `flaeche_total`, `beschaeftigte`, `anteil_65plus` | die fünf Gemeindemerkmale |
 | `kanton`, `kanton_nr` | Kanton, Kürzel und Nummer |
 | `sprachregion` | Deutsch, Französisch, Italienisch oder Rätoromanisch |
 | `gemeindetyp_9` | Gemeindetypologie 2012, 9 Typen |
+| `anz_gemeinden_betreiber` | Anzahl Gemeinden, die dieser Betreiber 2027 bei H4/standard beliefert |
 
 **Wichtig für Metehan und Subraj:** Für Vergleiche über die Zeit **die Spalten
 `total_*` verwenden**. Nur sie enthalten in allen drei Jahren dieselben Bestandteile.
+
+Die vier Preisbestandteile liegen bei, weil Unterfrage 1 danach fragt, welcher
+Bestandteil die Unterschiede ausmacht. Zwei Regeln dazu:
+
+1. **Innerhalb eines Jahres** ergeben die Bestandteile den Gesamtpreis: 2021 und 2024
+   vier, 2027 fünf (mit Messtarif). Nachgerechnet, grösste Abweichung 0.001 Rappen.
+2. **Über die Jahre ist `netznutzung` nicht vergleichbar.** Bis 2024 steckten die
+   Messkosten darin, ab 2026 stehen sie separat. Für einen Zeitvergleich der
+   Netzkosten `netznutzung_2027 + messtarif_2027` rechnen. `energie`, `abgaben` und
+   `netzzuschlag` sind unmittelbar vergleichbar.
 
 Eine Summe aus energie, netznutzung, abgaben und netzzuschlag ist über die Jahre
 **nicht** vergleichbar: Bis 2024 steckten die Messkosten in der Netznutzung, ab 2026
