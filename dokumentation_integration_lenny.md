@@ -277,11 +277,34 @@ Gemeindemerkmalen.
 | `total_2021`, `total_2024`, `total_2027` | Gesamtpreis in Rappen pro kWh |
 | `energie_*`, `netznutzung_*`, `abgaben_*`, `netzzuschlag_*` | die vier Preisbestandteile, je Jahr |
 | `messtarif_2027` | Messtarif, gibt es erst ab 2026 |
-| `einwohner`, `dichte`, `flaeche_total`, `beschaeftigte`, `anteil_65plus` | die fünf Gemeindemerkmale |
-| `kanton`, `kanton_nr` | Kanton, Kürzel und Nummer |
-| `sprachregion` | Deutsch, Französisch, Italienisch oder Rätoromanisch |
-| `gemeindetyp_9` | Gemeindetypologie 2012, 9 Typen |
+| `einwohner`, `dichte`, `flaeche_total`, `anteil_65plus` | vier der fünf Gemeindemerkmale, **vollständig** |
+| `beschaeftigte` | fünftes Gemeindemerkmal, **88 von 2087 Werten fehlen** |
+| `kanton`, `kanton_nr` | Kanton, Kürzel und Nummer, vollständig |
+| `sprachregion` | Deutsch, Französisch, Italienisch oder Rätoromanisch, vollständig |
+| `gemeindetyp_9` | Gemeindetypologie 2012, 9 Typen, **1 von 2087 Werten fehlt** |
 | `anz_gemeinden_betreiber` | Anzahl Gemeinden, die dieser Betreiber 2027 bei H4/standard beliefert |
+
+### Zwei Spalten mit Lücken
+
+Nur zwei der 30 Spalten haben fehlende Werte. Beide Male ist die Lücke nicht zufällig,
+und beide Male hat sie Folgen für die Modellierung.
+
+**`beschaeftigte`: 88 fehlende Werte.** Das BFS unterdrückt die Zahl, wenn sie
+Rückschlüsse auf einzelne Betriebe zuliesse (Status `Q` in der Rohdatei). Das trifft
+fast ausschliesslich kleine Gemeinden: Median 312 Einwohner bei den fehlenden gegen
+1717 bei den vorhandenen.
+
+**Was das für die Regression bedeutet: Wer mit dieser Spalte rechnet und `dropna()`
+setzt, verliert 88 Gemeinden** – und zwar nicht irgendwelche, sondern überdurchschnittlich
+die kleinen. Die Stichprobe schrumpft von 2087 auf 1999 und wird dabei städtischer.
+Darum die Vorgabe in Abschnitt 7, das Modell zweimal zu rechnen: einmal ohne
+`beschaeftigte` auf allen 2087, einmal mit auf den 1999.
+
+**`gemeindetyp_9`: 1 fehlender Wert.** Prez (2237), entstanden 2020 aus drei
+Gemeinden mit unterschiedlicher Typologie. Ein `dropna()` auf dieser Spalte kostet
+genau eine Gemeinde; eine Verzerrung entsteht dadurch nicht.
+
+Alle übrigen 28 Spalten sind vollständig.
 
 **Wichtig für Metehan und Subraj:** Für Vergleiche über die Zeit **die Spalten
 `total_*` verwenden**. Nur sie enthalten in allen drei Jahren dieselben Bestandteile.
