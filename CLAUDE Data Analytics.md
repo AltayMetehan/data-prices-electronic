@@ -141,7 +141,18 @@ decken **nur den Kanton Zürich** ab. `municipality_map_epsg4326.kml` enthält
 166 Gemeinden mit BFS-Nummern zwischen 0 und 298, `municipalities_canton_ZH.shp`
 ebenfalls nur Zürich. Für eine Karte der 2087 Gemeinden sind sie unbrauchbar.
 
-Die Gemeindegrenzen müssen aus einer anderen Quelle kommen, siehe Abschnitt 11.
+Verwendet wird stattdessen **swissBOUNDARIES3D von swisstopo**, Ausgabe 2026-01,
+Ebene `tlm_hoheitsgebiet`. Geprüft am 07.11.2026: Alle 2087 Gemeinden unserer
+Analysemenge sind darin enthalten, keine Lücke.
+
+- Lizenz: kostenlose Geodaten von swisstopo, Nutzung und Bearbeitung erlaubt,
+  **Quellenangabe Pflicht**. Wir verwenden `©swisstopo`, im Bild jeder Karte.
+- Geholt per `scripts/hole_geodaten.py`. Die Rohdatei ist 36 MB und liegt **nicht**
+  im Repo; die `.gitignore` schliesst `daten/geo/_roh/` aus.
+- Im Repo liegt nur `daten/geo/gemeinden_2087.geojson`, 1.9 MB: unsere Gemeinden,
+  ohne Höhendimension, mit 100 m Toleranz vereinfacht, in WGS84.
+
+Details in `daten/geo/QUELLE.md`.
 
 ---
 
@@ -564,9 +575,6 @@ Rechner.
   Sprachregionen) und die ANOVA dazu (Bonus 4) nicht rechenbar. Kanton und
   Sprachregion vermutlich aus dem amtlichen Gemeindeverzeichnis des BFS. Dringend,
   weil Subraj darauf wartet
-- Gemeindegrenzen für die Karte fehlen noch (Bonus 3). Die Geodaten im Kurs-Repo von
-  Dr. Gellrich decken nur den Kanton Zürich ab, geprüft am 30.10.2026. Vermutlich
-  swissBOUNDARIES3D von swisstopo, das die Regionalporträts selbst als Grundlage nennen
 - Gemeindetypologie, tiefste Priorität. Es gibt eine vom BFS und eine vom ARE; welche
   gemeint ist, in der Mail an die Dozenten mitfragen
 

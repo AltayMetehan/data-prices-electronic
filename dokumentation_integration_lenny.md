@@ -311,6 +311,58 @@ Bevölkerungsanteil verwechselt, hält unsere Zahlen für falsch.
 
 ---
 
+## 9c. Gemeindegrenzen für die Karte (Bonus 3)
+
+| | |
+|---|---|
+| Datensatz | swissBOUNDARIES3D, Ausgabe 2026-01, Ebene `tlm_hoheitsgebiet` |
+| Herausgeber | swisstopo |
+| Bezogen am | 07.11.2026, per `scripts/hole_geodaten.py` |
+| Lizenz | kostenlose Geodaten, Bearbeitung erlaubt, Quellenangabe `©swisstopo` Pflicht |
+| Join-Schlüssel | `bfs_nummer`, Ganzzahl, bei uns `gemeinde_nr` |
+| Abdeckung | **alle 2087 Gemeinden vorhanden, 0 Lücken** |
+
+Die Rohdatei ist 36 MB gepackt und liegt nicht im Repo. Im Repo liegt nur die
+abgeleitete Datei `daten/geo/gemeinden_2087.geojson` mit 1.9 MB: nur unsere
+Gemeinden, ohne Höhendimension, mit 100 m Toleranz vereinfacht und von LV95
+(EPSG:2056) nach WGS84 (EPSG:4326) umgerechnet. Einzelheiten in
+`daten/geo/QUELLE.md`.
+
+### Was die Karten zeigen
+
+Zwei Karten, je als PNG mit 300 dpi für die Präsentation und als interaktive
+HTML-Karte: das Preisniveau 2027 und die Veränderung 2021 bis 2027.
+
+Die Veränderungskarte beantwortet die Hypothese aus Abschnitt 5b der
+Projektanleitung – folgen die Preisgrenzen den Versorgungsgebieten oder den
+Kantonsgrenzen? Gemessener Anteil der Preisstreuung, der zwischen den Gruppen liegt:
+
+| Jahr | Kanton | Netzbetreiber | Sprachregion |
+|---|---|---|---|
+| 2021 | 60.3 % | **95.0 %** | 3.0 % |
+| 2024 | 23.1 % | **94.0 %** | 1.7 % |
+| 2027 | 35.2 % | **96.8 %** | 0.4 % |
+
+Auf der Karte sichtbar als grosse einfarbige Flächen über Dutzende von Gemeinden,
+die quer über Kantonsgrenzen laufen – am deutlichsten der blaue Block um Zürich,
+Zug und den Aargau, wo die Preise 2027 wieder unter dem Niveau von 2021 liegen.
+
+**Einschränkung:** Kanton und Netzbetreiber sind nicht unabhängig. Viele grosse
+Versorger sind historisch kantonale Werke. Der Kantonsanteil von 23 bis 60 Prozent
+entsteht deshalb grösstenteils dadurch, dass Kantonsgrenze und Betreibergrenze oft
+zusammenfallen. Die Karte zeigt, welche Grenze die schärfere ist, nicht welche die
+Ursache ist.
+
+**Zur Skalierung beider Karten:** Die Farbskalen sind an den Rändern gekappt, weil
+93.8 Prozent der Gemeinden zwischen 20 und 32 Rappen liegen, die Spanne aber bis
+45.9 reicht. Bei der Veränderungskarte liegt der Nullpunkt in der Mitte der
+Farbskala, die Äste sind unterschiedlich lang (−2.1 gegen +27.7). Eine symmetrische
+Skala hätte die 227 günstiger gewordenen Gemeinden unsichtbar gemacht; der Preis
+dafür ist, dass gleich kräftiges Blau und Rot nicht gleich viele Rappen bedeuten.
+Beides steht so auch im Notebook.
+
+---
+
 ## 10. Eine Annahme, die sich als falsch erwies
 
 Vom 27.10. bis zum 01.11.2026 galt in diesem Projekt die Regel, der Messtarif sei ab
@@ -341,7 +393,6 @@ Betroffene Zahlen, korrigiert:
 
 ## 11. Offen
 
-- Gemeindegrenzen für die Karte, Bonus 3. Vermutlich swissBOUNDARIES3D von swisstopo
 - Gemeindetypologie von Prez (2237): Die Vorgänger hatten unterschiedliche Typen,
   siehe Abschnitt 9b. Entweder bleibt der Wert leer, oder die Gruppe legt eine
   nachvollziehbare Regel fest

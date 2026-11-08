@@ -111,6 +111,15 @@ Mutationstabelle des historisierten Gemeindeverzeichnisses maschinell aufgelöst
 von Hand. Bei drei von vieren stimmten alle Vorgänger überein, bei Prez (2237) nicht
 in der Typologie – dort wurde nichts eingetragen, statt zu raten. Siehe Fall 10.
 
+**Dritte Sitzung, Karten (Bonus 3):** Lizenz von swissBOUNDARIES3D geklärt, bevor die
+Daten geholt wurden – der STAC-Katalog führt «proprietary», die Nutzungsbedingungen
+von swisstopo erlauben Nutzung und Bearbeitung mit Quellenangabe. Abdeckung geprüft
+statt angenommen: alle 2087 Gemeinden sind in der Ausgabe 2026-01 enthalten. Zwei
+Karten gebaut, je als PNG und interaktiv. Die Veränderungskarte musste nach dem
+ersten Durchlauf korrigiert werden, siehe Fall 11. Gemessen: Der Netzbetreiber
+erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die Sprachregion
+0.4 bis 3.0.
+
 ---
 
 ## Wo etwas mit AI nicht funktioniert hat
@@ -370,6 +379,32 @@ einer, den man im Video nicht hätte erklären können.
 Erst der Vergleich mit einer unabhängigen Grundgesamtheit zeigt, ob die Daten oder
 die Erwartung daneben liegen.
 
+### 11. Eine Karte, die ihre eigene Aufgabe verfehlte (07.11.2026)
+
+Die zweite Karte sollte zeigen, welche Gemeinden 2027 wieder günstiger sind als
+2021 – laut Abschnitt 5 sind das 10.9 Prozent. Der erste Entwurf verwendete eine
+symmetrische Farbskala um null, was bei einer divergierenden Darstellung die
+Lehrbuchlösung ist.
+
+Das Ergebnis war unbrauchbar. Die Veränderung reicht von −2.1 bis +27.7 Rappen. Eine
+Skala von −27.7 bis +27.7 drängt alle negativen Werte in ein kaum sichtbares
+Hellblau. Die 227 Gemeinden, um die es ging, waren auf der Karte praktisch nicht zu
+finden. Dieselbe Karte hätte so in die Präsentation wandern können, mit einer
+Bildlegende, die etwas verspricht, was das Bild nicht zeigt.
+
+Aufgefallen ist es nur, weil die fertige PNG-Datei **angeschaut** wurde. Die Zahlen
+in der Ausgabe waren korrekt, das Notebook lief fehlerfrei durch, und die
+Farbskala war nach Lehrbuch richtig gewählt. Kein automatischer Test hätte das
+gefunden.
+
+Korrigiert mit einer Skala, deren Nullpunkt in der Mitte der Farben liegt, deren
+Äste aber unterschiedlich lang sind. Der Preis dafür ist dokumentiert: Gleich
+kräftiges Blau und Rot bedeuten nicht gleich viele Rappen.
+
+**Lehre:** Bei einer Grafik ersetzt keine Prüfung das Hinschauen. Eine Zahl kann
+man nachrechnen, ein Bild muss man ansehen – und zwar das fertige Bild, nicht den
+Code, der es erzeugt.
+
 ---
 
 ## Was gut funktioniert hat
@@ -413,4 +448,4 @@ die Erwartung daneben liegen.
 
 ---
 
-*Letzte Nachführung: 7. November 2026, zweite Sitzung*
+*Letzte Nachführung: 7. November 2026, dritte Sitzung*

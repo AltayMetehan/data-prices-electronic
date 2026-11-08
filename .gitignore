@@ -12,3 +12,6 @@ __pycache__/
 
 # Screenshots: der dazugehörige PDF liegt im Repo
 screencapture-*.png
+
+# Rohdaten der Gemeindegrenzen: 36 MB, werden vom Skript neu geholt
+daten/geo/_roh/

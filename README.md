@@ -24,6 +24,9 @@ daten/bfs/           BFS-Gemeindedaten mit Herkunftsnachweis  (Lenny)
 daten/verbunden/     die verbundene Tabelle für alle drei     (Lenny)
 scripts/             Beschaffungsskript und Notebooks
 sql/                 SQLite-Datenbank                         (Metehan)
+daten/geo/           Gemeindegrenzen als GeoJSON              (Lenny)
+abbildungen/         Karten als PNG für die Präsentation      (Lenny)
+karten/              interaktive Karten als HTML              (Lenny)
 ai-doku/             AI-Dokumentation der drei Teammitglieder
 ```
 
@@ -43,6 +46,7 @@ danach brachen beide Notebooks auf einem frischen Klon ab.
 ## Stand
 
 - Letzte Änderung: 07.11.2026
-- Fertig: Datenbeschaffung (Metehan), Join der zwei Quellen (Lenny), SQLite (Metehan)
-- Als Nächstes: EDA und Statistik (Subraj), Geodaten und Karte (Lenny),
-  PostgreSQL (Metehan)
+- Fertig: Datenbeschaffung (Metehan), Join der drei Quellen inklusive Kanton,
+  Sprachregion und Gemeindetypologie (Lenny), SQLite (Metehan),
+  Geodaten und Karten (Lenny)
+- Als Nächstes: EDA und Statistik (Subraj), PostgreSQL (Metehan)
