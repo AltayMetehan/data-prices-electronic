@@ -30,10 +30,19 @@ karten/              interaktive Karten als HTML              (Lenny)
 ai-doku/             AI-Dokumentation der drei Teammitglieder
 ```
 
-`sql/strompreise.db` wird vom Notebook `scripts/02_sqlite_metehan.ipynb` bei jedem
-Lauf neu gebaut. Die Bytes unterscheiden sich danach auch dann, wenn sich inhaltlich
-nichts geändert hat. Die Datei deshalb nur committen, wenn sich am Datenmodell oder an
-den Daten wirklich etwas geändert hat, nicht nach jedem Durchlauf.
+Zwei Arten von Dateien werden bei jedem Lauf neu erzeugt und unterscheiden sich
+danach in den Bytes, auch wenn sich inhaltlich nichts geändert hat:
+
+- `sql/strompreise.db`, gebaut von `scripts/02_sqlite_metehan.ipynb`
+- `karten/*.html`, gebaut von `scripts/01_daten_bfs_lenny.ipynb`; folium vergibt bei
+  jedem Durchlauf neue zufällige Element-IDs
+
+Beide nur committen, wenn sich an den Daten wirklich etwas geändert hat, nicht nach
+jedem Durchlauf.
+
+Aus demselben Grund zeigt das Notebook die interaktiven Karten **nicht** inline an,
+sondern schreibt sie nur nach `karten/`. Eingebettet würden sie das Notebook bei
+jedem Lauf um rund 4 MB vergrössern.
 
 Die Notebooks in `scripts/` bestimmen die Repo-Wurzel selber und leiten alle Pfade
 davon ab. Sie laufen deshalb sowohl aus `scripts/` als auch aus der Repo-Wurzel.
