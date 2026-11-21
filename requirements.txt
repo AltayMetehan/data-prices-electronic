@@ -26,3 +26,12 @@ geopandas>=1.2.0
 
 # Interaktive Karten im Notebook
 folium>=0.20.0
+
+# Statistik: Tests mit p-Wert (ANOVA, Korrelation, t-Test), Notebooks 03 und 04
+scipy>=1.18.1
+
+# Diagramme mit Gruppen (Boxplots, Heatmap), Notebooks 03 und 04
+seaborn>=0.13.2
+
+# Regression, Kreuzvalidierung und k-means, Notebook 04
+scikit-learn>=1.9.1
