@@ -1,7 +1,7 @@
 # Punkteliste
 
 Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 8. November 2026
+Stand: 21. November 2026
 
 Diese Liste gehört in den Anhang des Präsentations-PDF. Die Aufgabenstellung verlangt
 das ausdrücklich:
@@ -20,7 +20,7 @@ aus unserer Projektanleitung.
 
 ## Pflicht, 9 Punkte
 
-### Pflicht 1 ⬜→✅ Datenbeschaffung · Metehan
+### Pflicht 1 ✅ Datenbeschaffung · Metehan
 
 > «Data collection using Web Scraping and/or a Web API. The data must be collected by
 > the group itself; ready-made datasets (e.g. from Kaggle) are not permitted as the
@@ -67,42 +67,63 @@ die Zeitebenen der Tabelle (§7b) und die Verzerrungsprüfung der Auswahl (§7).
 **Stand: ✅ erfüllt.** Das Notebook läuft aus `scripts/` ohne Fehler durch, und seine
 Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
 
-### Pflicht 4 ⬜ Ausführliche EDA · Subraj
+### Pflicht 4 ✅ Ausführliche EDA · Subraj
 
 > «Rich non-graphical and graphical exploratory data analysis (EDA).»
 
-Kein Notebook `scripts/03_analyse_subraj.ipynb` im Repo.
+`scripts/03_analyse_subraj.ipynb`, Abschnitte 1 bis 7
 
-**Stand: ⬜ offen.**
+| Geforderter Teil | Beleg |
+|---|---|
+| nicht-grafisch | Datenqualität (§1), Kennzahlen pro Jahr mit Variationskoeffizient, Schiefe, Kurtosis, Ausreissern (§2.1), Rangkorrelation zwischen den Jahren (§3), Varianzzerlegung nach Preisbestandteilen (§4.2), Korrelationsmatrix der Merkmale (§5.1), Kennzahlen pro Sprachregion (§6.1), eta² nach Netzbetreiber, Kanton und Sprachregion (§7) |
+| grafisch | Histogramme und Boxplots der Preise (§2.2, §2.3), Streudiagramme zwischen den Jahren (§3), gestapelte Balken der Bestandteile (§4.1), Histogramme der Merkmale roh und logarithmiert (§5.1), Heatmap der Rangkorrelationen (§5.2), Boxplots nach Sprachregion (§6.1), Preise pro Kanton (§6.2) |
 
-### Pflicht 5 ⬜ Modellierung über reine Vorhersage hinaus · Subraj
+**Stand: ✅ erfüllt.** Jeder Abschnitt hat eine Interpretation. Das Notebook läuft aus
+`scripts/` ohne Fehler durch.
+
+### Pflicht 5 ✅ Modellierung über reine Vorhersage hinaus · Subraj
 
 > «Modeling: use of either regression or classification. The research question must go
 > beyond a standard prediction task (e.g. include a comparison between groups, regions,
 > time periods, or data sources).»
 
-Die Forschungsfrage erfüllt die Zusatzbedingung bereits durch den Vergleich der drei
-Jahre 2021, 2024 und 2027 (Projektanleitung, Abschnitt 1). Das Modell selbst fehlt.
+`scripts/04_modell_subraj.ipynb`, Abschnitte 1 bis 5
 
-**Stand: ⬜ offen.** Die Datengrundlage liegt vor: `daten/verbunden/strompreise_gemeinden.csv`
-mit 2087 Zeilen und 17 Spalten.
+| Geforderter Teil | Beleg |
+|---|---|
+| Regression | multiple lineare Regression (OLS), Standardfehler nach Netzbetreiber geclustert (§2) |
+| Vergleich über Zeiträume | dasselbe Modell für 2021, 2024 und 2027 (§3); das Modell für den Anstieg testet formal, ob sich ein Zusammenhang verändert hat, weil sein Koeffizient genau die Differenz der Koeffizienten zweier Jahre ist (§3, mit `assert` geprüft) |
+| Vergleich zwischen Gruppen und Regionen | Sprachregionen als Dummies (§3), Modell mit Kantonen (§4) |
+| Vergleich der Ebenen | Modell auf Ebene der 485 Netzbetreiber (§5) |
 
-### Pflicht 6 ⬜ Modellgüte · Subraj
+**Stand: ✅ erfüllt.**
+
+### Pflicht 6 ✅ Modellgüte · Subraj
 
 > «Model evaluation using suitable measures of fit (e.g. r-squared, RMSE, accuracy,
 > recall, precision, ...).»
 
-**Stand: ⬜ offen.**
+- R², angepasstes R² und RMSE für alle fünf Zielgrössen, RMSE verglichen mit der
+  Standardabweichung (`04_modell_subraj.ipynb` §3)
+- Kreuzvalidierung, zufällig und nach Netzbetreiber gruppiert, gegen den Mittelwert als
+  Vergleichsmassstab (§6)
+- Residuen gegen Vorhersage, Histogramm und Q-Q-Plot (§7)
+- Varianzinflationsfaktor gegen Multikollinearität (§1.2)
 
-### Pflicht 7 ⬜ Korrekte Interpretation · Subraj
+**Stand: ✅ erfüllt.**
+
+### Pflicht 7 ✅ Korrekte Interpretation · Subraj
 
 > «Correct interpretation of model results and measures of fit.»
 
-Vorgearbeitet ist der methodische Vorbehalt in Abschnitt 5b der Projektanleitung: Die
-Preise werden pro Netzbetreiber gesetzt, die effektive Fallzahl liegt bei rund 500
-statt 2087, und p-Werte wirken dadurch stärker als sie sind.
+Interpretationen nach jedem Abschnitt in `03_analyse_subraj.ipynb` und
+`04_modell_subraj.ipynb`, Zwischenfazit (03 §9) und Fazit mit Antwort auf die
+Forschungsfrage (04 §9). Der Vorbehalt aus Abschnitt 5b der Projektanleitung ist
+umgesetzt: Jeder Test und das Modell sind zusätzlich auf Betreiberebene gerechnet, die
+Standardfehler nach Betreiber geclustert. Das negative R² der gruppierten
+Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 
-**Stand: ⬜ offen.**
+**Stand: ✅ erfüllt.**
 
 ### Pflicht 8 🟡 Dokumentation der AI-Nutzung · alle, Lenny bündelt
 
@@ -113,13 +134,12 @@ statt 2087, und p-Werte wirken dadurch stärker als sie sind.
 | Teil | Beleg |
 |---|---|
 | Lenny | `ai-doku/ai_dokumentation_lenny.md` – 11 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
-| Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md` |
-| Subraj | fehlt |
+| Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md`, `ai-doku/AI-Dokumentation_PostgreSQL_Metehan.md` |
+| Subraj | `ai-doku/ai_dokumentation_subraj.md` – Sitzungsprotokoll mit dokumentierten Fehlschlägen, Vorteile, Nachteile |
 
 **Stand: 🟡 teilweise.** Was fehlt:
-1. Subrajs Notizen
-2. die Bündelung aller drei zu einem Dokument
-3. der Teil «and the presentation» – es gibt noch keine Präsentation
+1. die Bündelung aller drei zu einem Dokument
+2. der Teil «and the presentation» bei allen dreien – die Präsentation entsteht ab dem 24. November
 
 ### Pflicht 9 ⬜ Material auf Moodle · Subraj
 
@@ -146,6 +166,10 @@ Was in den Lektionen und Übungen **nicht** vorkam:
 | **Maschinelle Auflösung von Gemeindefusionen** über die Mutationstabelle des historisierten Gemeindeverzeichnisses | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §9b | Der Unterricht behandelt Joins, nicht Gebietsstände und Mutationsnummern |
 | **Varianzzerlegung nach Netzbetreibern** statt nach Gemeinden | Projektanleitung Abschnitt 5b; Kartenabschnitt des Notebooks | Die Frage nach der richtigen Aggregationsebene kam nicht vor |
 | **Permutationstest** auf Auswahlverzerrung, 20 000 Ziehungen | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §7 | Unterrichtet wurden t-Test, ANOVA, Chi-Quadrat; ein verteilungsfreier Resampling-Test nicht |
+| **Nach Netzbetreiber geclusterte Standardfehler**, selbst implementiert | `scripts/04_modell_subraj.ipynb` §2 | Der Unterricht rechnet Regressionen mit gewöhnlichen Standardfehlern |
+| **Gruppierte Kreuzvalidierung** (GroupKFold) gegen zufällige | `scripts/04_modell_subraj.ipynb` §6 | Kreuzvalidierung kam nur mit zufälligen Folds vor |
+| **Alexander-Govern-Test, Tukey-Test, Bonferroni-Korrektur** | `scripts/03_analyse_subraj.ipynb` §8 | Unterrichtet wurde die klassische ANOVA ohne Post-hoc-Test |
+| **Cluster-robuster Wald-Test** über die k-means-Cluster | `scripts/04_modell_subraj.ipynb` §8.4 | k-means wurde ohne Test der Unterschiede zwischen Clustern behandelt |
 | **SPARQL** gegen einen Linked-Data-Endpunkt | `scripts/strompreise_holen.py`, `query.txt` | Der Unterricht behandelt Web Scraping und REST-APIs, kein SPARQL |
 
 **Stand: 🟡 teilweise.** Die Techniken existieren und sind belegt. Sie sind bis jetzt
@@ -153,12 +177,20 @@ aber nirgends **beansprucht** – diese Liste ist der erste Ort. Vollständig wi
 Punkt erst, wenn sie im Anhang des Präsentations-PDF mit Screenshots und
 Code-Ausschnitten steht.
 
-### Bonus 2 ⬜ PostgreSQL · Metehan
+### Bonus 2 ✅ PostgreSQL · Metehan
 
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
 
-**Stand: ⬜ offen.** Im Repo findet sich nichts zu PostgreSQL.
+- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 16,
+  baut die beiden Views nach und rechnet Auswertungen mit `JOIN`, `GROUP BY`, `HAVING`,
+  `percentile_cont`, `STDDEV`, `CORR` und den Fensterfunktionen `RANK`, `LAG`, `NTILE`
+- Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
+  gegen SQLite (grösste Abweichung 7e-15)
+
+**Stand: ✅ erfüllt.** Noch nachzuziehen: `psycopg2-binary` fehlt in `requirements.txt`, der
+Verweis auf `02_sqlite_datenbank.ipynb` meint `02_sqlite_metehan.ipynb`, und
+`strompreise.db` wird mit relativem Pfad geöffnet (läuft nur aus `sql/`).
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
@@ -178,23 +210,33 @@ Vereinfachen.
 Netzbetreiber erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die
 Sprachregion 0.4 bis 3.0.
 
-### Bonus 4 ⬜ Chi-Quadrat, ANOVA oder Korrelation mit p-Wert · Subraj
+### Bonus 4 ✅ Chi-Quadrat, ANOVA oder Korrelation mit p-Wert · Subraj
 
 > «Use of a Chi-squared test, analysis of variance (ANOVA), or correlation analysis
 > (each test must include a p-value).»
 
-Vorhanden ist ein **Permutationstest** mit p-Werten
-(`dokumentation_integration_lenny.md` §7). Er ist aber keiner der drei genannten
-Tests und deckt den Punkt deshalb nicht ab.
+| Test | Beleg |
+|---|---|
+| ANOVA über Sprachregionen und Kantone, mit Levene, Alexander-Govern, Kruskal-Wallis, eta² und Tukey | `scripts/03_analyse_subraj.ipynb` §8.3, §8.4 |
+| Korrelation nach Pearson und Spearman mit p-Wert und Bonferroni-Korrektur | `scripts/03_analyse_subraj.ipynb` §8.5, §8.6 |
+| ANOVA über die k-means-Cluster, mit cluster-robustem Wald-Test | `scripts/04_modell_subraj.ipynb` §8.4 |
 
-**Stand: ⬜ offen.** Die Daten für eine ANOVA über Kantone und Sprachregionen liegen
-seit dem 7. November bereit.
+Jeder Test ist auf Gemeinde- und auf Betreiberebene gerechnet. Der gepaarte t-Test
+(§8.2) steht zusätzlich im Notebook, zählt für diesen Punkt aber nicht.
 
-### Bonus 5 ⬜ k-means · Subraj
+**Stand: ✅ erfüllt.**
+
+### Bonus 5 ✅ k-means · Subraj
 
 > «Use of k-means clustering in addition to the regression or classification model.»
 
-**Stand: ⬜ offen.**
+`scripts/04_modell_subraj.ipynb` §8: k-means auf Dichte, Fläche und Anteil 65+,
+standardisiert; Wahl von k über Ellbogenkriterium und Silhouettenkoeffizient (k = 4);
+Profile der vier Gemeindetypen; Kontrolle gegen die BFS-Gemeindetypologie; Vergleich von
+Preis und Anstieg zwischen den Clustern. Das Clustering kommt zur Regression hinzu und
+ersetzt sie nicht.
+
+**Stand: ✅ erfüllt.**
 
 ### Bonus 6 🟡 Öffentliches GitHub-Repo · Metehan
 
@@ -231,12 +273,21 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 
 | | erfüllt | teilweise | offen |
 |---|---|---|---|
-| Pflicht (9) | 3 | 1 | 5 |
-| Bonus (6) | 1 | 2 | 3 |
+| Pflicht (9) | 7 | 1 | 1 |
+| Bonus (6) | 4 | 2 | – |
 | Video (7 Pkt) | – | – | alle |
 
 **Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (Bündelung und Präsentationsteil
 fehlen), Bonus 1 🟡 (beansprucht, aber noch nicht im PDF-Anhang).
+
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅, Bonus 6 🟡 (URL muss in die
+Präsentation).
+
+**Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
+
+**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil und Bündelung), Pflicht 9 (Zip),
+Bonus 1 und 6 (im PDF-Anhang beanspruchen), das Video und der PDF-Anhang mit
+Screenshots und Code-Ausschnitten zu jedem Punkt.
 
 **Was nicht belegbar ist:** Ob Metehans Beschaffungsskript bei einem Lauf exakt die
 Dateien im Repo erzeugt – das wurde nicht nachgerechnet, weil es Netzzugriff braucht.
