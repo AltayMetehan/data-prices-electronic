@@ -49,9 +49,9 @@ Die vier Notebooks in `scripts/` bestimmen die Repo-Wurzel selber (`finde_wurzel
 und leiten alle Pfade davon ab. Sie laufen deshalb sowohl aus `scripts/` als auch aus
 der Repo-Wurzel.
 
-**Eine Ausnahme:** `sql/03_postgresql.ipynb` verwendet einen relativen Pfad
-(`sqlite3.connect("strompreise.db")`) und läuft nur, wenn man es aus `sql/` startet.
-Geprüft am 22.11.2026.
+**Alle fünf Notebooks** bestimmen die Repo-Wurzel selber und leiten ihre Pfade davon
+ab. Sie laufen deshalb sowohl aus ihrem eigenen Verzeichnis als auch aus der
+Repo-Wurzel. Geprüft am 22.11.2026 für `sql/03_postgresql.ipynb` aus beiden Orten.
 
 **Wer Dateien verschiebt**, zieht die Pfade in allen Notebooks und in
 `scripts/strompreise_holen.py` nach und lässt sie einmal komplett durchlaufen. Am
@@ -60,10 +60,10 @@ zwei Notebooks auf einem frischen Klon ab.
 
 ## Projekt aufsetzen
 
-**Python 3.11 wird vorausgesetzt.** Entwickelt und geprüft auf 3.11.4. Der Pin
-`scipy>=1.17.1,<1.18` in der `requirements.txt` ist nötig, weil scipy ab 1.18
-Python 3.12 verlangt; mit einer höheren Version schlägt die Installation auf 3.11
-fehl, bevor ein Notebook startet.
+**Python 3.11 wird vorausgesetzt.** Entwickelt und geprüft auf 3.11.4. Die
+Obergrenze `scipy<1.18` in der `requirements.txt` ist zwingend, weil scipy ab 1.18
+Python 3.12 verlangt; ohne sie schlägt die Installation auf 3.11 fehl, bevor ein
+Notebook startet.
 
 ```bash
 python3 --version          # muss 3.11.x anzeigen
@@ -84,16 +84,47 @@ cd scripts && jupyter nbconvert --to notebook --execute --inplace 01_daten_bfs_l
 Geprüft am 22.11.2026 auf einem frischen Klon mit frischer virtueller Umgebung:
 `01`, `02`, `03` und `04` laufen fehlerfrei durch.
 
-### PostgreSQL, für `sql/03_postgresql.ipynb`
+Das fünfte Notebook, `sql/03_postgresql.ipynb`, braucht zusätzlich einen laufenden
+PostgreSQL-Server. Dazu der nächste Abschnitt.
 
-Dieses Notebook braucht zusätzlich einen **laufenden PostgreSQL-Server** auf
-`localhost:5432` mit einer Datenbank `strompreise` und dem Benutzer `postgres`. Das
-Passwort liest es aus der Umgebungsvariablen `PGPASSWORD`; ist sie nicht gesetzt,
-fragt es interaktiv danach und kann dann nicht automatisch durchlaufen.
+## PostgreSQL einrichten
 
-> **Offen:** Wie der Server installiert und die Datenbank angelegt wird, ist noch
-> nicht dokumentiert. **Metehan trägt diese Anleitung nach.** Ohne sie lässt sich
-> Bonus 2 von aussen nicht nachvollziehen.
+1. PostgreSQL 17 fuer Windows installieren (winget:
+   `winget install --id PostgreSQL.PostgreSQL.17 --exact`).
+   Beim Installer den Benutzernamen `postgres` und ein eigenes Passwort festlegen.
+2. In pgAdmin oder im SQL-Terminal die Datenbank `strompreise` mit folgendem Befehl
+   anlegen:
+   ```sql
+   CREATE DATABASE strompreise;
+   ```
+   Falls das Projekt ein eigenes Datenbankkonto verwenden soll:
+   ```sql
+   CREATE USER strompreise_app WITH PASSWORD 'ein-eigenes-passwort';
+   GRANT ALL PRIVILEGES ON DATABASE strompreise TO strompreise_app;
+   ```
+   Anschliessend das Notebook mit `strompreise_app` ausführen oder PostgreSQL-Standard
+   `postgres` verwenden. Das Passwort nie in Dateien oder Git speichern.
+3. Abhaengigkeiten installieren:
+   ```powershell
+   python -m pip install -r requirements.txt
+   ```
+4. Verbindung lokal setzen, ohne interaktive Abfrage:
+   ```powershell
+   $env:PGHOST="localhost"
+   $env:PGPORT="5432"
+   $env:PGDATABASE="strompreise"
+   $env:PGUSER="postgres"
+   $env:PGPASSWORD="das-eigene-passwort"
+   jupyter notebook sql/03_postgresql.ipynb
+   ```
+   Die Variablen koennen pro Terminal gesetzt werden. Das Notebook liest ausschliesslich
+   Umgebungsvariablen; fehlende Einstellungen fuehren zu einer klaren Fehlermeldung.
+
+> **Noch offen, Stand 22.11.2026:** Diese Anleitung beschreibt **Windows**. Für macOS
+> und Linux fehlen die entsprechenden Schritte: Installation (etwa über Homebrew oder
+> die Paketverwaltung), Starten des Dienstes, und das Setzen der Variablen mit
+> `export` statt `$env:`. Wer das Projekt auf macOS oder Linux prüft – und das kann
+> der Dozent sein – findet hier keine Anleitung. Ergänzt wird das von Metehan.
 
 ## Stand
 

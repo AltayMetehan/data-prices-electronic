@@ -5,16 +5,23 @@
 # Die Pins unten sind auf 3.11 installierbar. Auf Python 3.12 oder neuer
 # funktioniert es vermutlich auch, geprüft ist es dort aber nicht.
 #
+# Diese Datei muss ALLE Pakete enthalten, die irgendeines der fünf Notebooks
+# braucht. Geprüft am 22.11.2026 gegen die Importe aller fünf.
+#
 # Installation:
 #   python3 --version          # muss 3.11.x anzeigen
 #   python3 -m venv .venv
 #   source .venv/bin/activate
 #   pip install -r requirements.txt
 
-# --- Grundlage -------------------------------------------------------------
+# --- Grundlage, alle Notebooks ---------------------------------------------
 
 # Daten einlesen, aufbereiten, zusammenführen
 pandas>=3.1.0
+
+# Zahlen und Felder. Kommt zwar als Abhängigkeit von pandas mit, wird aber in
+# den Notebooks 01, 03 und 04 direkt importiert und gehört deshalb hierher.
+numpy>=2.4.6
 
 # Diagramme
 matplotlib>=3.11.2
@@ -36,13 +43,17 @@ geopandas>=1.2.0
 # Interaktive Karten
 folium>=0.20.0
 
+# Farbskalen für die folium-Karten. Kommt als Abhängigkeit von folium mit,
+# wird in Notebook 01 aber direkt importiert.
+branca>=0.8.2
+
 # --- Statistik und Modell, Notebooks 03 und 04 -----------------------------
 
 # Tests mit p-Wert (ANOVA, Korrelation, t-Test)
 #
-# Der Pin steht bewusst auf 1.17.1 und nicht höher: Ab scipy 1.18 verlangt
-# das Paket Python >= 3.12. Mit scipy>=1.18.1 schlägt die Installation auf
-# unserer Python-Version 3.11 fehl, bevor überhaupt ein Notebook startet.
+# Die Obergrenze <1.18 ist zwingend: Ab scipy 1.18 verlangt das Paket
+# Python >= 3.12. Ohne die Grenze schlägt "pip install -r requirements.txt"
+# auf unserer Python-Version 3.11 fehl, bevor überhaupt ein Notebook startet.
 # 1.17.1 ist die höchste Version, die auf 3.11 installierbar ist.
 scipy>=1.17.1,<1.18
 
@@ -61,5 +72,5 @@ statsmodels>=0.15.0
 
 # Treiber für PostgreSQL, wird dort hart importiert.
 # Das Notebook braucht zusätzlich einen laufenden PostgreSQL-Server,
-# siehe README, Abschnitt "Projekt aufsetzen".
-psycopg2-binary>=2.9.13
+# siehe README, Abschnitt "PostgreSQL einrichten".
+psycopg2-binary>=2.9.11

@@ -204,45 +204,49 @@ aber nirgends **beansprucht** – diese Liste ist der erste Ort. Vollständig wi
 Punkt erst, wenn sie im Anhang des Präsentations-PDF mit Screenshots und
 Code-Ausschnitten steht.
 
-### Bonus 2 ✅ PostgreSQL · Metehan
+### Bonus 2 🟡 PostgreSQL · Metehan
 
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
 
-- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 16,
+- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL,
   baut die beiden Views nach und rechnet Auswertungen mit `JOIN`, `GROUP BY`, `HAVING`,
   `percentile_cont`, `STDDEV`, `CORR` und den Fensterfunktionen `RANK`, `LAG`, `NTILE`
+- `requirements.txt`: enthält `psycopg2-binary`
+- Kein interaktives Passwort: Verbindung über `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`
+  und `PGPASSWORD`
+- SQLite-Pfad relativ zur Repo-Wurzel, sodass das Notebook aus mehreren Arbeitsverzeichnissen
+  gestartet werden kann
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: 🟡 teilweise.** Inhaltlich ist der Punkt erfüllt: eigenes Schema mit exakten
-`NUMERIC(7,3)`-Typen, Fremdschlüssel, Views, Fensterfunktionen, und ein Abgleich gegen
-SQLite, der aufgeht. Drei Dinge fehlen aber, damit ein Aussenstehender es
-**nachvollziehen** kann:
+**Stand: 🟡 teilweise.** Zwei der drei Mängel vom 22.11.2026 sind seit Metehans
+Korrekturen behoben, der dritte nicht. Einzeln nachgeprüft:
 
-1. 🔍 **Das Notebook ist von aussen nicht ausführbar.** Es braucht einen laufenden
-   PostgreSQL-Server auf `localhost:5432`, eine Datenbank `strompreise` und ein
-   Passwort. **Wie man das aufsetzt, steht nirgends im Repo.** Ohne diese Anleitung
-   kann der Dozent den Bonuspunkt nicht prüfen. Geprüft am 22.11.2026: Das Notebook
-   bricht in Zelle 1 ab mit `OperationalError: connection to server at "localhost",
-   port 5432 failed: Connection refused`.
-2. 🔍 **Ohne gesetzte Umgebungsvariable `PGPASSWORD` fragt es interaktiv per
-   `getpass`** und bricht in jedem automatischen Lauf ab
-   (`StdinNotImplementedError`). Das betrifft auch einen Lauf mit laufendem Server.
-3. **Die eingebetteten Ausgaben stammen nicht von `psycopg2`.** Metehans eigene
-   AI-Dokumentation hält fest: «In der Umgebung der AI liess sich `psycopg2` nicht
-   installieren […] Die AI hat stattdessen ein Ersatzmodul geschrieben […] Die
-   Ausgaben im Notebook stammen von diesem Ersatz.» Das SQL ist damit auf einem
-   echten Server gelaufen, die im Notebook sichtbaren Resultate aber nicht über den
-   Treiber, den das Notebook importiert.
+| | Mangel | Stand |
+|---|---|---|
+| 1 | Keine Einrichtungsanleitung | ✅ **behoben.** Metehan hat sie ins README geschrieben: Installation, `CREATE DATABASE strompreise`, Benutzer, Umgebungsvariablen. **Einschränkung:** Die Anleitung beschreibt nur **Windows** (winget, PowerShell). Für macOS und Linux fehlen die Schritte |
+| 2 | `getpass` blockiert jeden automatischen Lauf | ✅ **behoben.** 🔍 Geprüft: `getpass` kommt im Code nicht mehr vor. Alle Verbindungsangaben kommen aus Umgebungsvariablen, bei fehlendem `PGPASSWORD` gibt es eine klare Fehlermeldung |
+| 3 | Eingebettete Ausgaben stammen vom Ersatzmodul, nicht von `psycopg2` | ❌ **offen.** 🔍 Geprüft: Alle 11 Ergebnisausgaben sind zeichengleich mit der Fassung von vor der Korrektur. Das Notebook wurde seither **nicht neu ausgeführt** |
 
-Behoben am 22.11.2026: `psycopg2-binary` steht jetzt in der `requirements.txt`, und
-das README nennt die Voraussetzungen. Die Einrichtungsanleitung selbst muss Metehan
-schreiben; sie zu erfinden wäre nicht belegbar.
+🔍 Zusätzlich geprüft und in Ordnung: Der relative Pfad ist durch einen Anker auf die
+Repo-Wurzel ersetzt. Getestet aus der Repo-Wurzel **und** aus `sql/` – beide Male wird
+`sql/strompreise.db` gefunden.
+
+**Warum der Punkt trotzdem noch nicht auf ✅ steht.** Metehans eigene AI-Dokumentation
+hält fest: «In der Umgebung der AI liess sich `psycopg2` nicht installieren […] Die AI
+hat stattdessen ein Ersatzmodul geschrieben, das jeden Befehl über das
+Kommandozeilenprogramm `psql` an den Server schickt. Die Ausgaben im Notebook stammen
+von diesem Ersatz.» Das SQL ist also auf einem echten PostgreSQL-Server gelaufen – das
+ist der Kern des Bonuspunkts und er ist belegt. Die im Notebook **sichtbaren** Zahlen
+sind aber nicht über den Treiber entstanden, den das Notebook importiert.
+
+**Was den Punkt schliesst, Aufwand etwa zehn Minuten:** Metehan führt das Notebook
+einmal mit dem echten `psycopg2` gegen seinen Server aus und committet die neuen
+Ausgaben. Danach steht der Punkt auf ✅.
 
 Kleinigkeit ohne Punkterelevanz: Der Verweis auf `02_sqlite_datenbank.ipynb` meint
-`02_sqlite_metehan.ipynb`, und `strompreise.db` wird mit relativem Pfad geöffnet, das
-Notebook läuft also nur aus `sql/`.
+`02_sqlite_metehan.ipynb`.
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
@@ -333,18 +337,20 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 `01`, `02`, `03` und `04` laufen fehlerfrei durch, jedes aus seinem Verzeichnis.
 `sql/03_postgresql.ipynb` scheitert am fehlenden Server, siehe Bonus 2.
 
-**Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (Bündelung und Präsentationsteil
-fehlen), Bonus 1 🟡 (beansprucht, aber noch nicht im PDF-Anhang).
+**Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (nur noch der
+Präsentationsteil fehlt, die Bündelung hat Subraj am 22.11. angelegt), Bonus 1 🟡
+(beansprucht, aber noch nicht im PDF-Anhang).
 
-**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 🟡 (Einrichtung nicht
-dokumentiert), Bonus 6 ⬜ (es gibt noch keine Präsentation, in der die URL stehen
-könnte).
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 🟡 (Anleitung geschrieben,
+aber nur für Windows; Notebook noch nicht mit echtem `psycopg2` neu ausgeführt),
+Bonus 6 ⬜ (es gibt noch keine Präsentation, in der die URL stehen könnte).
 
 **Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
 
-**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil und Bündelung), Pflicht 9 (Zip),
-Bonus 1 und 6 (im PDF-Anhang beanspruchen), das Video und der PDF-Anhang mit
-Screenshots und Code-Ausschnitten zu jedem Punkt.
+**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip), Bonus 1
+und 6 (im PDF-Anhang beziehungsweise in der Präsentation beanspruchen), Bonus 2
+(Notebook mit echtem `psycopg2` neu ausführen, Anleitung für macOS und Linux), das
+Video und der PDF-Anhang mit Screenshots und Code-Ausschnitten zu jedem Punkt.
 
 **Was nicht belegbar ist:** Ob Metehans Beschaffungsskript bei einem Lauf exakt die
 Dateien im Repo erzeugt – das wurde nicht nachgerechnet, weil es Netzzugriff braucht.

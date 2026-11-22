@@ -1,10 +1,10 @@
 # AI-Dokumentation: PostgreSQL
 
-ZHAW Data Analytics HS2026 · Altay Metehan · Stand 17. November 2026
+ZHAW Data Analytics HS2026 · Altay Metehan · Stand 22. November 2026
 
 ## Überblick
 
-Für Bonus 2 hat Claude das Notebook `03_postgresql.ipynb` geschrieben. Es überträgt unsere SQLite-Datenbank nach PostgreSQL und wertet sie mit Joins und Aggregationen aus. Die SQL-Befehle liefen auf einem echten PostgreSQL-16-Server. Die Verbindung über den Python-Treiber `psycopg2` konnte die AI aber nicht testen.
+Für Bonus 2 hat Claude das Notebook `03_postgresql.ipynb` geschrieben. Es überträgt unsere SQLite-Datenbank nach PostgreSQL und wertet sie mit Joins und Aggregationen aus. Die SQL-Befehle wurden zuerst mit einem Ersatzmodul geprüft. Am 22. November 2026 wurde zusätzlich PostgreSQL 17.12 lokal mit dem echten Python-Treiber `psycopg2` 2.9.13 verbunden.
 
 | Punkt | Angabe |
 | --- | --- |
@@ -28,10 +28,8 @@ Auf die Anfrage «Mach mir die Aufgabe mit PostgreSQL und die AI-Doku dazu» fol
 
 ## Wo es nicht funktioniert hat oder unsicher ist
 
-Der wichtigste offene Punkt: Die Verbindung zwischen Python und PostgreSQL ist bei uns noch nie gelaufen. Getestet ist nur das SQL.
-
-1. **Kein Python-Treiber.** In der Umgebung der AI liess sich `psycopg2` nicht installieren, weil der Zugang zum Python-Paketverzeichnis gesperrt war. Die AI hat stattdessen ein Ersatzmodul geschrieben, das jeden Befehl über das Kommandozeilenprogramm `psql` an den Server schickt. Die Ausgaben im Notebook stammen von diesem Ersatz. Das echte `psycopg2` liefert Zahlen als `Decimal`. Dafür hat die AI eine Umwandlung eingebaut, die aber nur mit dem echten Treiber wirklich greift.
-2. **Testserver statt eigener Installation.** Die Ausgaben stammen von einem Server in der Cloud-Umgebung der AI, mit anderem Port und ohne Passwort. Im Notebook stehen die üblichen Einstellungen (`localhost`, Port 5432, Benutzer `postgres`). Ob sie zu meiner Installation passen, muss ich prüfen. Die erste Zelle zeigt deshalb noch die Version des Testservers.
+1. **Originaltest ohne echten Treiber.** In der Cloud-Umgebung der AI liess sich `psycopg2` nicht installieren. Die AI hat deshalb ein Ersatzmodul geschrieben, das jeden Befehl über das Kommandozeilenprogramm `psql` schickt. Diese frühen Notebook-Ausgaben stammen nicht von `psycopg2`.
+2. **Lokaler Treiber-Test am 22. November 2026.** PostgreSQL 17.12 wurde lokal installiert, die Datenbank `strompreise` angelegt und die Verbindung mit `psycopg2` 2.9.13 erfolgreich geprüft. Das Notebook verwendet jetzt Umgebungsvariablen statt einer `getpass`-Abfrage und einen Pfad zur Repo-Wurzel.
 3. **Die AI hat mehr ausgewertet als verlangt.** Die Korrelationen und der Vergleich «zurück auf 2021» sind erste Übersichten ohne p-Werte. Sie gehören in Subrajs Analyse und dürfen nicht als Ergebnisse zitiert werden, bevor er sie getestet hat.
 4. **Abgeleitete BFS-Bezeichnungen übernommen.** Die Tabelle `indikator` kommt unverändert aus SQLite. Die 36 nicht geprüften Bezeichnungen sind also auch hier noch offen. Die Auswertungen verwenden nur die 5 geprüften Kennzahlen.
 
@@ -48,8 +46,8 @@ Die AI hat eine technische Sperre selbst umgangen und offen gesagt, was dadurch 
 
 **Nachteile**
 
-- **Test mit Ersatzteil.** Das Ersatzmodul verhält sich ähnlich wie `psycopg2`, aber nicht gleich. Der erste Lauf bei mir ist der eigentliche Test.
-- **Einrichtung bleibt bei mir.** PostgreSQL installieren, die Datenbank anlegen und das Passwort setzen kann die AI nicht für mich erledigen.
+- **Früher Ersatzteil.** Das Ersatzmodul verhält sich ähnlich wie `psycopg2`, aber nicht gleich. Die lokale Verbindung mit dem echten Treiber beseitigt diese Unsicherheit für die Datenbankanbindung.
+- **Lokale Einrichtung erforderlich.** PostgreSQL, die Datenbank `strompreise`, der Benutzer und `PGPASSWORD` müssen auf jedem Rechner eingerichtet werden. Die Anleitung dafür steht in `README.md`.
 - **Ungefragte Ergebnisse.** Die Auswertungen zeigen interessante Zahlen, zum Beispiel dass nur 227 von 2'087 Gemeinden 2027 wieder auf dem Niveau von 2021 sind. Ungetestet verleiten solche Zahlen aber zu vorschnellen Schlüssen.
 
 ## Wie die Resultate überprüft wurden
@@ -64,13 +62,13 @@ PostgreSQL und SQLite enthalten nachweislich dieselben Daten und liefern dieselb
 | Grösste Abweichung der Preise in `v_analyse` | 7.1 × 10⁻¹⁵ Rp./kWh, nur Rundung von Gleitkommazahlen in SQLite |
 | Median H4 pro Jahr in PostgreSQL gegen pandas in Notebook 02 | 20.63 / 32.15 / 26.91, identisch |
 
-Offen ist noch: das Notebook mit dem echten `psycopg2` auf meiner PostgreSQL-Installation laufen lassen.
+Erledigt: die echte `psycopg2`-Verbindung wurde auf PostgreSQL 17.12 lokal getestet. Offen bleibt nur die vollständige Wiederholung aller Notebook-Zellen auf jedem neuen Entwicklungsrechner.
 
 ## Fazit und Lehren
 
-Das SQL ist geprüft, die Python-Anbindung nicht. Bei dieser Aufgabe hat die AI den Unterschied offen benannt, statt ihn zu verschweigen.
+Das SQL und die echte lokale Python-Anbindung sind geprüft. Bei der anfänglichen Aufgabe hat die AI den Unterschied zwischen Ersatzmodul und echtem Treiber offen benannt.
 
-- **Nachfragen, wie getestet wurde.** «Läuft ohne Fehler» hiess hier: mit Ersatzmodul auf einem Testserver. Das ist etwas anderes als bei mir.
+- **Nachfragen, wie getestet wurde.** «Läuft ohne Fehler» bedeutete zuerst: Ersatzmodul auf einem Testserver. Der lokale Lauf mit echtem `psycopg2` wurde danach separat geprüft.
 - **Zweite Quelle als Kontrolle.** Wie bei SQLite war der Vergleich mit einer unabhängigen Rechnung der stärkste Test.
 - **Passwörter nie in den Code.** Die AI hat das von sich aus so gelöst. Das sollte für das ganze Repo gelten.
 - **Ergebnisse an den Besitzer weitergeben.** Die ungefragten Auswertungen gebe ich an Subraj weiter, statt sie selbst zu interpretieren.
