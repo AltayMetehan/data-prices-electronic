@@ -182,15 +182,18 @@ Code-Ausschnitten steht.
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
 
-- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 16,
+- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL,
   baut die beiden Views nach und rechnet Auswertungen mit `JOIN`, `GROUP BY`, `HAVING`,
   `percentile_cont`, `STDDEV`, `CORR` und den Fensterfunktionen `RANK`, `LAG`, `NTILE`
+- `requirements.txt`: enthält `psycopg2-binary`
+- Kein interaktives Passwort: Verbindung über `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`
+  und `PGPASSWORD`
+- SQLite-Pfad relativ zur Repo-Wurzel, sodass das Notebook aus mehreren Arbeitsverzeichnissen
+  gestartet werden kann
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: ✅ erfüllt.** Noch nachzuziehen: `psycopg2-binary` fehlt in `requirements.txt`, der
-Verweis auf `02_sqlite_datenbank.ipynb` meint `02_sqlite_metehan.ipynb`, und
-`strompreise.db` wird mit relativem Pfad geöffnet (läuft nur aus `sql/`).
+**Stand: ✅ erfüllt.** Die Einrichtung ist in `README.md` dokumentiert.
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
