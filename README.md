@@ -47,6 +47,39 @@ jedem Lauf um rund 4 MB vergrössern.
 Die Notebooks in `scripts/` bestimmen die Repo-Wurzel selber und leiten alle Pfade
 davon ab. Sie laufen deshalb sowohl aus `scripts/` als auch aus der Repo-Wurzel.
 
+## PostgreSQL einrichten
+
+1. PostgreSQL 17 fuer Windows installieren (winget:
+   `winget install --id PostgreSQL.PostgreSQL.17 --exact`).
+   Beim Installer den Benutzernamen `postgres` und ein eigenes Passwort festlegen.
+2. In pgAdmin oder im SQL-Terminal die Datenbank `strompreise` mit folgendem Befehl
+   anlegen:
+   ```sql
+   CREATE DATABASE strompreise;
+   ```
+   Falls das Projekt ein eigenes Datenbankkonto verwenden soll:
+   ```sql
+   CREATE USER strompreise_app WITH PASSWORD 'ein-eigenes-passwort';
+   GRANT ALL PRIVILEGES ON DATABASE strompreise TO strompreise_app;
+   ```
+   Anschliessend das Notebook mit `strompreise_app` ausführen oder PostgreSQL-Standard
+   `postgres` verwenden. Das Passwort nie in Dateien oder Git speichern.
+3. Abhaengigkeiten installieren:
+   ```powershell
+   python -m pip install -r requirements.txt
+   ```
+4. Verbindung lokal setzen, ohne interaktive Abfrage:
+   ```powershell
+   $env:PGHOST="localhost"
+   $env:PGPORT="5432"
+   $env:PGDATABASE="strompreise"
+   $env:PGUSER="postgres"
+   $env:PGPASSWORD="das-eigene-passwort"
+   jupyter notebook sql/03_postgresql.ipynb
+   ```
+   Die Variablen koennen pro Terminal gesetzt werden. Das Notebook liest ausschliesslich
+   Umgebungsvariablen; fehlende Einstellungen fuehren zu einer klaren Fehlermeldung.
+
 **Wer Dateien verschiebt**, zieht die Pfade in beiden Notebooks und in
 `scripts/strompreise_holen.py` nach und lässt beide Notebooks einmal komplett
 durchlaufen. Am 07.11.2026 wurde die Struktur umgebaut, ohne die Pfade nachzuziehen –

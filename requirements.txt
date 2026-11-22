@@ -26,3 +26,6 @@ geopandas>=1.2.0
 
 # Interaktive Karten im Notebook
 folium>=0.20.0
+
+# PostgreSQL-Treiber fuer sql/03_postgresql.ipynb
+psycopg2-binary>=2.9.11
