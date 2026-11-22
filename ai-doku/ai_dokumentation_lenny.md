@@ -445,6 +445,64 @@ vier fielen erst auf, als jemand gezielt gegen die Primärquelle und gegen die R
 prüfte statt gegen den eigenen Text. Besonders tückisch war a): Eine Markierung wie
 «Geklärt am …» erzeugt Vertrauen, ohne dass irgendjemand den Link angeklickt hat.
 
+### 13. Ein Versionspin, der das ganze Projekt unbenutzbar machte (22.11.2026)
+
+Beim Audit nach den Ferien wurde das Projekt frisch geklont und in einer frischen
+virtuellen Umgebung aufgesetzt – also so, wie es der Dozent tun wird. Der erste Befehl
+scheiterte:
+
+```
+ERROR: Ignored the following versions that require a different python version:
+       1.18.1 Requires-Python >=3.12
+ERROR: No matching distribution found for scipy>=1.18.1
+```
+
+Beim Nachtragen der neuen Pakete war `scipy>=1.18.1` in die `requirements.txt`
+geraten. Diese Version verlangt Python 3.12, das Projekt läuft auf 3.11.4. Der Pin kam
+vermutlich daher, dass auf dem Rechner, auf dem er entstand, eine neuere Python-Version
+lief, und dass `pip freeze` oder eine AI die dort installierte Version eingetragen hat.
+
+**Die Folge:** Ein frischer Klon liess sich nicht aufsetzen. Nicht ein Notebook
+scheiterte, sondern die Installation selbst – noch bevor überhaupt etwas starten
+konnte. Zwei weitere Pakete fehlten ganz: `psycopg2-binary`, das in Metehans
+PostgreSQL-Notebook hart importiert wird, und `statsmodels`, das Subraj für eine
+Gegenprobe braucht.
+
+**Warum es niemandem auffiel:** Alle drei haben eine funktionierende Umgebung auf
+ihrem eigenen Rechner. Dort war scipy längst installiert, und ein `pip install -r
+requirements.txt` hätte nur gemeldet, dass alles vorhanden ist. Der Fehler zeigt sich
+ausschliesslich auf einem Rechner, auf dem noch nichts installiert ist – also genau
+beim Dozenten.
+
+**Lehre:** Eine `requirements.txt` ist erst geprüft, wenn sie **auf einem frischen
+Klon in einer frischen Umgebung** durchgelaufen ist. Auf dem eigenen Rechner kann man
+sie nicht testen; dort ist sie immer erfüllt. Dasselbe gilt für Pfade und für alles
+andere, was «bei mir läuft».
+
+Nebenbefund derselben Prüfung: Nirgends im Repo stand, welche Python-Version das
+Projekt braucht. Steht jetzt in der `requirements.txt` und im README.
+
+### 14. Eine Vermutung, die sich beim Nachprüfen auflöste (22.11.2026)
+
+Vor dem Audit stand der Verdacht im Raum, Subrajs Modell erfülle Pflicht 6 nicht: In
+seinem Notebook fanden sich weder `r2_score` noch `mean_squared_error` noch
+`train_test_split`. Eine Textsuche im Code bestätigte das.
+
+Nachgeprüft stimmte keiner der drei Punkte. Subraj berechnet R², angepasstes R² und
+RMSE in einer selbstgeschriebenen Funktion `ols_geclustert`, die zugleich nach
+Netzbetreiber geclusterte Standardfehler liefert. Statt eines einzelnen
+Train-Test-Splits verwendet er 5-fache Kreuzvalidierung, zusätzlich mit nach
+Netzbetreiber **gruppierten** Folds – für diese Daten das methodisch stärkere
+Verfahren, weil ein zufälliger Split Gemeinden desselben Betreibers auf beide Seiten
+verteilen und die Güte überschätzen würde.
+
+**Lehre:** Eine Suche nach Funktionsnamen prüft, welche Bibliothek jemand benutzt hat,
+nicht ob die Anforderung erfüllt ist. Die Abwesenheit eines bekannten Namens ist kein
+Befund. Es braucht das Lesen des Codes und das Anschauen der Ausgaben.
+
+Das ist der umgekehrte Fall zu Nummer 9: Dort stand etwas im Dokument, was in den
+Daten nicht war. Hier war etwas in den Daten, was im Dokument nicht gefunden wurde.
+
 ---
 
 ## Was gut funktioniert hat
@@ -488,4 +546,4 @@ prüfte statt gegen den eigenen Text. Besonders tückisch war a): Eine Markierun
 
 ---
 
-*Letzte Nachführung: 8. November 2026*
+*Letzte Nachführung: 22. November 2026*

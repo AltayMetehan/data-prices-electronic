@@ -1,10 +1,17 @@
 # Data Analytics Projekt: Strompreise der Schweizer Gemeinden
 # ZHAW, HS2026 - Gruppe Frei / Metehan / Sub Raj
 #
+# PYTHON 3.11 ERFORDERLICH (entwickelt und geprüft auf 3.11.4).
+# Die Pins unten sind auf 3.11 installierbar. Auf Python 3.12 oder neuer
+# funktioniert es vermutlich auch, geprüft ist es dort aber nicht.
+#
 # Installation:
+#   python3 --version          # muss 3.11.x anzeigen
 #   python3 -m venv .venv
 #   source .venv/bin/activate
 #   pip install -r requirements.txt
+
+# --- Grundlage -------------------------------------------------------------
 
 # Daten einlesen, aufbereiten, zusammenführen
 pandas>=3.1.0
@@ -21,17 +28,38 @@ requests>=2.34.2
 # Excel-Dateien lesen (BFS-Regionalporträts kommen als .xlsx)
 openpyxl>=3.1.5
 
-# Geodaten: Gemeindegrenzen einlesen und verarbeiten
+# --- Geodaten, Notebook 01 -------------------------------------------------
+
+# Gemeindegrenzen einlesen und verarbeiten
 geopandas>=1.2.0
 
-# Interaktive Karten im Notebook
+# Interaktive Karten
 folium>=0.20.0
 
-# Statistik: Tests mit p-Wert (ANOVA, Korrelation, t-Test), Notebooks 03 und 04
-scipy>=1.18.1
+# --- Statistik und Modell, Notebooks 03 und 04 -----------------------------
 
-# Diagramme mit Gruppen (Boxplots, Heatmap), Notebooks 03 und 04
+# Tests mit p-Wert (ANOVA, Korrelation, t-Test)
+#
+# Der Pin steht bewusst auf 1.17.1 und nicht höher: Ab scipy 1.18 verlangt
+# das Paket Python >= 3.12. Mit scipy>=1.18.1 schlägt die Installation auf
+# unserer Python-Version 3.11 fehl, bevor überhaupt ein Notebook startet.
+# 1.17.1 ist die höchste Version, die auf 3.11 installierbar ist.
+scipy>=1.17.1,<1.18
+
+# Diagramme mit Gruppen (Boxplots, Heatmap)
 seaborn>=0.13.2
 
-# Regression, Kreuzvalidierung und k-means, Notebook 04
+# Regression, Kreuzvalidierung und k-means
 scikit-learn>=1.9.1
+
+# Gegenprobe der geclusterten Standardfehler in Notebook 04.
+# Dort in try/except gekapselt: Ohne das Paket läuft das Notebook zwar
+# durch, überspringt die Gegenprobe aber stillschweigend. Darum aufnehmen.
+statsmodels>=0.15.0
+
+# --- PostgreSQL, Notebook sql/03_postgresql.ipynb --------------------------
+
+# Treiber für PostgreSQL, wird dort hart importiert.
+# Das Notebook braucht zusätzlich einen laufenden PostgreSQL-Server,
+# siehe README, Abschnitt "Projekt aufsetzen".
+psycopg2-binary>=2.9.13

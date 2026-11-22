@@ -29,6 +29,7 @@ erfüllt das.
 | 1 | Wie stark unterscheiden sich die Preise zwischen Gemeinden, Kantonen und Sprachregionen, und welcher Preisbestandteil macht den Unterschied aus? | EDA, Karte, ANOVA |
 | 2 | Welche Gemeindemerkmale hängen mit dem Preis zusammen? Einwohner, Dichte, Grösse des Netzbetreibers | Korrelation mit p-Wert |
 | 3 | Wie gut erklärt ein Modell den Preis, welche Merkmale wiegen am schwersten? | Multiple Regression, R², RMSE |
+| 3a | *Robustheitsprüfung zu Unterfrage 3, keine eigene Frage:* Dasselbe Modell auf Ebene der Netzbetreiber statt der Gemeinden, als Gegenprobe zum Vorbehalt aus Abschnitt 5b. Umgesetzt als Modell C in `scripts/04_modell_subraj.ipynb`, Abschnitt 5 | Regression auf rund 500 Betreiber |
 | 4 | Haben sich diese Zusammenhänge verändert? Verglichen werden 2021, 2024, 2027 | Dasselbe Modell pro Jahr, Koeffizienten vergleichen |
 | 5 | Lassen sich Gemeindetypen bilden, unterscheiden sie sich im Niveau und im Anstieg? | k-means, ANOVA über die Cluster |
 
@@ -305,6 +306,29 @@ Netto 2021 bis 2027: **+6.39 Rp**.
 Korrigiert am 01.11.2026: Hier standen vorher eine Spalte «2027 bereinigt» mit
 25.58 Rp, ein Netto von +4.72 Rp und 14.5 Prozent. Diese Zahlen beruhten auf der
 falschen Annahme, der Messtarif sei 2027 neu hinzugekommen. Siehe Abschnitt 4.
+
+> ### Achtung: zwei richtige Mittelwerte, die verschieden aussehen
+>
+> In Metehans SQL-Abfragen (SQLite und PostgreSQL) stehen für dieselben Jahre
+> **32.00** und **27.24**, oben dagegen **31.99** und **27.25**. Das ist kein
+> Widerspruch. Die beiden rechnen über verschiedene Grundmengen, nachgerechnet am
+> 22.11.2026:
+>
+> | Jahr | alle Gemeinden des Jahres | nur die 2087 gemeinsamen |
+> |---|---|---|
+> | 2021 | 2201 Gem. → 20.860 | 2087 Gem. → 20.862 |
+> | 2024 | 2140 Gem. → **31.996** → 32.00 | 2087 Gem. → **31.988** → 31.99 |
+> | 2027 | 2109 Gem. → **27.244** → 27.24 | 2087 Gem. → **27.251** → 27.25 |
+>
+> **Festlegung für Bericht und Präsentation: Es gelten die Zahlen über die 2087
+> gemeinsamen Gemeinden.** Begründung: Jede Aussage über die Veränderung zwischen
+> 2021, 2024 und 2027 setzt voraus, dass in allen drei Jahren dieselben Gemeinden
+> verglichen werden. Rechnet man je Jahr über alle vorhandenen Gemeinden, vergleicht
+> man 2201 mit 2140 mit 2109 verschiedenen Einheiten, und ein Teil der Veränderung
+> wäre dann nur ein Wechsel der Grundmenge.
+>
+> Metehans Zahlen sind für eine Beschreibung **eines einzelnen Jahres** richtig. Wo
+> sie neben den Zeitvergleich geraten, gehört die Grundmenge dazugeschrieben.
 
 Die Streuung ist dagegen fast wieder auf dem Vorkrisenniveau. Die Unterschiede
 zwischen den Gemeinden haben sich normalisiert, das Preisniveau nicht.
@@ -601,6 +625,20 @@ Rechner.
 
 ## 11. Noch offen
 
+### Erledigt, hier nur noch zur Nachverfolgung
+
+- **Dritte Quelle für Kanton, Sprachregion und Gemeindetypologie.** Gelöst am
+  08.11.2026: «Die Raumgliederungen der Schweiz 2019» des BFS liefern alle drei
+  Merkmale in einer Datei, siehe Abschnitt 2 und
+  `dokumentation_integration_lenny.md` §9b. Vier Gemeinden fehlten dort wegen des
+  Gebietsstands 2019 und wurden über die Mutationstabelle des historisierten
+  Gemeindeverzeichnisses aufgelöst.
+- **Welche Gemeindetypologie gemeint ist.** Mit derselben Datei beantwortet: Es ist
+  die **BFS-Gemeindetypologie 2012**, in der Tabelle als `gemeindetyp_9` (9 Typen).
+  Die Frage muss nicht mehr an die Dozenten.
+
+### Tatsächlich offen
+
 - Gruppennummer von Moodle, für die Dateinamen bei der Abgabe
 - Mail an die Dozenten für eine Ersteinschätzung, falls Fragen auftauchen.
   Laut Aufgabenstellung genügen zwei bis drei Sätze mit Thema und Forschungsfrage
@@ -612,14 +650,10 @@ Rechner.
   nachfragen
 - Auf welcher Ebene erwartet der Dozent die Analyse, Gemeinde oder Netzbetreiber.
   In der Mail an die Dozenten fragen
-- **Dritte Quelle nötig für Kanton, Sprachregion und Gemeindetypologie.** Weder die
-  Regionalporträts noch die ElCom-Daten enthalten diese Merkmale, geprüft am
-  01.11.2026. Ohne sie sind Unterfrage 1 (Unterschiede zwischen Kantonen und
-  Sprachregionen) und die ANOVA dazu (Bonus 4) nicht rechenbar. Kanton und
-  Sprachregion vermutlich aus dem amtlichen Gemeindeverzeichnis des BFS. Dringend,
-  weil Subraj darauf wartet
-- Gemeindetypologie, tiefste Priorität. Es gibt eine vom BFS und eine vom ARE; welche
-  gemeint ist, in der Mail an die Dozenten mitfragen
+- Termin und Raum der Konzept-Präsentation aus der Moodle-Registrierung bestätigen.
+  Die Angabe «8. Dezember, 11:00, SW301» in Abschnitt 8 stammt aus unserer
+  Registrierung, nicht aus der Aufgabenstellung; auf Moodle steht nur «Wochen 10
+  bis 14»
 
 ---
 

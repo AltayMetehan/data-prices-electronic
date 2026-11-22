@@ -1,7 +1,13 @@
 # Punkteliste
 
 Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 21. November 2026
+Stand: 22. November 2026
+
+**Was geprüft ist und was nicht.** Die mit 🔍 markierten Angaben habe ich am
+22.11.2026 selber nachgerechnet oder nachgezählt: auf einem frischen Klon, in einer
+frischen virtuellen Umgebung, durch Ausführen der Notebooks und durch Nachzählen in
+den Dateien. Alles ohne 🔍 stammt aus den Notebooks und Dokumentationen der Gruppe und
+ist nicht unabhängig geprüft.
 
 Diese Liste gehört in den Anhang des Präsentations-PDF. Die Aufgabenstellung verlangt
 das ausdrücklich:
@@ -103,14 +109,30 @@ Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
 > «Model evaluation using suitable measures of fit (e.g. r-squared, RMSE, accuracy,
 > recall, precision, ...).»
 
-- R², angepasstes R² und RMSE für alle fünf Zielgrössen, RMSE verglichen mit der
-  Standardabweichung (`04_modell_subraj.ipynb` §3)
-- Kreuzvalidierung, zufällig und nach Netzbetreiber gruppiert, gegen den Mittelwert als
-  Vergleichsmassstab (§6)
+- 🔍 R², **angepasstes R²** und **RMSE** für alle fünf Zielgrössen, RMSE verglichen
+  mit der Standardabweichung der Zielgrösse (`04_modell_subraj.ipynb` §3, Tabelle
+  `guete_A`). Nachgeprüft: R² 0.218 / 0.068 / 0.069 / 0.214 / 0.290, R² adj.
+  0.215 / 0.065 / 0.065 / 0.212 / 0.288, RMSE 2.645 bis 3.893 Rp.
+- 🔍 **Kein Train-Test-Split, sondern 5-fache Kreuzvalidierung** (§6) – und zwar in
+  zwei Varianten: mit zufälligen Folds (`KFold`) und mit nach Netzbetreiber
+  **gruppierten** Folds (`GroupKFold`). Das ist für diese Daten das **stärkere**
+  Verfahren: Ein einzelner zufälliger Split würde Gemeinden desselben Netzbetreibers
+  auf Trainings- und Testteil verteilen und die Güte dadurch überschätzen, weil die
+  Beobachtungen nicht unabhängig sind (Abschnitt 5b der Projektanleitung). Die
+  gruppierten Folds halten ganze Versorgungsgebiete zurück und messen damit, was das
+  Modell wirklich überträgt.
+- 🔍 Das Ergebnis dieser Prüfung ist zugleich das Hauptresultat des Projekts: Bei
+  zufälligen Folds bleibt R² fast unverändert (0.213 gegen 0.218 in der Stichprobe),
+  bei gruppierten Folds wird es **negativ** (−0.104 / −0.007 / −0.025 / −0.058 /
+  −0.050). Das Modell sagt dann schlechter voraus als der blosse Mittelwert.
 - Residuen gegen Vorhersage, Histogramm und Q-Q-Plot (§7)
 - Varianzinflationsfaktor gegen Multikollinearität (§1.2)
 
-**Stand: ✅ erfüllt.**
+**Stand: ✅ erfüllt.** Die Anforderung nennt R² und RMSE als Beispiele; beide werden
+berichtet, dazu das angepasste R² und eine Gütemessung ausserhalb der Stichprobe.
+Anmerkung zur Nachvollziehbarkeit: Subraj berechnet die Masse in einer eigenen
+Funktion `ols_geclustert` statt mit `r2_score` oder `mean_squared_error`. Wer im Code
+nach diesen Namen sucht, findet sie nicht – die Masse sind trotzdem da.
 
 ### Pflicht 7 ✅ Korrekte Interpretation · Subraj
 
@@ -136,10 +158,15 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 | Lenny | `ai-doku/ai_dokumentation_lenny.md` – 11 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
 | Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md`, `ai-doku/AI-Dokumentation_PostgreSQL_Metehan.md` |
 | Subraj | `ai-doku/ai_dokumentation_subraj.md` – Sitzungsprotokoll mit dokumentierten Fehlschlägen, Vorteile, Nachteile |
+| **Bündelung** | `ai-doku/ai_dokumentation_gruppe_15.md` – von Subraj am 22.11.2026 angelegt, fasst alle drei zusammen |
 
-**Stand: 🟡 teilweise.** Was fehlt:
-1. die Bündelung aller drei zu einem Dokument
-2. der Teil «and the presentation» bei allen dreien – die Präsentation entsteht ab dem 24. November
+🔍 Geprüft: Alle fünf Dateien enthalten einen eigenen Abschnitt zu Fehlschlägen, so
+wie es die Anforderung verlangt («where something did not work with the help of AI»).
+
+**Stand: 🟡 teilweise.** Was fehlt, ist nur noch **ein** Punkt:
+der Teil «and the presentation». Die Folien entstehen ab dem 24. November. Die
+Bündelung nennt das in ihrem Abschnitt 6 ausdrücklich als nachzutragen – das ist
+korrekt markiert, aber noch nicht erfüllt.
 
 ### Pflicht 9 ⬜ Material auf Moodle · Subraj
 
@@ -188,9 +215,34 @@ Code-Ausschnitten steht.
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: ✅ erfüllt.** Noch nachzuziehen: `psycopg2-binary` fehlt in `requirements.txt`, der
-Verweis auf `02_sqlite_datenbank.ipynb` meint `02_sqlite_metehan.ipynb`, und
-`strompreise.db` wird mit relativem Pfad geöffnet (läuft nur aus `sql/`).
+**Stand: 🟡 teilweise.** Inhaltlich ist der Punkt erfüllt: eigenes Schema mit exakten
+`NUMERIC(7,3)`-Typen, Fremdschlüssel, Views, Fensterfunktionen, und ein Abgleich gegen
+SQLite, der aufgeht. Drei Dinge fehlen aber, damit ein Aussenstehender es
+**nachvollziehen** kann:
+
+1. 🔍 **Das Notebook ist von aussen nicht ausführbar.** Es braucht einen laufenden
+   PostgreSQL-Server auf `localhost:5432`, eine Datenbank `strompreise` und ein
+   Passwort. **Wie man das aufsetzt, steht nirgends im Repo.** Ohne diese Anleitung
+   kann der Dozent den Bonuspunkt nicht prüfen. Geprüft am 22.11.2026: Das Notebook
+   bricht in Zelle 1 ab mit `OperationalError: connection to server at "localhost",
+   port 5432 failed: Connection refused`.
+2. 🔍 **Ohne gesetzte Umgebungsvariable `PGPASSWORD` fragt es interaktiv per
+   `getpass`** und bricht in jedem automatischen Lauf ab
+   (`StdinNotImplementedError`). Das betrifft auch einen Lauf mit laufendem Server.
+3. **Die eingebetteten Ausgaben stammen nicht von `psycopg2`.** Metehans eigene
+   AI-Dokumentation hält fest: «In der Umgebung der AI liess sich `psycopg2` nicht
+   installieren […] Die AI hat stattdessen ein Ersatzmodul geschrieben […] Die
+   Ausgaben im Notebook stammen von diesem Ersatz.» Das SQL ist damit auf einem
+   echten Server gelaufen, die im Notebook sichtbaren Resultate aber nicht über den
+   Treiber, den das Notebook importiert.
+
+Behoben am 22.11.2026: `psycopg2-binary` steht jetzt in der `requirements.txt`, und
+das README nennt die Voraussetzungen. Die Einrichtungsanleitung selbst muss Metehan
+schreiben; sie zu erfinden wäre nicht belegbar.
+
+Kleinigkeit ohne Punkterelevanz: Der Verweis auf `02_sqlite_datenbank.ipynb` meint
+`02_sqlite_metehan.ipynb`, und `strompreise.db` wird mit relativem Pfad geöffnet, das
+Notebook läuft also nur aus `sql/`.
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
@@ -274,14 +326,19 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 | | erfüllt | teilweise | offen |
 |---|---|---|---|
 | Pflicht (9) | 7 | 1 | 1 |
-| Bonus (6) | 4 | 2 | – |
+| Bonus (6) | 3 | 3 | – |
 | Video (7 Pkt) | – | – | alle |
+
+🔍 Am 22.11.2026 auf einem frischen Klon mit frischer virtueller Umgebung geprüft:
+`01`, `02`, `03` und `04` laufen fehlerfrei durch, jedes aus seinem Verzeichnis.
+`sql/03_postgresql.ipynb` scheitert am fehlenden Server, siehe Bonus 2.
 
 **Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (Bündelung und Präsentationsteil
 fehlen), Bonus 1 🟡 (beansprucht, aber noch nicht im PDF-Anhang).
 
-**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅, Bonus 6 🟡 (URL muss in die
-Präsentation).
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 🟡 (Einrichtung nicht
+dokumentiert), Bonus 6 ⬜ (es gibt noch keine Präsentation, in der die URL stehen
+könnte).
 
 **Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
 
