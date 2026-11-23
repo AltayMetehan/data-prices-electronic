@@ -1,7 +1,7 @@
 # Punkteliste
 
 Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 22. November 2026
+Stand: 23. November 2026
 
 **Was geprüft ist und was nicht.** Die mit 🔍 markierten Angaben habe ich am
 22.11.2026 selber nachgerechnet oder nachgezählt: auf einem frischen Klon, in einer
@@ -204,7 +204,7 @@ aber nirgends **beansprucht** – diese Liste ist der erste Ort. Vollständig wi
 Punkt erst, wenn sie im Anhang des Präsentations-PDF mit Screenshots und
 Code-Ausschnitten steht.
 
-### Bonus 2 🟡 PostgreSQL · Metehan
+### Bonus 2 ✅ PostgreSQL · Metehan
 
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
@@ -220,30 +220,45 @@ Code-Ausschnitten steht.
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: 🟡 teilweise.** Zwei der drei Mängel vom 22.11.2026 sind seit Metehans
-Korrekturen behoben, der dritte nicht. Einzeln nachgeprüft:
+**Stand: ✅ erfüllt.** Alle drei Mängel vom 22.11.2026 sind behoben. Am 23.11.2026
+einzeln nachgeprüft:
 
 | | Mangel | Stand |
 |---|---|---|
-| 1 | Keine Einrichtungsanleitung | ✅ **behoben.** Metehan hat sie ins README geschrieben: Installation, `CREATE DATABASE strompreise`, Benutzer, Umgebungsvariablen. **Einschränkung:** Die Anleitung beschreibt nur **Windows** (winget, PowerShell). Für macOS und Linux fehlen die Schritte |
-| 2 | `getpass` blockiert jeden automatischen Lauf | ✅ **behoben.** 🔍 Geprüft: `getpass` kommt im Code nicht mehr vor. Alle Verbindungsangaben kommen aus Umgebungsvariablen, bei fehlendem `PGPASSWORD` gibt es eine klare Fehlermeldung |
-| 3 | Eingebettete Ausgaben stammen vom Ersatzmodul, nicht von `psycopg2` | ❌ **offen.** 🔍 Geprüft: Alle 11 Ergebnisausgaben sind zeichengleich mit der Fassung von vor der Korrektur. Das Notebook wurde seither **nicht neu ausgeführt** |
+| 1 | Keine Einrichtungsanleitung | ✅ **behoben.** `README.md` enthält jetzt drei Anleitungen: Windows, macOS (Homebrew oder Postgres.app) und Linux (Debian/Ubuntu und Fedora), je mit Installation, Dienststart, `CREATE DATABASE` und den Umgebungsvariablen |
+| 2 | `getpass` blockiert jeden automatischen Lauf | ✅ **behoben.** 🔍 `getpass` kommt im Code nicht mehr vor. Alle Verbindungsangaben stammen aus Umgebungsvariablen mit den Standardwerten `localhost`, `5432`, `strompreise`, `postgres`; fehlt `PGPASSWORD`, gibt es eine klare Fehlermeldung |
+| 3 | Ausgaben vom Ersatzmodul statt von `psycopg2` | ✅ **behoben.** 🔍 Siehe unten |
 
-🔍 Zusätzlich geprüft und in Ordnung: Der relative Pfad ist durch einen Anker auf die
-Repo-Wurzel ersetzt. Getestet aus der Repo-Wurzel **und** aus `sql/` – beide Male wird
-`sql/strompreise.db` gefunden.
+**Wie Punkt 3 geprüft wurde** – das war der heikelste:
 
-**Warum der Punkt trotzdem noch nicht auf ✅ steht.** Metehans eigene AI-Dokumentation
-hält fest: «In der Umgebung der AI liess sich `psycopg2` nicht installieren […] Die AI
-hat stattdessen ein Ersatzmodul geschrieben, das jeden Befehl über das
-Kommandozeilenprogramm `psql` an den Server schickt. Die Ausgaben im Notebook stammen
-von diesem Ersatz.» Das SQL ist also auf einem echten PostgreSQL-Server gelaufen – das
-ist der Kern des Bonuspunkts und er ist belegt. Die im Notebook **sichtbaren** Zahlen
-sind aber nicht über den Treiber entstanden, den das Notebook importiert.
+- 🔍 **Kein Ersatzmodul mehr im Code.** Durchsucht nach `subprocess`, `os.system`,
+  `psql`, `popen`, `shell=True` und eigenen Connection-Klassen: **null Treffer**.
+  Vorhanden sind `import psycopg2`, `psycopg2.connect` und `execute_values` aus
+  `psycopg2.extras`.
+- 🔍 **Das Notebook wurde neu ausgeführt.** 15 Ausgaben statt vorher 13, 0 Fehler.
+  Neu ist unter anderem eine Zelle, die `PostgreSQL 17.12 on x86_64-...` ausgibt –
+  eine Versionsabfrage, die nur aus einer echten Serververbindung kommen kann.
+- 🔍 **Die unveränderten Ausgaben sind plausibel.** Sieben der Ausgaben sind gleich
+  geblieben. Alle stammen aus deterministischen Abfragen über unveränderte Daten
+  (Tabellen- und Zeilenzahlen, Mittelwerte je Jahr, Betreiber-Rangliste). Dass sie
+  identisch sind, ist das erwartete Ergebnis und kein Zeichen alter Ausgaben.
+- 🔍 **Die geänderten Ausgaben enthalten dieselben Zahlen.** Bei den Zellen 14, 18,
+  20 und 22 änderte sich nur die Anzeigebreite von pandas, nicht ein einziger Wert.
+- 🔍 **Der Abgleich gegen SQLite geht weiterhin auf:** 2087 / 2087 Gemeinden, gleiche
+  Gemeindenummern, grösste Abweichung 7.11e-15 bei den Preisen und 0.00 bei den
+  Gemeindemerkmalen.
 
-**Was den Punkt schliesst, Aufwand etwa zehn Minuten:** Metehan führt das Notebook
-einmal mit dem echten `psycopg2` gegen seinen Server aus und committet die neuen
-Ausgaben. Danach steht der Punkt auf ✅.
+**Sicherheitsprüfung am 23.11.2026** (weil die Commit-Nachricht «basierend auf eigenes
+Gerät» lautete): Kein Passwort im Klartext, kein absoluter Pfad, kein Benutzer- oder
+Rechnername, keine fremde IP. Alle Passwortstellen sind Platzhalter
+(`das-eigene-passwort`) oder Lesezugriffe auf `PGPASSWORD`. Host und Port sind
+`localhost` und `5432` als Standardwerte aus Umgebungsvariablen.
+
+**Was ich nicht prüfen kann:** Dass die eingebetteten Ausgaben tatsächlich auf
+Metehans Rechner mit genau diesem Code entstanden sind. Belegbar ist, dass der Code
+kein Ersatzmodul mehr enthält, dass die Ausgaben zu einem echten PostgreSQL-17-Server
+passen und dass die Zahlen mit SQLite und mit unserer eigenen Berechnung
+übereinstimmen.
 
 Kleinigkeit ohne Punkterelevanz: Der Verweis auf `02_sqlite_datenbank.ipynb` meint
 `02_sqlite_metehan.ipynb`.
@@ -330,7 +345,7 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 | | erfüllt | teilweise | offen |
 |---|---|---|---|
 | Pflicht (9) | 7 | 1 | 1 |
-| Bonus (6) | 3 | 3 | – |
+| Bonus (6) | 4 | 2 | – |
 | Video (7 Pkt) | – | – | alle |
 
 🔍 Am 22.11.2026 auf einem frischen Klon mit frischer virtueller Umgebung geprüft:
@@ -341,16 +356,15 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 Präsentationsteil fehlt, die Bündelung hat Subraj am 22.11. angelegt), Bonus 1 🟡
 (beansprucht, aber noch nicht im PDF-Anhang).
 
-**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 🟡 (Anleitung geschrieben,
-aber nur für Windows; Notebook noch nicht mit echtem `psycopg2` neu ausgeführt),
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅ (am 23.11. nachgeprüft:
+Anleitung für Windows, macOS und Linux, echtes `psycopg2`, Notebook neu ausgeführt),
 Bonus 6 ⬜ (es gibt noch keine Präsentation, in der die URL stehen könnte).
 
 **Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
 
 **Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip), Bonus 1
-und 6 (im PDF-Anhang beziehungsweise in der Präsentation beanspruchen), Bonus 2
-(Notebook mit echtem `psycopg2` neu ausführen, Anleitung für macOS und Linux), das
-Video und der PDF-Anhang mit Screenshots und Code-Ausschnitten zu jedem Punkt.
+und 6 (im PDF-Anhang beziehungsweise in der Präsentation beanspruchen), das Video und
+der PDF-Anhang mit Screenshots und Code-Ausschnitten zu jedem Punkt.
 
 **Was nicht belegbar ist:** Ob Metehans Beschaffungsskript bei einem Lauf exakt die
 Dateien im Repo erzeugt – das wurde nicht nachgerechnet, weil es Netzzugriff braucht.

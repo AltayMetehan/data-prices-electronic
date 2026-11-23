@@ -120,11 +120,48 @@ PostgreSQL-Server. Dazu der nächste Abschnitt.
    Die Variablen koennen pro Terminal gesetzt werden. Das Notebook liest ausschliesslich
    Umgebungsvariablen; fehlende Einstellungen fuehren zu einer klaren Fehlermeldung.
 
-> **Noch offen, Stand 22.11.2026:** Diese Anleitung beschreibt **Windows**. Für macOS
-> und Linux fehlen die entsprechenden Schritte: Installation (etwa über Homebrew oder
-> die Paketverwaltung), Starten des Dienstes, und das Setzen der Variablen mit
-> `export` statt `$env:`. Wer das Projekt auf macOS oder Linux prüft – und das kann
-> der Dozent sein – findet hier keine Anleitung. Ergänzt wird das von Metehan.
+### PostgreSQL unter macOS und Linux
+
+Die Schritte oben gelten für Windows. Unter macOS und Linux unterscheiden sich nur
+Installation, Start des Dienstes und das Setzen der Umgebungsvariablen. Schritt 2
+(`CREATE DATABASE`, optional eigener Benutzer) bleibt gleich.
+
+**macOS (Homebrew)**
+```bash
+brew install postgresql@17
+brew services start postgresql@17
+# Homebrew legt als Superuser den eigenen macOS-Benutzer an, nicht postgres:
+createdb strompreise
+psql -d strompreise -c "ALTER USER $(whoami) WITH PASSWORD 'das-eigene-passwort';"
+```
+Alternativ Postgres.app (postgresapp.com) installieren und starten. Danach als
+`PGUSER` den eigenen macOS-Benutzernamen verwenden.
+
+**Linux (Debian/Ubuntu)**
+```bash
+sudo apt install postgresql
+sudo systemctl enable --now postgresql
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'das-eigene-passwort';"
+sudo -u postgres createdb strompreise
+```
+Fedora: `sudo dnf install postgresql-server`, dann `sudo postgresql-setup --initdb`
+und `sudo systemctl enable --now postgresql`.
+
+**Abhängigkeiten und Umgebungsvariablen (macOS und Linux)**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+export PGHOST=localhost
+export PGPORT=5432
+export PGDATABASE=strompreise
+export PGUSER=postgres          # macOS/Homebrew: export PGUSER=$(whoami)
+export PGPASSWORD='das-eigene-passwort'
+jupyter notebook sql/03_postgresql.ipynb
+```
+Die `export`-Zeilen gelten nur im aktuellen Terminal und gehören nicht in Dateien,
+die committet werden.
 
 ## Stand
 
