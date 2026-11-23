@@ -130,6 +130,9 @@ Installation, Start des Dienstes und das Setzen der Umgebungsvariablen. Schritt 
 ```bash
 brew install postgresql@17
 brew services start postgresql@17
+# postgresql@17 ist keg-only: psql und createdb liegen nicht automatisch im PATH
+echo 'export PATH="$(brew --prefix postgresql@17)/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 # Homebrew legt als Superuser den eigenen macOS-Benutzer an, nicht postgres:
 createdb strompreise
 psql -d strompreise -c "ALTER USER $(whoami) WITH PASSWORD 'das-eigene-passwort';"
