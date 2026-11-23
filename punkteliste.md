@@ -1,13 +1,7 @@
 # Punkteliste
 
 Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 23. November 2026
-
-**Was geprüft ist und was nicht.** Die mit 🔍 markierten Angaben habe ich am
-22.11.2026 selber nachgerechnet oder nachgezählt: auf einem frischen Klon, in einer
-frischen virtuellen Umgebung, durch Ausführen der Notebooks und durch Nachzählen in
-den Dateien. Alles ohne 🔍 stammt aus den Notebooks und Dokumentationen der Gruppe und
-ist nicht unabhängig geprüft.
+Stand: 21. November 2026
 
 Diese Liste gehört in den Anhang des Präsentations-PDF. Die Aufgabenstellung verlangt
 das ausdrücklich:
@@ -109,30 +103,14 @@ Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
 > «Model evaluation using suitable measures of fit (e.g. r-squared, RMSE, accuracy,
 > recall, precision, ...).»
 
-- 🔍 R², **angepasstes R²** und **RMSE** für alle fünf Zielgrössen, RMSE verglichen
-  mit der Standardabweichung der Zielgrösse (`04_modell_subraj.ipynb` §3, Tabelle
-  `guete_A`). Nachgeprüft: R² 0.218 / 0.068 / 0.069 / 0.214 / 0.290, R² adj.
-  0.215 / 0.065 / 0.065 / 0.212 / 0.288, RMSE 2.645 bis 3.893 Rp.
-- 🔍 **Kein Train-Test-Split, sondern 5-fache Kreuzvalidierung** (§6) – und zwar in
-  zwei Varianten: mit zufälligen Folds (`KFold`) und mit nach Netzbetreiber
-  **gruppierten** Folds (`GroupKFold`). Das ist für diese Daten das **stärkere**
-  Verfahren: Ein einzelner zufälliger Split würde Gemeinden desselben Netzbetreibers
-  auf Trainings- und Testteil verteilen und die Güte dadurch überschätzen, weil die
-  Beobachtungen nicht unabhängig sind (Abschnitt 5b der Projektanleitung). Die
-  gruppierten Folds halten ganze Versorgungsgebiete zurück und messen damit, was das
-  Modell wirklich überträgt.
-- 🔍 Das Ergebnis dieser Prüfung ist zugleich das Hauptresultat des Projekts: Bei
-  zufälligen Folds bleibt R² fast unverändert (0.213 gegen 0.218 in der Stichprobe),
-  bei gruppierten Folds wird es **negativ** (−0.104 / −0.007 / −0.025 / −0.058 /
-  −0.050). Das Modell sagt dann schlechter voraus als der blosse Mittelwert.
+- R², angepasstes R² und RMSE für alle fünf Zielgrössen, RMSE verglichen mit der
+  Standardabweichung (`04_modell_subraj.ipynb` §3)
+- Kreuzvalidierung, zufällig und nach Netzbetreiber gruppiert, gegen den Mittelwert als
+  Vergleichsmassstab (§6)
 - Residuen gegen Vorhersage, Histogramm und Q-Q-Plot (§7)
 - Varianzinflationsfaktor gegen Multikollinearität (§1.2)
 
-**Stand: ✅ erfüllt.** Die Anforderung nennt R² und RMSE als Beispiele; beide werden
-berichtet, dazu das angepasste R² und eine Gütemessung ausserhalb der Stichprobe.
-Anmerkung zur Nachvollziehbarkeit: Subraj berechnet die Masse in einer eigenen
-Funktion `ols_geclustert` statt mit `r2_score` oder `mean_squared_error`. Wer im Code
-nach diesen Namen sucht, findet sie nicht – die Masse sind trotzdem da.
+**Stand: ✅ erfüllt.**
 
 ### Pflicht 7 ✅ Korrekte Interpretation · Subraj
 
@@ -147,7 +125,7 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 
 **Stand: ✅ erfüllt.**
 
-### Pflicht 8 🟡 Dokumentation der AI-Nutzung · alle, Lenny bündelt
+### Pflicht 8 🟡 Dokumentation der AI-Nutzung · alle, gebündelt von Subraj
 
 > «Documentation of AI usage for creating the code and the presentation (the use of AI
 > is not only allowed but desired), including the advantages and disadvantages you
@@ -158,15 +136,11 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 | Lenny | `ai-doku/ai_dokumentation_lenny.md` – 11 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
 | Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md`, `ai-doku/AI-Dokumentation_PostgreSQL_Metehan.md` |
 | Subraj | `ai-doku/ai_dokumentation_subraj.md` – Sitzungsprotokoll mit dokumentierten Fehlschlägen, Vorteile, Nachteile |
-| **Bündelung** | `ai-doku/ai_dokumentation_gruppe_15.md` – von Subraj am 22.11.2026 angelegt, fasst alle drei zusammen |
 
-🔍 Geprüft: Alle fünf Dateien enthalten einen eigenen Abschnitt zu Fehlschlägen, so
-wie es die Anforderung verlangt («where something did not work with the help of AI»).
+| Gebündelt | `ai-doku/ai_dokumentation_gruppe_15.md` – Werkzeuge, Einsatz pro Aufgabe, Vorteile, Nachteile, 17 Fälle, in denen etwas nicht funktioniert hat, Lehren, Vorschlag für Folien und Video |
 
-**Stand: 🟡 teilweise.** Was fehlt, ist nur noch **ein** Punkt:
-der Teil «and the presentation». Die Folien entstehen ab dem 24. November. Die
-Bündelung nennt das in ihrem Abschnitt 6 ausdrücklich als nachzutragen – das ist
-korrekt markiert, aber noch nicht erfüllt.
+**Stand: 🟡 teilweise.** Was fehlt: der Teil «and the presentation» bei allen dreien. Die
+Präsentation entsteht ab dem 24. November; danach Abschnitt 6 der gebündelten Fassung ergänzen.
 
 ### Pflicht 9 ⬜ Material auf Moodle · Subraj
 
@@ -185,19 +159,27 @@ Abgabe im Januar: `materials_group_XX.zip`. Die Gruppennummer ist noch offen.
 > «Creativity of implementation (creative is anything not specified in the lessons and
 > exercises).»
 
-Was in den Lektionen und Übungen **nicht** vorkam:
+Was in den Lektionen und Übungen **nicht** vorkam. Geprüft am 21.11.2026 gegen die
+beiden öffentlichen Kurs-Repos, die auf Moodle als Übungsmaterial verlinkt sind:
+`mario-gellrich-zhaw/data_analytics` (Stand 10.11.2026) und
+`mario-gellrich-zhaw/spatial_data_analysis` (Stand 13.10.2026), alle Notebooks und Skripte
+durchsucht.
 
-| Was | Beleg | Warum nicht im Unterricht |
+| Was | Beleg | Fundstelle im Kursmaterial |
 |---|---|---|
-| **Karte in Python** statt in QGIS | `scripts/01_daten_bfs_lenny.ipynb`, Kartenabschnitt; `abbildungen/*.png`, `karten/*.html` | Woche 5 unterrichtete Choroplethenkarten in QGIS mit Screenshots als Abgabe; geopandas stand nur als Literaturquelle in der Liste |
-| **Maschinelle Auflösung von Gemeindefusionen** über die Mutationstabelle des historisierten Gemeindeverzeichnisses | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §9b | Der Unterricht behandelt Joins, nicht Gebietsstände und Mutationsnummern |
-| **Varianzzerlegung nach Netzbetreibern** statt nach Gemeinden | Projektanleitung Abschnitt 5b; Kartenabschnitt des Notebooks | Die Frage nach der richtigen Aggregationsebene kam nicht vor |
-| **Permutationstest** auf Auswahlverzerrung, 20 000 Ziehungen | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §7 | Unterrichtet wurden t-Test, ANOVA, Chi-Quadrat; ein verteilungsfreier Resampling-Test nicht |
-| **Nach Netzbetreiber geclusterte Standardfehler**, selbst implementiert | `scripts/04_modell_subraj.ipynb` §2 | Der Unterricht rechnet Regressionen mit gewöhnlichen Standardfehlern |
-| **Gruppierte Kreuzvalidierung** (GroupKFold) gegen zufällige | `scripts/04_modell_subraj.ipynb` §6 | Kreuzvalidierung kam nur mit zufälligen Folds vor |
-| **Alexander-Govern-Test, Tukey-Test, Bonferroni-Korrektur** | `scripts/03_analyse_subraj.ipynb` §8 | Unterrichtet wurde die klassische ANOVA ohne Post-hoc-Test |
-| **Cluster-robuster Wald-Test** über die k-means-Cluster | `scripts/04_modell_subraj.ipynb` §8.4 | k-means wurde ohne Test der Unterschiede zwischen Clustern behandelt |
-| **SPARQL** gegen einen Linked-Data-Endpunkt | `scripts/strompreise_holen.py`, `query.txt` | Der Unterricht behandelt Web Scraping und REST-APIs, kein SPARQL |
+| **SPARQL** gegen einen Linked-Data-Endpunkt | `scripts/strompreise_holen.py`, `query.txt` | kommt nicht vor; die Übungen holen Daten per REST-API mit `requests` (Woche 1 und 5) |
+| **Maschinelle Auflösung von Gemeindefusionen** über die Mutationstabelle des historisierten Gemeindeverzeichnisses | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §9b | kommt nicht vor; die Übungen verbinden Tabellen, ohne Gebietsstände zu behandeln |
+| **Permutationstest** auf Auswahlverzerrung, 20 000 Ziehungen | `scripts/01_daten_bfs_lenny.ipynb`; `dokumentation_integration_lenny.md` §7 | nur im Agenten-Experiment des Dozenten erwähnt, nicht in Lektionen oder Übungen; unterrichtet sind t-Test (Woche 6), ANOVA (Woche 6), Kontingenztafeln und Korrelation (Woche 7) |
+| **Varianzzerlegung nach Netzbetreibern**, Kanton und Sprachregion (eta²) | `scripts/03_analyse_subraj.ipynb` §7; Projektanleitung Abschnitt 5b | kommt nicht vor; die ANOVA in Woche 6 testet Unterschiede, ohne eine Effektstärke oder die Aggregationsebene zu behandeln |
+| **Nach Netzbetreiber geclusterte Standardfehler**, selbst implementiert | `scripts/04_modell_subraj.ipynb` §2 | kommt nicht vor; die Regression in Woche 8 nutzt statsmodels mit gewöhnlichen Standardfehlern |
+| **Gruppierte Kreuzvalidierung** (GroupKFold) im Vergleich zur zufälligen | `scripts/04_modell_subraj.ipynb` §6 | kommt nicht vor; die Übung in Woche 9 nutzt `cross_val_score` mit zufälliger Aufteilung |
+| **Alexander-Govern-Test, Tukey-Test, Bonferroni-Korrektur** | `scripts/03_analyse_subraj.ipynb` §8 | kommen nicht vor; die ANOVA in Woche 6 hat keinen Post-hoc-Test und keine Korrektur für mehrfaches Testen |
+| **Cluster-robuster Wald-Test** über die k-means-Cluster | `scripts/04_modell_subraj.ipynb` §8.4 | kommt nicht vor; k-means in Woche 10 wählt k über Ellbogen und Silhouette, ohne die Cluster statistisch zu vergleichen |
+
+**Nicht beanspruchen:** Die Karte in Python ist **nicht** kreativ im Sinn der Vorgabe. Die
+Übungen zu Woche 5 (`spatial_data_analysis`, Notebooks 01 bis 06) zeichnen Karten mit
+geopandas und folium, auch eingefärbte Gemeindekarten. Die Karte zählt für Bonus 3, nicht
+für Bonus 1.
 
 **Stand: 🟡 teilweise.** Die Techniken existieren und sind belegt. Sie sind bis jetzt
 aber nirgends **beansprucht** – diese Liste ist der erste Ort. Vollständig wird der
@@ -209,59 +191,15 @@ Code-Ausschnitten steht.
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
 
-- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL,
+- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 16,
   baut die beiden Views nach und rechnet Auswertungen mit `JOIN`, `GROUP BY`, `HAVING`,
   `percentile_cont`, `STDDEV`, `CORR` und den Fensterfunktionen `RANK`, `LAG`, `NTILE`
-- `requirements.txt`: enthält `psycopg2-binary`
-- Kein interaktives Passwort: Verbindung über `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`
-  und `PGPASSWORD`
-- SQLite-Pfad relativ zur Repo-Wurzel, sodass das Notebook aus mehreren Arbeitsverzeichnissen
-  gestartet werden kann
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: ✅ erfüllt.** Alle drei Mängel vom 22.11.2026 sind behoben. Am 23.11.2026
-einzeln nachgeprüft:
-
-| | Mangel | Stand |
-|---|---|---|
-| 1 | Keine Einrichtungsanleitung | ✅ **behoben.** `README.md` enthält jetzt drei Anleitungen: Windows, macOS (Homebrew oder Postgres.app) und Linux (Debian/Ubuntu und Fedora), je mit Installation, Dienststart, `CREATE DATABASE` und den Umgebungsvariablen |
-| 2 | `getpass` blockiert jeden automatischen Lauf | ✅ **behoben.** 🔍 `getpass` kommt im Code nicht mehr vor. Alle Verbindungsangaben stammen aus Umgebungsvariablen mit den Standardwerten `localhost`, `5432`, `strompreise`, `postgres`; fehlt `PGPASSWORD`, gibt es eine klare Fehlermeldung |
-| 3 | Ausgaben vom Ersatzmodul statt von `psycopg2` | ✅ **behoben.** 🔍 Siehe unten |
-
-**Wie Punkt 3 geprüft wurde** – das war der heikelste:
-
-- 🔍 **Kein Ersatzmodul mehr im Code.** Durchsucht nach `subprocess`, `os.system`,
-  `psql`, `popen`, `shell=True` und eigenen Connection-Klassen: **null Treffer**.
-  Vorhanden sind `import psycopg2`, `psycopg2.connect` und `execute_values` aus
-  `psycopg2.extras`.
-- 🔍 **Das Notebook wurde neu ausgeführt.** 15 Ausgaben statt vorher 13, 0 Fehler.
-  Neu ist unter anderem eine Zelle, die `PostgreSQL 17.12 on x86_64-...` ausgibt –
-  eine Versionsabfrage, die nur aus einer echten Serververbindung kommen kann.
-- 🔍 **Die unveränderten Ausgaben sind plausibel.** Sieben der Ausgaben sind gleich
-  geblieben. Alle stammen aus deterministischen Abfragen über unveränderte Daten
-  (Tabellen- und Zeilenzahlen, Mittelwerte je Jahr, Betreiber-Rangliste). Dass sie
-  identisch sind, ist das erwartete Ergebnis und kein Zeichen alter Ausgaben.
-- 🔍 **Die geänderten Ausgaben enthalten dieselben Zahlen.** Bei den Zellen 14, 18,
-  20 und 22 änderte sich nur die Anzeigebreite von pandas, nicht ein einziger Wert.
-- 🔍 **Der Abgleich gegen SQLite geht weiterhin auf:** 2087 / 2087 Gemeinden, gleiche
-  Gemeindenummern, grösste Abweichung 7.11e-15 bei den Preisen und 0.00 bei den
-  Gemeindemerkmalen.
-
-**Sicherheitsprüfung am 23.11.2026** (weil die Commit-Nachricht «basierend auf eigenes
-Gerät» lautete): Kein Passwort im Klartext, kein absoluter Pfad, kein Benutzer- oder
-Rechnername, keine fremde IP. Alle Passwortstellen sind Platzhalter
-(`das-eigene-passwort`) oder Lesezugriffe auf `PGPASSWORD`. Host und Port sind
-`localhost` und `5432` als Standardwerte aus Umgebungsvariablen.
-
-**Was ich nicht prüfen kann:** Dass die eingebetteten Ausgaben tatsächlich auf
-Metehans Rechner mit genau diesem Code entstanden sind. Belegbar ist, dass der Code
-kein Ersatzmodul mehr enthält, dass die Ausgaben zu einem echten PostgreSQL-17-Server
-passen und dass die Zahlen mit SQLite und mit unserer eigenen Berechnung
-übereinstimmen.
-
-Kleinigkeit ohne Punkterelevanz: Der Verweis auf `02_sqlite_datenbank.ipynb` meint
-`02_sqlite_metehan.ipynb`.
+**Stand: ✅ erfüllt.** Noch nachzuziehen: `psycopg2-binary` fehlt in `requirements.txt`, der
+Verweis auf `02_sqlite_datenbank.ipynb` meint `02_sqlite_metehan.ipynb`, und
+`strompreise.db` wird mit relativem Pfad geöffnet (läuft nur aus `sql/`).
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
@@ -290,6 +228,7 @@ Sprachregion 0.4 bis 3.0.
 |---|---|
 | ANOVA über Sprachregionen und Kantone, mit Levene, Alexander-Govern, Kruskal-Wallis, eta² und Tukey | `scripts/03_analyse_subraj.ipynb` §8.3, §8.4 |
 | Korrelation nach Pearson und Spearman mit p-Wert und Bonferroni-Korrektur | `scripts/03_analyse_subraj.ipynb` §8.5, §8.6 |
+| Korrelationen in der EDA, ebenfalls mit p-Wert (Preise zwischen den Jahren; Heatmap Merkmal und Preis mit Bonferroni-Stern) | `scripts/03_analyse_subraj.ipynb` §3, §5.2 |
 | ANOVA über die k-means-Cluster, mit cluster-robustem Wald-Test | `scripts/04_modell_subraj.ipynb` §8.4 |
 
 Jeder Test ist auf Gemeinde- und auf Betreiberebene gerechnet. Der gepaarte t-Test
@@ -348,23 +287,17 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 | Bonus (6) | 4 | 2 | – |
 | Video (7 Pkt) | – | – | alle |
 
-🔍 Am 22.11.2026 auf einem frischen Klon mit frischer virtueller Umgebung geprüft:
-`01`, `02`, `03` und `04` laufen fehlerfrei durch, jedes aus seinem Verzeichnis.
-`sql/03_postgresql.ipynb` scheitert am fehlenden Server, siehe Bonus 2.
+**Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (Präsentationsteil
+fehlt), Bonus 1 🟡 (beansprucht, aber noch nicht im PDF-Anhang).
 
-**Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (nur noch der
-Präsentationsteil fehlt, die Bündelung hat Subraj am 22.11. angelegt), Bonus 1 🟡
-(beansprucht, aber noch nicht im PDF-Anhang).
-
-**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅ (am 23.11. nachgeprüft:
-Anleitung für Windows, macOS und Linux, echtes `psycopg2`, Notebook neu ausgeführt),
-Bonus 6 ⬜ (es gibt noch keine Präsentation, in der die URL stehen könnte).
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅, Bonus 6 🟡 (URL muss in die
+Präsentation).
 
 **Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
 
-**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip), Bonus 1
-und 6 (im PDF-Anhang beziehungsweise in der Präsentation beanspruchen), das Video und
-der PDF-Anhang mit Screenshots und Code-Ausschnitten zu jedem Punkt.
+**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip),
+Bonus 1 und 6 (im PDF-Anhang beanspruchen), das Video und der PDF-Anhang mit
+Screenshots und Code-Ausschnitten zu jedem Punkt.
 
 **Was nicht belegbar ist:** Ob Metehans Beschaffungsskript bei einem Lauf exakt die
 Dateien im Repo erzeugt – das wurde nicht nachgerechnet, weil es Netzzugriff braucht.
