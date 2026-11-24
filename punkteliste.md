@@ -1,7 +1,13 @@
 # Punkteliste
 
 Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 21. November 2026
+Stand: 24. November 2026
+
+**Was geprüft ist und was nicht.** Die mit 🔍 markierten Angaben wurden unabhängig
+nachgerechnet oder nachgezählt: auf einem frischen Klon, in einer frischen virtuellen
+Umgebung, durch Ausführen der Notebooks und durch Nachzählen in den Dateien. Alles
+ohne 🔍 stammt aus den Notebooks und Dokumentationen der Gruppe und ist nicht
+unabhängig geprüft.
 
 Diese Liste gehört in den Anhang des Präsentations-PDF. Die Aufgabenstellung verlangt
 das ausdrücklich:
@@ -103,14 +109,31 @@ Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
 > «Model evaluation using suitable measures of fit (e.g. r-squared, RMSE, accuracy,
 > recall, precision, ...).»
 
-- R², angepasstes R² und RMSE für alle fünf Zielgrössen, RMSE verglichen mit der
-  Standardabweichung (`04_modell_subraj.ipynb` §3)
-- Kreuzvalidierung, zufällig und nach Netzbetreiber gruppiert, gegen den Mittelwert als
-  Vergleichsmassstab (§6)
+- 🔍 R², **angepasstes R²** und **RMSE** für alle fünf Zielgrössen, RMSE verglichen
+  mit der Standardabweichung der Zielgrösse (`04_modell_subraj.ipynb` §3, Tabelle
+  `guete_A`). Nachgeprüft: R² 0.218 / 0.068 / 0.069 / 0.214 / 0.290, R² adj.
+  0.215 / 0.065 / 0.065 / 0.212 / 0.288, RMSE 2.645 bis 3.893 Rp.
+- 🔍 **Kein Train-Test-Split, sondern 5-fache Kreuzvalidierung** (§6) – und zwar in
+  zwei Varianten: mit zufälligen Folds (`KFold`) und mit nach Netzbetreiber
+  **gruppierten** Folds (`GroupKFold`). Das ist für diese Daten das **stärkere**
+  Verfahren: Ein einzelner zufälliger Split würde Gemeinden desselben Netzbetreibers
+  auf Trainings- und Testteil verteilen und die Güte dadurch überschätzen, weil die
+  Beobachtungen nicht unabhängig sind (Abschnitt 5b der Projektanleitung). Die
+  gruppierten Folds halten ganze Versorgungsgebiete zurück und messen damit, was das
+  Modell wirklich überträgt.
+- 🔍 Das Ergebnis dieser Prüfung ist zugleich das Hauptresultat des Projekts: Bei
+  zufälligen Folds bleibt R² fast unverändert (0.213 gegen 0.218 in der Stichprobe),
+  bei gruppierten Folds wird es **negativ** (−0.104 / −0.007 / −0.025 / −0.058 /
+  −0.050). Das Modell sagt dann schlechter voraus als der blosse Mittelwert.
 - Residuen gegen Vorhersage, Histogramm und Q-Q-Plot (§7)
 - Varianzinflationsfaktor gegen Multikollinearität (§1.2)
 
-**Stand: ✅ erfüllt.**
+**Stand: ✅ erfüllt.** Die Anforderung nennt R² und RMSE als Beispiele; beide werden
+berichtet, dazu das angepasste R² und eine Gütemessung ausserhalb der Stichprobe.
+Anmerkung zur Nachvollziehbarkeit: Subraj berechnet die Masse in einer eigenen
+Funktion `ols_geclustert` statt mit `r2_score` oder `mean_squared_error`. Wer im Code
+nach diesen Namen sucht, findet sie nicht – die Masse sind trotzdem da.
+
 
 ### Pflicht 7 ✅ Korrekte Interpretation · Subraj
 
@@ -139,8 +162,15 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 
 | Gebündelt | `ai-doku/ai_dokumentation_gruppe_15.md` – Werkzeuge, Einsatz pro Aufgabe, Vorteile, Nachteile, 17 Fälle, in denen etwas nicht funktioniert hat, Lehren, Vorschlag für Folien und Video |
 
-**Stand: 🟡 teilweise.** Was fehlt: der Teil «and the presentation» bei allen dreien. Die
-Präsentation entsteht ab dem 24. November; danach Abschnitt 6 der gebündelten Fassung ergänzen.
+🔍 Geprüft: Alle fünf Dateien enthalten einen eigenen Abschnitt zu Fehlschlägen, so
+wie es die Anforderung verlangt («where something did not work with the help of AI»).
+Die Bündelung `ai-doku/ai_dokumentation_gruppe_15.md` hat Subraj am 22.11.2026
+angelegt; damit ist dieser Teil von Pflicht 8 erledigt.
+
+**Stand: 🟡 teilweise.** Was fehlt, ist nur noch **ein** Punkt: der Teil «and the
+presentation» bei allen dreien. Die Präsentation entsteht ab dem 24. November; danach
+ist Abschnitt 6 der gebündelten Fassung zu ergänzen. Sie nennt das dort ausdrücklich
+als nachzutragen – korrekt markiert, aber noch nicht erfüllt.
 
 ### Pflicht 9 ⬜ Material auf Moodle · Subraj
 
@@ -191,15 +221,52 @@ Code-Ausschnitten steht.
 > «Use of a PostgreSQL or similar database (no SQLite!) with, e.g. SQL joins and
 > aggregations from within Python.»
 
-- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 16,
+- `sql/03_postgresql.ipynb`: überträgt alle 5 Tabellen aus SQLite nach PostgreSQL 17,
   baut die beiden Views nach und rechnet Auswertungen mit `JOIN`, `GROUP BY`, `HAVING`,
   `percentile_cont`, `STDDEV`, `CORR` und den Fensterfunktionen `RANK`, `LAG`, `NTILE`
 - Kontrollen: gleiche Zeilenzahl in allen Tabellen, Summe der Bestandteile, Analysetabelle
   gegen SQLite (grösste Abweichung 7e-15)
 
-**Stand: ✅ erfüllt.** Noch nachzuziehen: `psycopg2-binary` fehlt in `requirements.txt`, der
-Verweis auf `02_sqlite_datenbank.ipynb` meint `02_sqlite_metehan.ipynb`, und
-`strompreise.db` wird mit relativem Pfad geöffnet (läuft nur aus `sql/`).
+**Stand: ✅ erfüllt.** Alle drei Mängel vom 22.11.2026 sind behoben. Am 23.11.2026
+einzeln nachgeprüft:
+
+| | Mangel | Stand |
+|---|---|---|
+| 1 | Keine Einrichtungsanleitung | ✅ **behoben.** `README.md` enthält jetzt drei Anleitungen: Windows, macOS (Homebrew oder Postgres.app) und Linux (Debian/Ubuntu und Fedora), je mit Installation, Dienststart, `CREATE DATABASE` und den Umgebungsvariablen |
+| 2 | `getpass` blockiert jeden automatischen Lauf | ✅ **behoben.** 🔍 `getpass` kommt im Code nicht mehr vor. Alle Verbindungsangaben stammen aus Umgebungsvariablen mit den Standardwerten `localhost`, `5432`, `strompreise`, `postgres`; fehlt `PGPASSWORD`, gibt es eine klare Fehlermeldung |
+| 3 | Ausgaben vom Ersatzmodul statt von `psycopg2` | ✅ **behoben.** 🔍 Siehe unten |
+
+**Wie Punkt 3 geprüft wurde** – das war der heikelste:
+
+- 🔍 **Kein Ersatzmodul mehr im Code.** Durchsucht nach `subprocess`, `os.system`,
+  `psql`, `popen`, `shell=True` und eigenen Connection-Klassen: **null Treffer**.
+  Vorhanden sind `import psycopg2`, `psycopg2.connect` und `execute_values` aus
+  `psycopg2.extras`.
+- 🔍 **Das Notebook wurde neu ausgeführt.** 15 Ausgaben statt vorher 13, 0 Fehler.
+  Neu ist unter anderem eine Zelle, die `PostgreSQL 17.12 on x86_64-...` ausgibt –
+  eine Versionsabfrage, die nur aus einer echten Serververbindung kommen kann.
+- 🔍 **Die unveränderten Ausgaben sind plausibel.** Sieben der Ausgaben sind gleich
+  geblieben. Alle stammen aus deterministischen Abfragen über unveränderte Daten
+  (Tabellen- und Zeilenzahlen, Mittelwerte je Jahr, Betreiber-Rangliste). Dass sie
+  identisch sind, ist das erwartete Ergebnis und kein Zeichen alter Ausgaben.
+- 🔍 **Die geänderten Ausgaben enthalten dieselben Zahlen.** Bei den Zellen 14, 18,
+  20 und 22 änderte sich nur die Anzeigebreite von pandas, nicht ein einziger Wert.
+- 🔍 **Der Abgleich gegen SQLite geht weiterhin auf:** 2087 / 2087 Gemeinden, gleiche
+  Gemeindenummern, grösste Abweichung 7.11e-15 bei den Preisen und 0.00 bei den
+  Gemeindemerkmalen.
+
+**Sicherheitsprüfung am 23.11.2026** (weil die Commit-Nachricht «basierend auf eigenes
+Gerät» lautete): Kein Passwort im Klartext, kein absoluter Pfad, kein Benutzer- oder
+Rechnername, keine fremde IP. Alle Passwortstellen sind Platzhalter
+(`das-eigene-passwort`) oder Lesezugriffe auf `PGPASSWORD`. Host und Port sind
+`localhost` und `5432` als Standardwerte aus Umgebungsvariablen.
+
+**Was ich nicht prüfen kann:** Dass die eingebetteten Ausgaben tatsächlich auf
+Metehans Rechner mit genau diesem Code entstanden sind. Belegbar ist, dass der Code
+kein Ersatzmodul mehr enthält, dass die Ausgaben zu einem echten PostgreSQL-17-Server
+passen und dass die Zahlen mit SQLite und mit unserer eigenen Berechnung
+übereinstimmen.
+
 
 ### Bonus 3 ✅ Geodaten integrieren und visualisieren · Lenny
 
@@ -234,6 +301,22 @@ Sprachregion 0.4 bis 3.0.
 Jeder Test ist auf Gemeinde- und auf Betreiberebene gerechnet. Der gepaarte t-Test
 (§8.2) steht zusätzlich im Notebook, zählt für diesen Punkt aber nicht.
 
+**Nachtrag vom 23.11.2026.** Zwei Stellen in der EDA berichteten bis dahin nur den
+Korrelationskoeffizienten ohne p-Wert. Subraj hat beide ergänzt. 🔍 Am 24.11.2026
+nachgeprüft:
+
+- **Zelle 18**, Korrelation der Preise zwischen den Jahren: jetzt mit «p (Spearman)»
+  und «p (Pearson)». Beispiel 2024–2027: rho 0.567 bei p = 5.6e-178, r 0.594 bei
+  p = 3e-199.
+- **Zelle 33**, Heatmap der Merkmale gegen die Preise: jetzt eine eigene p-Wert-Matrix
+  mit Bonferroni-Korrektur über **25 Tests**, Schwelle 0.05/25 = **0.0020**.
+  Signifikant sind **18 von 25**. Die nicht signifikanten liegen fast alle in der
+  Spalte «Preis 2027» – dort hängt der Preis mit keinem der fünf Gemeindemerkmale
+  zusammen, was zum Hauptresultat passt.
+
+Damit berichtet jeder Test in beiden Notebooks einen p-Wert, wie es die Anforderung
+verlangt.
+
 **Stand: ✅ erfüllt.**
 
 ### Bonus 5 ✅ k-means · Subraj
@@ -248,16 +331,17 @@ ersetzt sie nicht.
 
 **Stand: ✅ erfüllt.**
 
-### Bonus 6 🟡 Öffentliches GitHub-Repo · Metehan
+### Bonus 6 ⬜ Öffentliches GitHub-Repo · Metehan
 
 > «Code on a publicly available GitHub repository (provide the GitHub project URL in
 > the project presentation).»
 
 - Repo: https://github.com/AltayMetehan/data-prices-electronic
-- Sichtbarkeit geprüft am 08.11.2026: **PUBLIC**
+- Sichtbarkeit geprüft am 24.11.2026: **PUBLIC**
 
-**Stand: 🟡 teilweise.** Das Repo ist öffentlich. Die URL muss zusätzlich **in der
-Präsentation** genannt werden; die Präsentation existiert noch nicht.
+**Stand: ⬜ offen.** Das Repo ist öffentlich, das ist die halbe Anforderung. Die
+andere Hälfte verlangt die URL **in der Präsentation**, und die existiert noch nicht.
+Vorgesehen ist sie auf Folie 1, siehe `folien_entwurf_lenny.md`.
 
 ---
 
@@ -284,20 +368,27 @@ Präsentation** genannt werden; die Präsentation existiert noch nicht.
 | | erfüllt | teilweise | offen |
 |---|---|---|---|
 | Pflicht (9) | 7 | 1 | 1 |
-| Bonus (6) | 4 | 2 | – |
+| Bonus (6) | 4 | 1 | 1 |
 | Video (7 Pkt) | – | – | alle |
+
+🔍 Am 24.11.2026 auf einem frischen Klon mit frischer virtueller Umgebung geprüft:
+`pip install -r requirements.txt` läuft durch, und die vier Notebooks `01`, `02`, `03`
+und `04` laufen fehlerfrei, jedes aus seinem Verzeichnis. `sql/03_postgresql.ipynb`
+braucht einen laufenden PostgreSQL-Server und wurde darum nicht ausgeführt; der Code
+importiert das echte `psycopg2`.
 
 **Lennys Teil:** Pflicht 2 ✅, Bonus 3 ✅, Pflicht 8 🟡 (Präsentationsteil
 fehlt), Bonus 1 🟡 (beansprucht, aber noch nicht im PDF-Anhang).
 
-**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅, Bonus 6 🟡 (URL muss in die
-Präsentation).
+**Metehans Teil:** Pflicht 1 ✅, Pflicht 3 ✅, Bonus 2 ✅ (am 23.11. nachgeprüft:
+echtes `psycopg2`, Notebook neu ausgeführt, Anleitungen für Windows, macOS und Linux),
+Bonus 6 ⬜ (Repo öffentlich, aber die URL muss in die Präsentation).
 
 **Subrajs Teil:** Pflicht 4 bis 7 ✅, Bonus 4 ✅, Bonus 5 ✅, Pflicht 9 ⬜ (Zip im Januar).
 
-**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip),
-Bonus 1 und 6 (im PDF-Anhang beanspruchen), das Video und der PDF-Anhang mit
-Screenshots und Code-Ausschnitten zu jedem Punkt.
+**Offen bis zur Abgabe:** Pflicht 8 (Präsentationsteil), Pflicht 9 (Zip), Bonus 1
+(im PDF-Anhang beanspruchen), Bonus 6 (Repo-URL in der Präsentation nennen), das Video
+und der PDF-Anhang mit Screenshots und Code-Ausschnitten zu jedem Punkt.
 
 **Was nicht belegbar ist:** Ob Metehans Beschaffungsskript bei einem Lauf exakt die
 Dateien im Repo erzeugt – das wurde nicht nachgerechnet, weil es Netzzugriff braucht.
