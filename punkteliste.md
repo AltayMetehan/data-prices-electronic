@@ -156,11 +156,11 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 
 | Teil | Beleg |
 |---|---|
-| Lenny | `ai-doku/ai_dokumentation_lenny.md` – 11 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
+| Lenny | `ai-doku/ai_dokumentation_lenny.md` – 15 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
 | Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md`, `ai-doku/AI-Dokumentation_PostgreSQL_Metehan.md` |
 | Subraj | `ai-doku/ai_dokumentation_subraj.md` – Sitzungsprotokoll mit dokumentierten Fehlschlägen, Vorteile, Nachteile |
 
-| Gebündelt | `ai-doku/ai_dokumentation_gruppe_15.md` – Werkzeuge, Einsatz pro Aufgabe, Vorteile, Nachteile, 17 Fälle, in denen etwas nicht funktioniert hat, Lehren, Vorschlag für Folien und Video |
+| Gebündelt | `ai-doku/ai_dokumentation_gruppe_15.md` – Werkzeuge, Einsatz pro Aufgabe, Vorteile, Nachteile, 18 Fälle, in denen etwas nicht funktioniert hat, Lehren, Vorschlag für Folien und Video |
 
 🔍 Geprüft: Alle fünf Dateien enthalten einen eigenen Abschnitt zu Fehlschlägen, so
 wie es die Anforderung verlangt («where something did not work with the help of AI»).
@@ -285,6 +285,14 @@ Vereinfachen.
 **Stand: ✅ erfüllt.** Die Karte beantwortet zusätzlich eine inhaltliche Frage: Der
 Netzbetreiber erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die
 Sprachregion 0.4 bis 3.0.
+
+**Zwei offene Punkte zu den Karten.** Beide kosten heute keinen Punkt, beide können
+Bonus 3 nachträglich kaputtmachen:
+
+| | Was | Wann |
+|---|---|---|
+| 1 | **Beide interaktiven Karten im Browser öffnen und anschauen.** Die Hintergrundkacheln kommen von einem Drittanbieter, und genau das ist am 25.11.2026 schon einmal gebrochen: CartoDB verlangt seither einen Schlüssel und lieferte statt der Karte ein flächendeckendes Raster aus «API KEY REQUIRED». Umgestellt auf Esri World Light Gray Base – schlüsselfrei, aber derselbe Anbietertyp und damit dasselbe Risiko. **Das Notebook meldet in diesem Fall keinen Fehler.** Die Prüfung geht nur mit dem Auge. | vor der Abgabe im Januar |
+| 2 | **Kantonsumrisse als eigene Ebene in die beiden folium-Karten legen.** Die Geometrie liegt bereits vor und wird in Zelle 54 für die statischen Karten verwendet (`kantone.boundary`). Danach bleibt die Schweiz erkennbar, auch wenn gar keine Kacheln mehr laden, und die Karte hängt nur noch an unseren eigenen swisstopo-Daten statt an einem Drittanbieter. | nach Freitag, 27.11. |
 
 ### Bonus 4 ✅ Chi-Quadrat, ANOVA oder Korrelation mit p-Wert · Subraj
 
