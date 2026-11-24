@@ -9,6 +9,90 @@ Sie existiert, damit wir drei denselben Begriff nicht dreifach verschieden
 **Wenn ein Begriff hier fehlt:** eintragen, als 🟡 markieren, und den anderen
 zwei sagen. Nicht einfach entscheiden und weitergehen.
 
+# 0. Entscheidungsregel: vier Kategorien
+
+**Lies das zuerst.** Damit entscheidet jeder selber, statt nachzufragen. Jedes
+deutsche Wort im Projekt fällt in genau eine dieser vier Kategorien.
+
+## 1 · Identifikatoren → **nie übersetzen**
+
+Spaltennamen, Pfade, Dateinamen, Funktionsnamen, Tabellen und Views,
+SPARQL-Variablen und Codes wie `H4` oder die Typologiecodes `11` bis `33`.
+
+Vollständige Listen in Abschnitt 1. Ein Identifikator ist kein Text, auch wenn er
+wie ein deutsches Wort aussieht. Wer `beschaeftigte` zu `jobs` macht, bricht die
+CSV, die SQLite-Datenbank, PostgreSQL und drei Notebooks gleichzeitig.
+
+## 2 · Eigennamen → **nie übersetzen**
+
+Gemeindenamen, Netzbetreibernamen, Kantonskürzel, Produktnamen wie
+`swissBOUNDARIES3D`, Normen und Bezugssysteme wie `LV95`, `WGS84`, `EPSG:2056`,
+`EPSG:4326`.
+
+Ausnahme nach oben: Wo eine Behörde selber einen offiziellen englischen Namen
+führt, nehmen wir den. Diese Namen stehen in Abschnitt 2, geprüft und mit Quelle.
+
+## 3 · Schweizer Fachbegriffe mit rechtlicher Bedeutung → **übersetzen, aber beim ersten Vorkommen pro Dokument das deutsche Original in Klammern dahinter**
+
+So:
+
+> The grid surcharge (German: «Netzzuschlag») rose from 2.30 to 2.30 cts./kWh.
+> … later in the same document: … the grid surcharge is set federally.
+
+Einmal pro Dokument beim ersten Vorkommen genügt, danach nur noch englisch. Der
+Grund: diese Begriffe haben im schweizerischen Recht eine festgelegte Bedeutung,
+und unsere englischen Entsprechungen sind **unsere Setzung**, nicht die der
+Behörde. Mit dem Original in Klammern bleibt die Aussage überprüfbar, statt eine
+amtliche Übersetzung zu behaupten, die es nicht gibt.
+
+Die vollständige Liste steht in Abschnitt 3b.
+
+## 4 · Prosa → **immer übersetzen, ohne Ausnahme**
+
+Markdown-Zellen, Kommentare, Docstrings, `print()`-Texte, Grafiktitel,
+Achsenbeschriftungen, Karten-Tooltips, Tabellenüberschriften, Commit-Nachrichten
+ab jetzt.
+
+**Ein halbdeutscher englischer Text ist schlimmer als ein ganz deutscher.** Ein
+einziger vergessener deutscher Kommentar in einer englischen Datei sieht nach
+Nachlässigkeit aus; eine durchgehend deutsche Datei sieht nach einer Entscheidung
+aus. Also entweder ganz oder gar nicht — und bei den elf Dateien aus Abschnitt 6
+heisst das: ganz.
+
+---
+
+# 0b. Sonderfall: deutsche Wörter als Datenwerte
+
+`sprachregion` enthält die deutschen Wörter `Deutsch`, `Französisch`,
+`Italienisch`, `Rätoromanisch`. Das sind **Daten**, nicht Text.
+
+**In den Daten nie ändern.** Jeder `groupby`, jeder Join und jeder Filter hängt
+daran. Für die Anzeige in einer Grafik oder Tabelle wird direkt vor dem Zeichnen
+umbenannt, nicht vorher:
+
+```python
+# richtig: nur fuer die Anzeige, unmittelbar vor dem Plot
+ANZEIGE_SPRACHE = {
+    "Deutsch":       "German",
+    "Französisch":   "French",
+    "Italienisch":   "Italian",
+    "Rätoromanisch": "Romansh",
+}
+plotdaten = verbunden["sprachregion"].map(ANZEIGE_SPRACHE)
+```
+
+| Datenwert | Anzeige englisch | |
+|---|---|---|
+| `Deutsch` | German | ✅ |
+| `Französisch` | French | ✅ |
+| `Italienisch` | Italian | ✅ |
+| `Rätoromanisch` | **Romansh** | ✅ gängiger englischer Name. **Nicht** «Rhaeto-Romanic», nicht «Romanche». |
+
+Alle drei nehmen dieselben vier Namen. Wer eine Grafik mit Sprachregionen
+zeichnet, kopiert das Dictionary oben.
+
+---
+
 ## Statusmarkierungen
 
 | | Bedeutung |
@@ -154,6 +238,9 @@ Hier habe ich auf den englischen Seiten der Behörden selbst nachgeschaut, nicht
 | Regionalporträts | **Regional portraits** | ✅ | Produkttitel «Regional portraits 2021: communes», `statistik.admin.ch/en/asset/15864458` |
 | Raumgliederungen (der Schweiz) | **Spatial divisions** | ✅ | Seitentitel der englischen BFS-Seite `.../regional-analyses/spatial-divisions.html` |
 | LINDAS | *ungeprüft* | ⚠️ | `lindas.admin.ch` weist die Verbindung ab (`ECONNREFUSED`). Ich habe **keine** geprüfte englische Auflösung. Vorläufig: «LINDAS, the Linked Data Service of the Swiss federal administration» 🟡 — wer es belegen kann, trägt es ein. |
+| Amtliches Gemeindeverzeichnis der Schweiz | **Swiss official commune register** | ✅ | Eigener Seitenname des BFS, `bfs.admin.ch/bfs/en/home/basics/swiss-official-commune-register...` |
+| Historisiertes Gemeindeverzeichnis | **Swiss official commune register, historicized list** | 🟡 | abgeleitet aus dem Datensatznamen auf `opendata.swiss`, nicht auf einer BFS-Seite gelesen |
+| BFS-Nummer der Gemeinde | **FSO number** | 🟡 | **Nicht belegt.** Das BFS sagt auf seiner englischen Seite nur, dass es jeder Gemeinde eine Nummer zuteilt, ohne den Feldnamen englisch zu benennen. «FSO number» ist die naheliegende Entsprechung zu «BFS-Nr.» und wird von Dritten so verwendet, zum Beispiel im swisstopo-Adressdatensatz als «Commune FSO Number». Bleibt 🟡, bis es jemand auf einer BFS-Seite findet. Die Spalte heisst weiterhin `gemeinde_nr`. |
 | swissBOUNDARIES3D | **swissBOUNDARIES3D** | ✅ | Produktname, schon englisch |
 
 ## 2.1 Grundregel: eigene Prosa gegen zitierter Titel
@@ -225,6 +312,33 @@ Vorkommen genügt.
 
 ---
 
+# 3b. Kategorie 3: mit deutschem Original in Klammern
+
+Beim **ersten** Vorkommen pro Dokument so: *grid surcharge (German:
+«Netzzuschlag»)*. Danach nur noch englisch. Die Spalte «n» ist die gezählte
+Häufigkeit in Lennys elf Dateien.
+
+| Deutsch | n | Englisch | Status |
+|---|---|---|---|
+| Netznutzung | 76 | grid usage | 🟡 unsere Setzung, ElCom hat keine englische Seite |
+| Messtarif | 70 | metering tariff | 🟡 dito |
+| Netzzuschlag | 51 | grid surcharge | 🟡 dito |
+| Abgaben (an Gemeinden und Kantone) | 50 | levies (to municipalities and cantons) | 🟡 dito |
+| Messkosten | 9 | metering costs | 🟡 dito |
+| Grundversorgung | 1 | basic supply | 🟡 dito |
+| Gebietsstand | 12 | territorial status as at *(Datum)* | 🟡 BFS-Seite nicht lesbar |
+| Gemeindetypologie | 21 | municipality typology | 🟡 |
+| Sprachgebiet *(so heisst es in der BFS-Quelle)* | 9 | language area | 🟡 siehe Abschnitt 2.1 |
+| Gemeindemutationen | 4 | municipality changes | 🟡 |
+| Datenschutz *(als Grund für unterdrückte Werte)* | 1 | statistical confidentiality | 🟡 in der Statistik der übliche Begriff, nicht «data protection» |
+| Wegleitung zur Tarifdeklaration | 3 | ElCom guidance on tariff declaration | ⚠️ **Dokumenttitel, existiert nur deutsch.** Deutschen Titel stehen lassen und die englische Erklärung dahinter: *«Wegleitung zur Tarifdeklaration für Tarife 2027» (ElCom guidance on tariff declaration)*. |
+
+Geprüft: `KEV`, `StromVG`, `Konzessionsabgabe`, `feste Endverbraucher`,
+`Netzebene` und `Geheimhaltung` kommen in Lennys Dateien **nicht** vor und
+brauchen darum keinen Eintrag.
+
+---
+
 # 4. Ergänzte Begriffe aus Lennys Dateien
 
 Maschinell gezählt über alle sieben Dateien: Markdown-Zellen, Kommentare,
@@ -251,8 +365,8 @@ herausgefiltert. Alles hier ist 🟡 **Vorschlag**, sofern nicht anders markiert
 
 | Deutsch | n | Vorschlag |
 |---|---|---|
-| Gemeindenummer | 10 | municipality number |
-| Gemeindeverzeichnis | – | register of municipalities |
+| Gemeindenummer | 10 | municipality number · **FSO number** 🟡 siehe Abschnitt 2 |
+| Gemeindeverzeichnis | – | **Swiss official commune register** ✅ siehe Abschnitt 2 |
 | Gemeindemutationen | – | municipality changes |
 | Gebietsstand | 7 | territorial status as at *(DD.MM.YYYY)* ⚠️ nicht belegt |
 | Gemeindegrenzen | 6 | municipal boundaries |
