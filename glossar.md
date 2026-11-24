@@ -441,9 +441,30 @@ herausgefiltert. Alles hier ist 🟡 **Vorschlag**, sofern nicht anders markiert
 
 # 5. Zwei Regeln für den Stil
 
-**Zahlen.** Englisch schreibt den Dezimalpunkt und das Tausender-Komma:
-deutsch `20.86` bleibt `20.86`, aber deutsch `2'087` wird `2,087`.
-In **Code und Daten** nichts ändern.
+**Zahlen.** Der Dezimalpunkt bleibt wie er ist: `20.86` ist in beiden Sprachen
+`20.86`. Beim Tausendertrennzeichen kommt es darauf an, **wo** die Zahl steht:
+
+| wo | Trennzeichen | Beispiel |
+|---|---|---|
+| **Prosa** – Fliesstext, Tabellen, Folien, Überschriften | **ja**, Komma | «all 2,087 municipalities» |
+| **Code** – Literale, Vergleiche, Spaltenwerte | **nein** | `len(df) == 2087` |
+| **Codeausgabe** – alles, was ein `print()` oder ein DataFrame druckt | **nein** | `2087 municipalities, 485 grid operators` |
+| **Daten** – CSV, SQLite, GeoJSON | **nein, nie** | `2087` |
+
+Der Grund für die Trennung: Python druckt `2087`, nicht `2,087`. Diese Ausgaben
+werden in der Dokumentation **wörtlich zitiert**. Wer die Zitate «schöner» macht,
+zerstört den Beleg. Prosa `2,087` neben der Ausgabe `2087` ist darum **kein**
+Widerspruch, sondern richtig: das eine ist Fliesstext, das andere ein Zitat.
+
+Niemals ein Trennzeichen in eine Zahl schreiben, die irgendwo verglichen,
+summiert oder als Schlüssel verwendet wird. `gemeinde_nr` ist `2087`, nie `2,087`.
+
+**Die einzige Ausnahme im Projekt** sind drei `print()`-Zeilen in den
+Beschaffungsskripten, die Dateigrössen mit `{n:,}` ausgeben
+(`scripts/hole_geodaten.py` Zeile 43 und 74, `scripts/hole_zusatzdaten.py`
+Zeile 41). Byte-Zahlen sind ohne Trennzeichen unlesbar, und diese Ausgaben werden
+nirgends zitiert. Die bleiben. Neue Ausnahmen bitte hier eintragen, nicht
+stillschweigend einführen.
 
 **Datum.** Deutsch `24.11.2026` wird englisch `24 November 2026` im Text und
 `2026-11-24` in Dateinamen und Tabellen. Keine Form wie `11/24/2026`, die liest in
