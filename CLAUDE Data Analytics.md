@@ -1,11 +1,17 @@
+> **Not part of the submission.** These are the team's internal working
+> instructions, kept in German on purpose. The project's deliverables — code,
+> documentation, slides and report — are in English.
+
 # Data Analytics Projekt: Strompreise der Schweizer Gemeinden
 
 ZHAW, Modul Data Analytics, HS2026. Dozenten: Dr. Mario Gellrich (modulverantwortlich),
 Dr. Alexander Walter.
 Gruppe: Lenny Frei, Altay Metehan, Singh Sub Raj.
 
-Sprache in Code, Kommentaren und Bericht: Deutsch. Schweizer Rechtschreibung,
-immer «ss», nie «ß». Englische Fachbegriffe nicht eindeutschen.
+Sprache in Code, Kommentaren und Abgaben: **Englisch**, seit der Ansage des
+Dozenten vom 24. November 2026. Diese Anleitung selber bleibt deutsch.
+Begriffe nach `glossar.md`. Schweizer Rechtschreibung im Deutschen,
+immer «ss», nie «ß».
 
 Anspruch der Gruppe: Bestnote. Optionale Kriterien und Zusatzpunkte werden wie
 Pflicht behandelt, nicht wie Kür.
