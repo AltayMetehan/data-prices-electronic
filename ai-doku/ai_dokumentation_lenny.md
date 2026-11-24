@@ -505,6 +505,66 @@ Daten nicht war. Hier war etwas in den Daten, was im Dokument nicht gefunden wur
 
 ---
 
+### 15. Eine externe Abhängigkeit war still gebrochen (25.11.2026)
+
+Beim Übersetzen der Kartentexte lief Notebook 01 neu durch. Es meldete **null
+Fehler** – und trotzdem waren beide interaktiven Karten unbrauchbar.
+
+In den Ausgaben stand eine Warnung von folium:
+
+```
+UserWarning: CartoDB tiles now require an API key.
+Please provide one to continue using the tiles.
+```
+
+Eine Warnung ist kein Fehler. Das Notebook lief durch, die HTML-Dateien wurden
+geschrieben, die Dateigrössen stimmten, jede Zahl stimmte. Wer nur auf den
+Rückgabewert schaut, sieht hier nichts.
+
+Statt die Warnung einzuordnen, wurde die Karte **angeschaut**: ein Screenshot im
+Browser zeigte, dass die Sperre längst aktiv ist. Die Hintergrundkarte bestand
+flächendeckend aus dem Schriftzug «API KEY REQUIRED». Ein Korrektor hätte im
+Januar zwei Karten geöffnet, auf denen die Schweiz unter einem Wasserzeichenraster
+verschwindet.
+
+**Die Warnung war nicht neu.** Ein Blick in das Tag `deutsche-fassung` zeigte sie
+zweimal in den gespeicherten Ausgaben, also schon vor der Übersetzung. Sie stand
+dort unbemerkt, und ich hatte sie beim Audit vom 24. November selber überlesen:
+damals meldete ich für dieses Notebook «0 Fehler, 0 Zellen ohne Ausgabe» und
+erwähnte die Warnung mit keinem Wort. Geprüft hatte ich, ob das Notebook
+*durchläuft*, nicht, ob sein Ergebnis *brauchbar* ist.
+
+Der naheliegende Ersatz war OpenStreetMap: schlüsselfrei, eine Zeile Arbeit. Nach
+dem Umstellen wurde die Karte wieder angeschaut, und sie war schlechter:
+
+- Die grünen und beigen Kacheln drücken durch die 15 Prozent Transparenz der
+  Flächen. Die hellen Werte, also die Gemeinden ohne grosse Veränderung, wirken
+  dadurch schmutzig statt weiss.
+- Die Seen sind auf OSM blau. Blau bedeutet in unserer Karte aber «günstiger
+  geworden». Genau die 227 Gemeinden, die wir in Fall 11 mühsam sichtbar gemacht
+  haben, stehen nun neben gleich blauen Seen.
+
+Gewählt wurde darum Esri World Light Gray Base. Der Dienst braucht keinen
+Schlüssel, und seine eigene Beschreibung sagt, wofür er gebaut ist: *«This map
+draws attention to your thematic content by providing a neutral background with
+minimal colors, labels, and features.»* Die Seen sind dort grau. Die
+Quellenangabe wurde aus den Metadaten des Dienstes übernommen (`copyrightText`),
+nicht selber formuliert.
+
+Die Reparatur ging bewusst als **eigener Commit** ins Repo, getrennt von der
+Übersetzung. Im Log soll erkennbar bleiben, was Übersetzung war und was ein
+inhaltlicher Eingriff.
+
+**Lehre:** «Läuft fehlerfrei durch» ist keine Aussage über das Ergebnis. Warnungen
+sind genau deshalb gefährlich, weil sie nichts anhalten – und eine AI, die den
+Durchlauf meldet, meldet gern den Erfolg und überliest die Warnung, so wie ich es
+beim Audit getan habe. Das Gegenmittel ist billig: das Ergebnis anschauen, nicht
+nur den Rückgabewert lesen. Und: die Entscheidung am Bild treffen. Der
+naheliegende Ersatz war hier der schlechtere, und das hätte man der Zeile Code
+nicht angesehen.
+
+---
+
 ## Was gut funktioniert hat
 
 - **Widersprüche in eigenen Texten finden.** Die fünf Fehler in der Projektanleitung
