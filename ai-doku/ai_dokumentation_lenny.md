@@ -566,6 +566,12 @@ delivered unusable maps, once a verification script that said «green» and let 
 captions through. A green report proves only that the check found nothing – not that
 there is nothing there.
 
+**Second addendum, 25 November 2026:** A fifth German `print()` output slipped
+through **both** checks at once, because check 7 required at least two German
+function words while check 7b allowed at most three words, so that a five-word
+sentence carrying a single function word fitted into neither grid – two checks
+meant to complement each other leave a gap exactly where they meet.
+
 ---
 
 ## What worked well
