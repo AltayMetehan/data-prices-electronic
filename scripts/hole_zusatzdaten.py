@@ -1,18 +1,20 @@
 """
-Holt die Zusatzdaten des BFS, die weder in den ElCom-Daten noch in den
-Regionalportraets stehen: Kanton, Sprachregion und Gemeindetypologie.
+Fetches the additional FSO data that is contained neither in the ElCom data nor in
+the regional portraits: canton, language region and municipality typology.
 
-Zwei Quellen:
-  A  Die Raumgliederungen der Schweiz 2019 (XLSX)
-     -> Kanton, Sprachgebiet, Gemeindetypologie, Gebietsstand 01.01.2019
-  B  Historisiertes Gemeindeverzeichnis, REST-Schnittstelle (CSV)
-     -> Gemeindestand 01.01.2021 und die Gemeindemutationen 2018-2022.
-        Damit werden die Gemeinden aufgeloest, die es 2019 noch nicht gab.
+Two sources:
+  A  "Die Raumgliederungen der Schweiz 2019" (XLSX), the FSO's Spatial divisions
+     -> canton, language area, municipality typology, territorial status
+        (German: Gebietsstand) of 1 January 2019
+  B  "Historisiertes Gemeindeverzeichnis", the historicized list of the Swiss
+     official commune register, REST interface (CSV)
+     -> register snapshot of 1 January 2021 and the municipality changes
+        2018-2022. These resolve the municipalities that did not yet exist in 2019.
 
-Ausfuehren:   python scripts/hole_zusatzdaten.py
+Run with:   python scripts/hole_zusatzdaten.py
 
-Die Ablage ist unabhaengig vom Arbeitsverzeichnis: Das Skript legt die Dateien
-immer im Repo ab, nicht im aktuellen Ordner.
+Where the files land does not depend on the working directory: the script always
+writes inside the repository, not into the current folder.
 """
 
 from pathlib import Path
@@ -22,7 +24,7 @@ import requests
 WURZEL = Path(__file__).resolve().parent.parent
 
 QUELLEN = [
-    # (URL, Zielpfad relativ zur Repo-Wurzel)
+    # (URL, target path relative to the repository root)
     ("https://dam-api.bfs.admin.ch/hub/api/dam/assets/9046166/master",
      "daten/raumgliederungen/raumgliederungen_2019.xlsx"),
     ("https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2021",
@@ -38,14 +40,14 @@ def hole(url: str, ziel: Path) -> None:
     r = requests.get(url, timeout=180)
     r.raise_for_status()
     ziel.write_bytes(r.content)
-    print(f"  {ziel.relative_to(WURZEL)}  {len(r.content):,} Byte")
+    print(f"  {ziel.relative_to(WURZEL)}  {len(r.content):,} bytes")
 
 
 def main() -> None:
-    print("Zusatzdaten vom BFS holen:")
+    print("Fetching the additional data from the FSO:")
     for url, pfad in QUELLEN:
         hole(url, WURZEL / pfad)
-    print("Fertig.")
+    print("Done.")
 
 
 if __name__ == "__main__":
