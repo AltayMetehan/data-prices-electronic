@@ -1,49 +1,55 @@
-# Quelle der BFS-Daten
+# Source of the FSO data
 
 ## regionalportraets_2021.csv
 
-- **Datensatz:** Regionalporträts 2021: Kennzahlen aller Gemeinden
-- **Herausgeber:** Bundesamt für Statistik (BFS)
-- **Bezogen am:** 30.10.2026
+- **Dataset:** «Regionalporträts 2021: Kennzahlen aller Gemeinden» — the German
+  edition, which is the one downloaded. The FSO publishes the same product in
+  English as «Regional portraits 2021: communes».
+- **Publisher:** Federal Statistical Office, FSO (German: «Bundesamt für
+  Statistik BFS»)
+- **Retrieved on:** 30 October 2026
 - **Download:** https://dam-api.bfs.admin.ch/hub/api/dam/assets/16484444/master
-- **Datensatzseite:** https://www.bfs.admin.ch/asset/de/ts-x-21.03.01
-- **Katalogeintrag:** https://ckan.opendata.swiss/dataset/regionalportrats-2021-kennzahlen-aller-gemeinden
-  (im Browser erreichbar; automatisierte Abfragen beantwortet opendata.swiss mit
-  HTTP 403, geprüft am 08.11.2026. Verbindlich ist die BFS-Seite oben.)
-- **Datenstand:** 01.01.2021
-- **Gemeindegrenzen:** Stand 01.01.2016, swissBOUNDARIES3D © swisstopo
-- **Format:** CSV, Semikolon getrennt, UTF-8 mit BOM, CRLF
-- **Aufbau:** Langformat, eine Zeile je Region und Indikator
+- **Dataset page:** https://www.bfs.admin.ch/asset/de/ts-x-21.03.01
+- **Catalogue entry:** https://ckan.opendata.swiss/dataset/regionalportrats-2021-kennzahlen-aller-gemeinden
+  (reachable in a browser; opendata.swiss answers automated requests with
+  HTTP 403, checked on 8 November 2026. The FSO page above is authoritative.)
+- **Data as at:** 1 January 2021
+- **Municipal boundaries:** as at 1 January 2016, swissBOUNDARIES3D © swisstopo
+- **Format:** CSV, semicolon separated, UTF-8 with BOM, CRLF
+- **Structure:** long format, one row per region and indicator
 
-Download zulässig: Die Aufgabenstellung verlangt eigene Erhebung nur für die
-Primärquelle. Für die zweite Quelle nennt sie ausdrücklich das Beispiel
-«scraped data enriched with data from opendataswiss».
+Downloading is permissible here: the assignment requires collecting the data
+ourselves only for the primary source. For the second source it explicitly gives
+the example «scraped data enriched with data from opendataswiss».
 
 ---
 
-## gemeindeverzeichnis_2021.csv und gemeindemutationen_2018_2022.csv
+## gemeindeverzeichnis_2021.csv and gemeindemutationen_2018_2022.csv
 
-- **Datensatz:** Historisiertes Gemeindeverzeichnis der Schweiz
-- **Herausgeber:** Bundesamt für Statistik (BFS)
-- **Bezogen am:** 07.11.2026, per `scripts/hole_zusatzdaten.py`
+- **Dataset:** «Historisiertes Gemeindeverzeichnis der Schweiz» — the historicized
+  list of the Swiss official commune register
+- **Publisher:** Federal Statistical Office (FSO)
+- **Retrieved on:** 7 November 2026, via `scripts/hole_zusatzdaten.py`
 - **Downloads:**
-  - Gemeindestand: `https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2021`
-  - Mutationen: `https://www.agvchapp.bfs.admin.ch/api/communes/mutations?StartPeriod=01-01-2018&EndPeriod=31-12-2022`
-- **Anwendung:** https://www.agvchapp.bfs.admin.ch/de/
-- **Lizenz:** OPEN-BY, freie Nutzung mit Quellenangabe, kein Konto nötig
-- **Gebietsstand:** frei wählbar; hier 01.01.2021. Zukünftige Stichtage lehnt die
-  Schnittstelle ab, der späteste mögliche Stand ist der heutige Tag.
-- **Format:** CSV, 140 046 bzw. 22 504 Byte
-- **Join-Schlüssel:** `BfsCode` im Gemeindestand, `InitialCode` und `TerminalCode`
-  in den Mutationen. Alle Ganzzahl ohne führende Nullen.
+  - Register snapshot: `https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2021`
+  - Changes: `https://www.agvchapp.bfs.admin.ch/api/communes/mutations?StartPeriod=01-01-2018&EndPeriod=31-12-2022`
+- **Application:** https://www.agvchapp.bfs.admin.ch/de/
+- **Licence:** OPEN-BY, free use with attribution, no account required
+- **Territorial status** (German: «Gebietsstand»)**:** freely selectable; 1 January
+  2021 is used here. The interface rejects future reference dates, the latest
+  possible status is the current day.
+- **Format:** CSV, 140,046 and 22,504 bytes respectively
+- **Join keys:** `BfsCode` in the register snapshot, `InitialCode` and
+  `TerminalCode` in the changes file. All integers without leading zeros.
 
-### Wofür
+### What it is used for
 
-Der Gemeindestand 01.01.2021 dient als Kontrolle: Er enthält 2172 Gemeinden, genau
-so viele wie die Regionalporträts, und alle 2087 unserer Analysemenge.
+The register snapshot of 1 January 2021 serves as a cross-check: it contains 2,172
+municipalities, exactly as many as the regional portraits, and all 2,087 of our
+analysis set.
 
-Die Mutationsdatei löst die vier Gemeinden auf, die in den Raumgliederungen 2019
-fehlen, weil sie erst 2020 und 2021 durch Fusion entstanden sind. Jede Zeile
-verbindet eine Vorgängergemeinde (`InitialCode`) mit ihrer Nachfolgerin
-(`TerminalCode`). Die Merkmale werden von den Vorgängern übernommen, nachdem geprüft
-wurde, dass diese übereinstimmen.
+The changes file resolves the four municipalities that are missing from the
+Spatial divisions 2019 because they were only created in 2020 and 2021 through
+mergers. Each row links a predecessor municipality (`InitialCode`) to its
+successor (`TerminalCode`). The characteristics are taken over from the
+predecessors, after checking that these agree with one another.

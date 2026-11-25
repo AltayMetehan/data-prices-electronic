@@ -1,18 +1,18 @@
 """
-Holt die Gemeindegrenzen von swisstopo und erzeugt daraus eine kleine
-Geometriedatei fuer unsere 2087 Gemeinden.
+Fetches the municipal boundaries from swisstopo and builds a small geometry file
+for our 2,087 municipalities from them.
 
-Quelle: swissBOUNDARIES3D, Ausgabe 2026-01, Ebene tlm_hoheitsgebiet.
-Die Rohdatei ist rund 36 MB gepackt und 74 MB entpackt. Sie wird NICHT ins Repo
-gelegt, sondern nach daten/geo/_roh/ geholt, das die .gitignore ausschliesst.
+Source: swissBOUNDARIES3D, edition 2026-01, layer tlm_hoheitsgebiet.
+The raw file is about 36 MB compressed and 74 MB uncompressed. It is NOT placed
+in the repository but fetched into daten/geo/_roh/, which .gitignore excludes.
 
-Im Repo landet nur daten/geo/gemeinden_2087.geojson:
-  - nur unsere 2087 Gemeinden
-  - ohne Z-Dimension
-  - vereinfacht mit 100 m Toleranz
-  - umgerechnet von LV95 (EPSG:2056) nach WGS84 (EPSG:4326), weil folium das braucht
+Only daten/geo/gemeinden_2087.geojson ends up in the repository:
+  - only our 2,087 municipalities
+  - without the Z dimension
+  - simplified with a tolerance of 100 m
+  - reprojected from LV95 (EPSG:2056) to WGS84 (EPSG:4326), because folium needs it
 
-Ausfuehren:   python scripts/hole_geodaten.py
+Run with:   python scripts/hole_geodaten.py
 """
 
 from pathlib import Path
@@ -33,14 +33,14 @@ TOLERANZ_M = 100
 
 def hole_roh() -> None:
     if ROH.exists():
-        print(f"  Rohdatei schon vorhanden: {ROH.relative_to(WURZEL)}")
+        print(f"  Raw file already present: {ROH.relative_to(WURZEL)}")
         return
     ROH.parent.mkdir(parents=True, exist_ok=True)
-    print(f"  Lade {URL.rsplit('/', 1)[-1]} ...")
+    print(f"  Downloading {URL.rsplit('/', 1)[-1]} ...")
     r = requests.get(URL, timeout=900)
     r.raise_for_status()
     ROH.write_bytes(r.content)
-    print(f"  {ROH.relative_to(WURZEL)}  {len(r.content):,} Byte")
+    print(f"  {ROH.relative_to(WURZEL)}  {len(r.content):,} bytes")
 
 
 def baue_geojson() -> None:
@@ -50,35 +50,35 @@ def baue_geojson() -> None:
     pfad = f"/vsizip/{ROH}/swissBOUNDARIES3D_1_5_LV95_LN02.gpkg"
     g = gpd.read_file(pfad, layer=EBENE,
                       columns=["bfs_nummer", "name", "kantonsnummer", "objektart"])
-    print(f"  Ebene {EBENE}: {len(g)} Objekte")
+    print(f"  Layer {EBENE}: {len(g)} objects")
 
     g = g[g["bfs_nummer"].isin(unsere)].copy()
-    print(f"  Davon unsere Gemeinden: {len(g)} "
-          f"(eindeutige Nummern: {g['bfs_nummer'].nunique()})")
+    print(f"  Of which our municipalities: {len(g)} "
+          f"(distinct numbers: {g['bfs_nummer'].nunique()})")
 
     fehlend = sorted(unsere - set(g["bfs_nummer"]))
     if fehlend:
-        raise SystemExit(f"ABBRUCH: {len(fehlend)} Gemeinden ohne Geometrie: {fehlend}")
+        raise SystemExit(f"ABORT: {len(fehlend)} municipalities without geometry: {fehlend}")
 
-    g["geometry"] = shapely.force_2d(g.geometry)          # Hoehe weg, wird nicht gebraucht
-    g["geometry"] = g.geometry.simplify(TOLERANZ_M)       # in Metern, weil LV95
-    g = g.to_crs(4326)                                    # folium rechnet in WGS84
+    g["geometry"] = shapely.force_2d(g.geometry)          # drop height, not needed
+    g["geometry"] = g.geometry.simplify(TOLERANZ_M)       # in metres, because LV95
+    g = g.to_crs(4326)                                    # folium works in WGS84
 
     leer = int(g.geometry.is_empty.sum())
     ungueltig = int((~g.geometry.is_valid).sum())
-    print(f"  Nach dem Vereinfachen: {leer} leere, {ungueltig} ungueltige Geometrien")
+    print(f"  After simplifying: {leer} empty, {ungueltig} invalid geometries")
 
     g = g.rename(columns={"bfs_nummer": "gemeinde_nr"})[["gemeinde_nr", "name", "geometry"]]
     ZIEL.parent.mkdir(parents=True, exist_ok=True)
     g.to_file(ZIEL, driver="GeoJSON", COORDINATE_PRECISION=5)
-    print(f"  {ZIEL.relative_to(WURZEL)}  {ZIEL.stat().st_size:,} Byte")
+    print(f"  {ZIEL.relative_to(WURZEL)}  {ZIEL.stat().st_size:,} bytes")
 
 
 def main() -> None:
-    print("Gemeindegrenzen von swisstopo:")
+    print("Municipal boundaries from swisstopo:")
     hole_roh()
     baue_geojson()
-    print("Fertig.")
+    print("Done.")
 
 
 if __name__ == "__main__":

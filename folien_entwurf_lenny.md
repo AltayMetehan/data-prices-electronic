@@ -1,3 +1,7 @@
+> **Superseded.** This draft was replaced by the finished slide deck in
+> `präsentation_konzept/`. It is kept in German as a record of the working stage
+> and is deliberately not translated.
+
 # Folienentwurf, Konzept-Präsentation
 
 **Noch kein Foliendeck. Eine Diskussionsgrundlage für den Call am Dienstag.**

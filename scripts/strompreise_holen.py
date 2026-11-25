@@ -1,30 +1,33 @@
 """
-Strompreise der Schweizer Gemeinden von der ElCom holen (via LINDAS SPARQL).
+Fetch the electricity prices of Swiss municipalities from ElCom (via LINDAS SPARQL).
 
-Holt ALLE Tarife (alle Gemeinden, alle Netzbetreiber, alle Verbrauchskategorien
-H1-H8 und C1-C7, Produkt "standard" und "cheapest") und speichert JEDES JAHR
-in einer eigenen CSV-Datei unter daten/strompreise/:
+Fetches ALL tariffs (all municipalities, all grid operators, all consumption
+categories H1-H8 and C1-C7, products "standard" and "cheapest") and stores EACH
+YEAR in its own CSV file under daten/strompreise/:
 Daten_Strompreise_2021.csv, Daten_Strompreise_2024.csv, Daten_Strompreise_2027.csv
 
-Ausfuehren:   pip install requests pandas
-              python scripts/strompreise_holen.py            -> alle drei Jahre
-              python scripts/strompreise_holen.py 2024       -> nur ein Jahr
-              python scripts/strompreise_holen.py 2021 2027  -> mehrere bestimmte Jahre
-Die Ablage ist unabhaengig vom Arbeitsverzeichnis: Das Skript legt die Dateien immer
-unter daten/strompreise/ im Repo ab, nicht im aktuellen Ordner.
+Run with:   pip install requests pandas
+            python scripts/strompreise_holen.py            -> all three years
+            python scripts/strompreise_holen.py 2024       -> a single year
+            python scripts/strompreise_holen.py 2021 2027  -> several specific years
+Where the files land does not depend on the working directory: the script always
+writes to daten/strompreise/ inside the repository, not to the current folder.
 
-Einheiten: alle Preise in Rappen pro kWh (Rp./kWh), ausser messtarif_chf_jahr.
-Spalten:
-  total         Gesamtpreis exkl. MWST
+Units: all prices in centimes per kWh (cts./kWh), except messtarif_chf_jahr.
+Columns (the column names stay German because they are identifiers shared with
+the CSV, SQLite, PostgreSQL and the SPARQL query):
+  total         total price excluding VAT
                 = energie + netznutzung + abgaben + netzzuschlag + messtarif
-  energie       Energielieferung
-  netznutzung   Netznutzung (die Grundgebuehr ist hier schon auf Rp./kWh umgerechnet
-                eingerechnet, darum gibt es keine eigene Spalte fuer Fixkosten)
-  abgaben       Abgaben an das Gemeinwesen
-  netzzuschlag  Netzzuschlag nach Art. 35 EnG (national einheitlich)
-  messtarif     Tarif fuer das Messwesen. Erst ab 2026 separat ausgewiesen,
-                vorher in der Netznutzung enthalten. Fuer 2021/2024 daher leer.
-  messtarif_chf_jahr  Messtarif in CHF pro Jahr (nur Info, steckt schon in messtarif)
+  energie       energy supply
+  netznutzung   grid usage. The fixed basic fee is already converted to cts./kWh
+                and included here, which is why there is no separate column for
+                fixed costs.
+  abgaben       levies to public authorities
+  netzzuschlag  grid surcharge under Art. 35 EnG (uniform across Switzerland)
+  messtarif     metering tariff. Reported separately only from 2026 onwards,
+                before that it was contained in netznutzung. Empty for 2021/2024.
+  messtarif_chf_jahr  metering tariff in CHF per year (information only, it is
+                      already contained in messtarif)
 """
 
 import io
@@ -37,7 +40,7 @@ import requests
 
 ENDPOINT = "https://ld.admin.ch/query"  # Alternative: https://lindas-cached.cluster.ldbar.ch/query
 JAHRE = [2021, 2024, 2027]
-# Das Skript liegt in scripts/, die Daten gehoeren in daten/strompreise/ daneben.
+# This script lives in scripts/, the data belongs in daten/strompreise/ next to it.
 WURZEL = Path(__file__).resolve().parent.parent
 AUSGABE_ORDNER = WURZEL / "daten" / "strompreise"
 OUTPUT_MUSTER = "Daten_Strompreise_{jahr}.csv"
@@ -84,7 +87,7 @@ BESTANDTEILE = ["energie", "netznutzung", "abgaben", "netzzuschlag", "messtarif"
 
 
 def hole_jahr(jahr: int) -> pd.DataFrame:
-    """Fuehrt die SPARQL-Abfrage fuer ein Jahr aus und gibt ein DataFrame zurueck."""
+    """Runs the SPARQL query for one year and returns a DataFrame."""
     query = QUERY_TEMPLATE % {"jahr": jahr}
     for versuch in range(3):
         try:
@@ -97,27 +100,27 @@ def hole_jahr(jahr: int) -> pd.DataFrame:
             r.raise_for_status()
             return pd.read_csv(io.StringIO(r.text), dtype={"gemeinde_nr": "Int64"})
         except requests.RequestException as e:
-            print(f"  Versuch {versuch + 1} fuer {jahr} fehlgeschlagen: {e}")
+            print(f"  Attempt {versuch + 1} for {jahr} failed: {e}")
             time.sleep(5)
-    raise RuntimeError(f"Abfrage fuer {jahr} ist dreimal fehlgeschlagen")
+    raise RuntimeError(f"The query for {jahr} failed three times")
 
 
 def bereinige(df: pd.DataFrame) -> pd.DataFrame:
-    """Doppelte Zeilen entfernen und die Summe der Bestandteile kontrollieren."""
-    # Falls ein Netzbetreiber/Gemeinde mehrere Namen hat, entstehen doppelte Zeilen
+    """Removes duplicate rows and checks that the components add up to the total."""
+    # If a grid operator or a municipality carries several names, duplicates appear
     vorher = len(df)
     df = df.drop_duplicates(subset=SCHLUESSEL)
     if vorher != len(df):
-        print(f"  {vorher - len(df)} doppelte Zeilen entfernt")
+        print(f"  {vorher - len(df)} duplicate rows removed")
 
-    # Der messtarif bleibt leer, wo ihn die ElCom nicht liefert. Beim Beschaffen wird
-    # nichts veraendert, das passiert spaeter im Code (Abschnitt 3 der Anleitung).
-    # Sachlich war der Messtarif 2021/2024 auch nicht null, sondern in der Netznutzung
-    # enthalten; eine 0 in der Datei wuerde das verdecken.
-    # Nur fuer die folgende Kontrolle wird die Luecke als 0 gerechnet.
+    # messtarif stays empty wherever ElCom does not supply it. Nothing is changed
+    # while fetching; that happens later in the code (section 3 of the project
+    # instructions). Factually the metering tariff was not zero in 2021/2024 either,
+    # it was contained in netznutzung; a 0 in the file would hide that.
+    # The gap is treated as 0 for the following check only.
     kontrolle = df[BESTANDTEILE].fillna(0.0).sum(axis=1)
     differenz = (df["total"] - kontrolle).abs()
-    print(f"  Zeilen, bei denen die Summe nicht aufs Total aufgeht: {(differenz > 0.01).sum()}")
+    print(f"  Rows where the components do not add up to the total: {(differenz > 0.01).sum()}")
 
     return df.sort_values(SCHLUESSEL).reset_index(drop=True)
 
@@ -130,7 +133,7 @@ def main():
         t0 = time.time()
         df = hole_jahr(jahr)
         if df.empty:
-            print(f"  Keine Daten fuer {jahr} gefunden, nichts gespeichert")
+            print(f"  No data found for {jahr}, nothing saved")
             continue
 
         df = bereinige(df)
@@ -139,10 +142,10 @@ def main():
         df.to_csv(datei, index=False, encoding="utf-8")
 
         h4 = df[(df["kategorie"] == "H4") & (df["produkt"] == "standard")]
-        print(f"  {len(df)} Zeilen, {df['gemeinde_nr'].nunique()} Gemeinden "
+        print(f"  {len(df)} rows, {df['gemeinde_nr'].nunique()} municipalities "
               f"({time.time() - t0:.1f} s)")
-        print(f"  Median H4 (Standardprodukt): {h4['total'].median():.2f} Rp./kWh")
-        print(f"  Gespeichert: {datei.relative_to(WURZEL)}")
+        print(f"  Median H4 (standard product): {h4['total'].median():.2f} cts./kWh")
+        print(f"  Saved: {datei.relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":
