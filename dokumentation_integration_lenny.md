@@ -53,7 +53,7 @@ Kennzahl doppelt vor. Ohne diese Kontrolle hätte der Pivot stillschweigend Wert
 ## 3. Vorbereitung: vom Lang- ins Breitformat
 
 Die BFS-Datei liegt im **Langformat** vor: eine Zeile pro Gemeinde *und* Kennzahl.
-Aeugst am Albis belegt 41 Zeilen. Insgesamt sind es 89 093 Zeilen für 2172 Gemeinden.
+Aeugst am Albis occupies 41 rows. Insgesamt sind es 89 093 Zeilen für 2172 Gemeinden.
 
 Ein Join braucht eine Zeile pro Gemeinde. Mit `pivot` wurde die Tabelle gedreht: aus
 41 Zeilen wird eine Zeile mit 39 Spalten. Ohne diesen Schritt wäre jede Gemeinde beim
@@ -393,7 +393,7 @@ vier neuen Spalten, bei 2087 Gemeinden.
 | Zeilen | 2087, unverändert |
 | Fehlende Werte in `kanton`, `kanton_nr`, `sprachregion` | 0 |
 | Fehlende Werte in `gemeindetyp_9` | 1 (Prez, siehe oben) |
-| Anzahl Kantone | 26 |
+| Number of cantons | 26 |
 | Die zwölf bisherigen Spalten | **0 abweichende Werte**, Spalten- und Zeilenreihenfolge identisch |
 
 ### Verteilung über die Sprachregionen
