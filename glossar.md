@@ -499,12 +499,41 @@ Datei **genau eine Person ganz**.
 Wenn euch dort beim Übersetzen eurer eigenen Dateien etwas auffällt, sagt es
 Lenny, statt es selber zu ändern.
 
-**⚠️ 3. Müssen Commit-Nachrichten englisch werden?**
+**⚠️ 3. Fehlermeldungen und Docstrings: beim Merge am Freitag gezielt prüfen.**
+
+Der Sprachklassifikator des Prüfskripts deckt Markdown-Zellen, Kommentare und
+`print()` ab. **Nicht sicher abgedeckt** sind vier Stellen, an denen deutscher Text
+überleben kann:
+
+| | wo | Beispiel |
+|---|---|---|
+| 1 | `raise`-Texte | `raise RuntimeError("PGPASSWORD fehlt. ...")` in `sql/03_postgresql.ipynb` |
+| 2 | `assert`-Meldungen | `assert len(df) == 2087, "Zeilenzahl stimmt nicht"` |
+| 3 | Docstrings von Funktionen **innerhalb** von Notebooks | `"""Klettert nach oben, bis ..."""` |
+| 4 | Texte in `except`-Zweigen | `except ...: print("Konnte nicht ...")` |
+
+**Warum das die wichtigste Stelle von allen ist:** Eine Fehlermeldung ist genau der
+Text, den ein Korrektor am wahrscheinlichsten zu Gesicht bekommt – nämlich dann, wenn
+bei ihm etwas **nicht** läuft. Einen deutschen Kommentar liest nie jemand; eine
+deutsche Fehlermeldung springt auf dem Bildschirm an, und zwar im schlechtesten
+Moment.
+
+**Zu prüfen über alle fünf Notebooks, auch über Lennys bereits übersetzte**, weil der
+Klassifikator sie dort bisher nicht zuverlässig erfasst hat. Suchmuster:
+
+```
+raise \w+Error\(        assert .*,\s*["']        """ ... """        except .*:
+```
+
+Zuständig beim Merge: Lenny führt die Suche aus, Treffer in fremden Dateien gehen an
+Metehan und Subraj zurück.
+
+**⚠️ 4. Müssen Commit-Nachrichten englisch werden?**
 Die bisherige Historie ist deutsch. Nachträglich umschreiben wäre ein
 `rebase` über die ganze Historie und damit gefährlich. Vorschlag: Historie bleibt,
 **neue** Commits ab jetzt englisch.
 
-**⚠️ 4. Bleiben unsere Vornamen in den Dateinamen?**
+**⚠️ 5. Bleiben unsere Vornamen in den Dateinamen?**
 `01_daten_bfs_lenny.ipynb`, `03_analyse_subraj.ipynb` und so weiter. Umbenennen
 bricht alle Pfade und alle Querverweise in der Dokumentation. Vorschlag:
 **Dateinamen bleiben**, siehe Abschnitt 1.4.
