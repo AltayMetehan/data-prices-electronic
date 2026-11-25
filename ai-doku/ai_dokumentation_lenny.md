@@ -1,455 +1,451 @@
-# AI-Dokumentation – Lenny Frei
+# AI documentation – Lenny Frei
 
-Data Analytics, ZHAW, HS2026. Teil von Pflichtanforderung 8.
+Data Analytics, ZHAW, autumn semester 2026. Part of mandatory requirement 8.
 
-Dieses Dokument wird **laufend** nachgeführt, am Ende jeder Arbeitssitzung. Es hält
-fest, welche AI-Werkzeuge für welche Aufgaben eingesetzt wurden, welche Vorteile und
-Nachteile dabei aufgefallen sind und – besonders – **wo etwas mit AI nicht
-funktioniert hat**.
+This document is updated **continuously**, at the end of every working session. It
+records which AI tools were used for which tasks, which advantages and disadvantages
+showed up along the way and – above all – **where something did not work with the
+help of AI**.
 
-Der letzte Punkt ist der wichtigste. Er lässt sich am Schluss nicht rekonstruieren,
-weil man die Fehlschläge vergisst, sobald das Resultat stimmt.
+That last point is the most important one. It cannot be reconstructed at the end,
+because you forget the failures as soon as the result is right.
 
-> Hinweis für die Abgabe: Die AI-Reflexion ist zweimal verlangt. Einmal als
-> Dokumentation (Pflicht 8) und einmal **in den Folien und im Video** (Kriterium 6 der
-> Videobewertung). Dieses Dokument ist die Grundlage für beides.
+> Note for the submission: the AI reflection is required twice. Once as documentation
+> (mandatory requirement 8) and once **in the slides and in the video** (criterion 6
+> of the video assessment). This document is the basis for both.
 
 ---
 
-## Verwendete Werkzeuge
+## Tools used
 
-| Werkzeug | Wofür |
+| Tool | Used for |
 |---|---|
-| Claude Code (Claude Opus 5) in VS Code | Einrichtung der Umgebung, Prüfung der Daten, Korrektur der Projektanleitung, Nachrechnen von Kennzahlen |
-| Claude Code in einer Cloud-Sitzung | ein Zwischenschritt am 27./28.10.2026, Resultat verloren (siehe unten) |
-| eine weitere, externe AI-Prüfung | Durchsicht des Projekts, lieferte den Befund zur Netzbetreiberebene |
+| Claude Code (Claude Opus 5) in VS Code | setting up the environment, checking the data, correcting the project instructions, recomputing figures |
+| Claude Code in a cloud session | one intermediate step on 27/28 October 2026, result lost (see below) |
+| a further, external AI review | review of the project, produced the finding about the grid operator level |
 
 ---
 
-## Sitzungsprotokoll
+## Session log
 
-### 27. Oktober 2026 – Einrichtung und erste Prüfung der Daten
+### 27 October 2026 – setup and first check of the data
 
-- Umgebung geprüft: Python 3.11.4, git 2.50.1, pip vorhanden.
-- Repo geklont, virtuelle Umgebung `.venv` angelegt, sieben Pakete installiert
+- Environment checked: Python 3.11.4, git 2.50.1, pip present.
+- Repository cloned, virtual environment `.venv` created, seven packages installed
   (pandas, matplotlib, jupyter, requests, openpyxl, geopandas, folium),
-  `requirements.txt` von Hand geschrieben statt mit `pip freeze`, damit nur die
-  sieben wirklich benötigten Pakete drinstehen und nicht 120 Hilfspakete.
-- Die AI hat die Projektanleitung `CLAUDE Data Analytics.md` gelesen und **fünf
-  Widersprüche** gefunden, die mir selbst nicht aufgefallen waren: ein fehlender
-  Abschnitt 12, der Widerspruch zwischen "nur Codespaces" und einer lokalen
-  Installation, eine veraltete Spaltenliste, ein doppelt vergebener Pflichtpunkt 9
-  und eine geratene Behauptung über eine angebliche falsche Abgabefrist.
-- Nachgerechnet, ob `energie + netznutzung + abgaben + netzzuschlag + messtarif`
-  den Gesamtpreis ergibt. Resultat: ja, in allen drei Jahren, grösste Abweichung
-  0.001 Rappen. Damit war die vorher ungeklärte Lücke von 1.675 Rappen in den
-  2027er-Daten erklärt: Es war der ab 2026 neu ausgewiesene Messtarif.
+  `requirements.txt` written by hand instead of with `pip freeze`, so that it holds
+  only the seven packages actually needed and not 120 helper packages.
+- The AI read the project instructions `CLAUDE Data Analytics.md` and found **five
+  contradictions** that I had not noticed myself: a missing section 12, the
+  contradiction between "Codespaces only" and a local installation, an outdated
+  column list, a mandatory point 9 handed out twice, and a guessed claim about an
+  allegedly wrong submission deadline.
+- Recomputed whether `energie + netznutzung + abgaben + netzzuschlag + messtarif`
+  adds up to the total price. Result: yes, in all three years, largest deviation
+  0.001 centimes. That explained the previously unresolved gap of 1.675 centimes in
+  the 2027 data: it was the metering tariff, reported separately from 2026 onwards.
 
-### 30. Oktober 2026 – Abgleich mit dem Original und methodischer Vorbehalt
+### 30 October 2026 – comparison against the original and a methodological reservation
 
-- Die Moodle-Seite mit der Aufgabenstellung lag nur als Bild vor (3298 × 21 546
-  Pixel, keine Textebene). Die AI hat das Bild in Streifen zerlegt und gelesen.
-- Abgleich unserer Punkteliste mit dem Original: **acht Abweichungen**, alle von
-  mir verursacht, weil ich die Moodle-Seite zu stark verdichtet zusammengefasst
-  hatte. Die wichtigsten: In Pflicht 2 fehlte "Widersprüche auflösen" – das ist
-  meine eigene Aufgabe. Und die Videobewertung besteht aus sieben Kriterien, nicht
-  aus einer Zeile über die Länge; eines davon verlangt die AI-Reflexion in den
-  Folien und im Video.
-- Dabei fiel ein **Fehler auf der Moodle-Seite selbst** auf: Die Abgabe des
-  Endprojekts trägt im Titel den 10.01.2027, im Fälligkeitsfeld aber den
-  11.01.2026. Wird bei den Dozenten nachgefragt.
-- Die Referenzwerte der Gruppe (Mittelwerte, Streuungsanteile, 2087 gemeinsame
-  Gemeinden) wurden an den CSV-Dateien nachgerechnet und bestätigt. Ergänzt wurde
-  die fehlende Zeile für den Netzzuschlag, ohne die eine Spalte nur auf 99.2 Prozent
-  statt 100 Prozent kam.
-- Neuer Abschnitt 5b zum methodischen Vorbehalt auf Betreiberebene (siehe unten).
+- The Moodle page with the assignment existed only as an image (3,298 × 21,546
+  pixels, no text layer). The AI cut the image into strips and read it.
+- Comparing our requirements checklist against the original: **eight deviations**, all
+  of them caused by me, because I had condensed the Moodle page too aggressively. The
+  most important ones: mandatory requirement 2 was missing "resolving
+  inconsistencies" – that is my own task. And the video assessment consists of seven
+  criteria, not of one line about the length; one of them requires the AI reflection
+  in the slides and in the video.
+- In the process, **an error on the Moodle page itself** came to light: the
+  submission of the final project carries 10 January 2027 in its title, but
+  11 January 2026 in the due-date field. To be raised with the lecturers.
+- The group's reference values (means, shares of dispersion, 2,087 common
+  municipalities) were recomputed against the CSV files and confirmed. The missing
+  row for the grid surcharge was added; without it one column only reached 99.2 per
+  cent instead of 100 per cent.
+- New section 5b on the methodological reservation at the operator level (see below).
 
-### 1. November 2026 – Zweite Datenquelle, Join, und ein Abgleich von Code und Doku
+### 1 November 2026 – second data source, join, and a comparison of code against documentation
 
-- Die BFS-Quelle **vor** dem Herunterladen geprüft: Die AI hat zuerst die
-  Metadaten-Beilage ausgelesen und die Indikatorenliste gezeigt. Dabei stellte sich
-  heraus, dass Gemeindetypologie und Sprachregion **nicht** enthalten sind und dass die
-  Kennzahlen aus verschiedenen Jahren stammen, von 2016 bis 2019. Zwei Kennzahlen mit
-  Bezug 2004/2009 wurden daraufhin ausgeschlossen.
-- Die Geodaten aus dem Kurs-Repo geprüft, bevor sie verwendet wurden: Sie decken nur
-  den Kanton Zürich ab. Siehe Fall 6 unten.
-- Join gebaut: Regionalporträts 2021 ins Breitformat gedreht, über die
-  BFS-Gemeindenummer mit den Preisdaten verbunden. **Trefferquote 100 Prozent**, kein
-  Datensatz verloren.
-- Bei der Prüfung der fehlenden Werte fiel auf, dass das ursprünglich geplante Merkmal
-  «Arbeitsstätten» bei 269 Gemeinden fehlt, «Beschäftigte» dagegen nur bei 88, bei einer
-  Korrelation von 0.986. Der Tausch brachte 181 Gemeinden zurück ins Modell.
-- Notebook `scripts/01_daten_bfs_lenny.ipynb` erstellt und ausgeführt, Dokumentation zu
-  Pflicht 2 geschrieben.
-- Eine eigene Zahl korrigiert: Der Anteil der herausfallenden Gemeinden war mündlich
-  mit «gut 17 Prozent» angegeben worden; das galt für die alte Merkmalswahl. Richtig
-  sind **gut 9 Prozent**.
-- Am selben Tag kam heraus, dass eine seit dem 27.10. geltende Regel zum Messtarif
-  falsch herum war. Sie steckte bereits in der ausgelieferten CSV. Siehe Fall 7.
-  Abschnitt 4 und 5 der Projektanleitung, das Notebook, die Integrationsdokumentation
-  und die Tabelle wurden korrigiert.
+- The FSO source was checked **before** downloading it: the AI first read out the
+  metadata attachment and showed the list of indicators. That revealed that the
+  municipality typology and the language region are **not** contained, and that the
+  indicators come from different years, from 2016 to 2019. Two indicators with
+  reference period 2004/2009 were excluded as a result.
+- The geodata from the course repository was checked before being used: it covers
+  only the canton of Zurich. See case 6 below.
+- Join built: Regional portraits 2021 pivoted into wide format, joined with the price
+  data on the FSO municipality number. **Match rate 100 per cent**, no record lost.
+- While checking the missing values it emerged that the originally planned
+  characteristic «workplaces» is missing for 269 municipalities, while «jobs» is
+  missing for only 88, at a correlation of 0.986. The swap brought 181 municipalities
+  back into the model.
+- Notebook `scripts/01_daten_bfs_lenny.ipynb` created and executed, documentation for
+  mandatory requirement 2 written.
+- One of my own figures corrected: the share of municipalities dropping out had been
+  stated verbally as «a good 17 per cent»; that applied to the old choice of
+  characteristics. The correct figure is **a good 9 per cent**.
+- On the same day it came out that a rule about the metering tariff, in force since
+  27 October, had it the wrong way round. It was already built into the delivered
+  CSV. See case 7. Sections 4 and 5 of the project instructions, the notebook, the
+  integration documentation and the table were all corrected.
 
-### 7. November 2026 – Reparatur nach einem Umbau der Ordnerstruktur
+### 7 November 2026 – repair after a rearrangement of the folder structure
 
-- Metehans AI hatte die Dateien in Unterordner sortiert (`daten/strompreise/`,
-  `daten/bfs/`, `daten/verbunden/`, `scripts/`, `sql/`, `ai-doku/`), ohne die Pfade in
-  den Notebooks nachzuziehen. Beide Notebooks waren dadurch kaputt. Siehe Fall 8.
-- Beide Notebooks bekamen einen Anker auf die Repo-Wurzel, `finde_wurzel`, und leiten
-  alle Pfade davon ab. Getestet aus drei Arbeitsverzeichnissen.
-- `scripts/strompreise_holen.py`: Ausgabepfad und Dateinamen angeglichen,
-  `fillna(0.0)` auf dem gespeicherten DataFrame entfernt. Es gilt nur noch innerhalb
-  der Summenkontrolle.
-- Notebooks umbenannt nach der Reihenfolge der Arbeit:
+- Metehan's AI had sorted the files into subfolders (`daten/strompreise/`,
+  `daten/bfs/`, `daten/verbunden/`, `scripts/`, `sql/`, `ai-doku/`) without updating
+  the paths in the notebooks. Both notebooks were broken as a result. See case 8.
+- Both notebooks were given an anchor to the repository root, `finde_wurzel`, and
+  derive all paths from it. Tested from three working directories.
+- `scripts/strompreise_holen.py`: output path and file names aligned, `fillna(0.0)`
+  removed from the saved DataFrame. It now applies only inside the sum check.
+- Notebooks renamed according to the order of the work:
   `01_daten_bfs_lenny.ipynb`, `02_sqlite_metehan.ipynb`.
-- Bei der Vorbereitung der Karte kam heraus, dass die Projektanleitung die zweite
-  Datenquelle falsch beschrieben hatte. Siehe Fall 9.
+- While preparing the map it came out that the project instructions had described the
+  second data source wrongly. See case 9.
 
-**Zweite Sitzung am selben Tag:** Dritte Quelle eingebaut. «Die Raumgliederungen der
-Schweiz 2019» liefert Kanton, Sprachregion und Gemeindetypologie in einer Datei. Vier
-Gemeinden fehlten dort, weil ihr Gebietsstand 2019 ist; sie wurden über die
-Mutationstabelle des historisierten Gemeindeverzeichnisses maschinell aufgelöst, nicht
-von Hand. Bei drei von vieren stimmten alle Vorgänger überein, bei Prez (2237) nicht
-in der Typologie – dort wurde nichts eingetragen, statt zu raten. Siehe Fall 10.
+**Second session on the same day:** third source built in. «Die Raumgliederungen der
+Schweiz 2019» supplies canton, language region and municipality typology in a single
+file. Four municipalities were missing there, because its territorial status is 2019;
+they were resolved mechanically through the changes table of the historicized commune
+register, not by hand. For three of the four, all predecessors agreed; for Prez (2237)
+they did not agree on the typology – nothing was entered there, instead of guessing.
+See case 10.
 
-**Dritte Sitzung, Karten (Bonus 3):** Lizenz von swissBOUNDARIES3D geklärt, bevor die
-Daten geholt wurden – der STAC-Katalog führt «proprietary», die Nutzungsbedingungen
-von swisstopo erlauben Nutzung und Bearbeitung mit Quellenangabe. Abdeckung geprüft
-statt angenommen: alle 2087 Gemeinden sind in der Ausgabe 2026-01 enthalten. Zwei
-Karten gebaut, je als PNG und interaktiv. Die Veränderungskarte musste nach dem
-ersten Durchlauf korrigiert werden, siehe Fall 11. Gemessen: Der Netzbetreiber
-erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die Sprachregion
-0.4 bis 3.0.
+**Third session, maps (bonus 3):** the licence of swissBOUNDARIES3D was clarified
+before the data was fetched – the STAC catalogue lists «proprietary», while
+swisstopo's terms of use permit use and modification with attribution. Coverage was
+checked rather than assumed: all 2,087 municipalities are contained in edition
+2026-01. Two maps built, each as a PNG and interactive. The change map had to be
+corrected after the first run, see case 11. Measured: the grid operator explains 94 to
+97 per cent of the price dispersion, the canton 23 to 60, the language region 0.4 to
+3.0.
 
 ---
 
-## Wo etwas mit AI nicht funktioniert hat
+## Where something did not work with the help of AI
 
-### 1. Eine ganze Arbeitssitzung in der Cloud ging verloren (27./28.10.2026)
+### 1. An entire working session in the cloud was lost (27/28 October 2026)
 
-Zwischen den beiden lokalen Sitzungen habe ich in einer Cloud-Sitzung
-weitergearbeitet. Dort entstanden rund vier Commits und acht Dateien, unter anderem
-`punkteliste.md`, `folien_entwurf_lenny.md`, `ai_dokumentation_lenny.md` und ein
-erster Entwurf des Notebooks.
+Between the two local sessions I carried on working in a cloud session. Around four
+commits and eight files were created there, among them `punkteliste.md`,
+`folien_entwurf_lenny.md`, `ai_dokumentation_lenny.md` and a first draft of the
+notebook.
 
-**Nichts davon existiert mehr.** Die Cloud-Umgebung war nicht als ich bei GitHub
-angemeldet und konnte deshalb nicht pushen. Der Container wurde danach gelöscht.
-Am 30.10. habe ich den ganzen Benutzerordner durchsuchen lassen: Keine dieser
-Dateien ist auf meinem Rechner vorhanden. `git log origin/main..HEAD` zeigte null
-lokale Commits, lokaler Stand und GitHub waren identisch.
+**None of it exists any more.** The cloud environment was not signed in to GitHub as
+me and therefore could not push. The container was deleted afterwards. On 30 October I
+had the entire user folder searched: not one of these files is present on my machine.
+`git log origin/main..HEAD` showed zero local commits, the local state and GitHub were
+identical.
 
-**Lehre:** Arbeit, die nicht gepusht ist, existiert nicht. Eine Cloud-Sitzung sieht
-den eigenen Rechner nicht und muss ihr Ergebnis selbst ins Repo schreiben können.
-Vor dem Start einer Cloud-Sitzung prüfen, ob sie Schreibrechte hat.
+**Lesson:** work that has not been pushed does not exist. A cloud session cannot see
+your own machine and must be able to write its result into the repository itself.
+Before starting a cloud session, check that it has write access.
 
-**Aufwand:** rund zwei Stunden, die neu gemacht werden mussten.
+**Cost:** around two hours that had to be done again.
 
-### 2. Eine AI lieferte Zahlen, die eine andere AI nicht reproduzieren konnte (30.10.2026)
+### 2. One AI delivered figures that another AI could not reproduce (30 October 2026)
 
-Eine externe AI-Prüfung lieferte den – inhaltlich richtigen und wichtigen – Befund,
-dass Strompreise nicht pro Gemeinde, sondern pro Netzbetreiber gesetzt werden. Dazu
-kamen konkrete Zahlen: 544, 504 und 481 Netzbetreiber in den drei Jahren.
+An external AI review delivered the – substantively correct and important – finding
+that electricity prices are set per grid operator, not per municipality. It came with
+concrete figures: 544, 504 and 481 grid operators in the three years.
 
-Beim Nachrechnen kam Claude auf 512, 496 und 485. Es wurden **acht verschiedene
-Rechenwege** durchprobiert – vier Zuordnungsregeln für Gemeinden mit mehreren
-Betreibern, jeweils über zwei Grundmengen. Keiner ergab die gelieferten Zahlen.
-Claude hat das gesagt, statt die Zahlen zu übernehmen oder eine Erklärung zu
-erfinden.
+Recomputing them, Claude arrived at 512, 496 and 485. **Eight different ways of
+computing** were tried – four attribution rules for municipalities with several
+operators, each over two base populations. None produced the delivered figures. Claude
+said so, instead of adopting the figures or inventing an explanation.
 
-Die Auflösung: Bei Gemeinden mit mehreren Netzbetreibern hatte die erste AI
-denjenigen genommen, der in der CSV-Datei **zufällig zuerst steht**. Dieses Ergebnis
-hängt an der Zeilenreihenfolge und ändert sich, sobald Metehan die SPARQL-Abfrage
-erneut laufen lässt. Die Zahlen waren damit nicht falsch im Sinne von unplausibel,
-aber nicht reproduzierbar.
+The resolution: for municipalities with several grid operators, the first AI had taken
+whichever one **happens to come first** in the CSV file. That result depends on the row
+order and changes as soon as Metehan runs the SPARQL query again. The figures were
+therefore not wrong in the sense of implausible, but they were not reproducible.
 
-Im Dokument stehen jetzt die nachgerechneten Zahlen mit der dokumentierten Regel
-"der Betreiber mit der kleinsten `netzbetreiber_id`". Die Aussage selbst blieb
-unverändert bestehen: Zwischen 95.6 und 98.0 Prozent der Preisstreuung liegen
-zwischen den Betreibern, die effektive Fallzahl beträgt rund 500 statt 2087.
+The document now holds the recomputed figures with the documented rule "the operator
+with the smallest `netzbetreiber_id`". The statement itself remained unchanged:
+between 95.6 and 98.0 per cent of the price dispersion lies between the operators, and
+the effective number of cases is around 500 instead of 2,087.
 
-**Lehre:** Eine Zahl ohne dokumentierte Methode ist keine Zahl. Dass der Fehler
-überhaupt auffiel, lag allein daran, dass eine zweite AI sie nachrechnen wollte und
-nicht konnte. Plausibel aussehende Zahlen sind das gefährlichste Ergebnis, weil
-niemand sie hinterfragt.
+**Lesson:** a figure without a documented method is not a figure. That the error was
+noticed at all was due solely to a second AI wanting to recompute it and failing.
+Plausible-looking figures are the most dangerous result, because nobody questions them.
 
-### 3. Eine Datei, die nicht war, was ihr Name sagte (27.10.2026)
+### 3. A file that was not what its name said (27 October 2026)
 
-Ich hatte eine Datei `pdf24_zusammengefügt.pdf` als "Zusammenfassung aller Daten" in
-den Repo-Ordner gelegt. Die AI hat sie vor der Verwendung geprüft: 1795 Seiten,
-309 MB, und inhaltlich keine Datenzusammenfassung, sondern Vorlesungsfolien,
-Übungsblätter – und **drei eingescannte, korrigierte Prüfungen mit Namen,
-Matrikelnummern und Noten von drei fremden Studierenden**.
+I had put a file `pdf24_zusammengefügt.pdf` into the repository folder as a "summary of
+all the data". The AI checked it before it was used: 1,795 pages, 309 MB, and in
+substance not a data summary at all but lecture slides, exercise sheets – and **three
+scanned, marked exams carrying the names, matriculation numbers and grades of three
+students who are not us**.
 
-Unser Repo ist öffentlich. Die Datei wurde aus dem Repo-Ordner entfernt und
-zusätzlich über die `.gitignore` abgesichert. Sie war zu keinem Zeitpunkt committet.
+Our repository is public. The file was removed from the repository folder and
+additionally secured through `.gitignore`. It was never committed at any point.
 
-**Lehre:** Vor dem Commit prüfen, was in einer Datei wirklich drinsteht, besonders
-bei zusammengefügten PDFs und in einem öffentlichen Repo.
+**Lesson:** before committing, check what is really inside a file, especially with
+merged PDFs and in a public repository.
 
-### 4. Veraltetes Material eines Klassenkollegen (30.10.2026)
+### 4. Outdated material from a fellow student (30 October 2026)
 
-Eine als "Zusammenfassung" weitergegebene Datei eines Klassenkollegen erwies sich
-als die offiziellen Kursunterlagen des **Herbstsemesters 2024**. Die AI hat sie mit
-der aktuellen Modulbeschreibung verglichen und vier Stellen gefunden, an denen die
-Spielregeln seither geändert haben, unter anderem die Notengewichtung (70/30 statt
-60/40) und die Pflicht, zehn wöchentliche Übungen abzugeben, die es in HS2026 nicht
-mehr gibt.
+A file passed on as a "summary" by a fellow student turned out to be the official
+course material of **autumn semester 2024**. The AI compared it against the current
+module description and found four places where the rules have changed since, among
+them the grade weighting (70/30 instead of 60/40) and the obligation to hand in ten
+weekly exercises, which no longer exist in autumn semester 2026.
 
-Eine zweite Datei desselben Kollegen bestand nur aus Bildern ohne Textebene und war
-ohne Texterkennung nicht lesbar.
+A second file from the same student consisted only of images without a text layer and
+was unreadable without OCR.
 
-**Lehre:** Unterlagen aus früheren Jahrgängen taugen für den Stoff, nicht für die
-Regeln. Verbindlich ist nur die aktuelle Modulbeschreibung auf Moodle.
+**Lesson:** material from earlier cohorts is good for the subject matter, not for the
+rules. Only the current module description on Moodle is binding.
 
-### 5. Grenzen, die die AI selbst benannt hat
+### 5. Limits the AI stated itself
 
-Mehrfach hat die AI gesagt, dass sie etwas nicht wisse, statt zu raten:
+Several times the AI said that it did not know something, instead of guessing:
 
-- Die 22-Punkte-Liste konnte zunächst nicht geprüft werden, weil die Quelle nur ein
-  Screenshot auf Moodle war. Die AI hat das als ungeprüft markiert, statt sie zu
-  bestätigen. Erst mit dem exportierten PDF wurde der Abgleich möglich – und ergab
-  dann acht Abweichungen.
-- Der Termin "8. Dezember, 11:00, SW301" liess sich aus der Moodle-Seite nicht
-  bestätigen, weil dort steht, dass die Termine erst nach der Gruppenregistrierung
-  festgelegt werden.
-- Zur Frage, wie sich das Cloud-Guthaben aktivieren lässt, hat die AI gesagt, sie
-  kenne den genauen Befehl nicht, statt einen zu erfinden.
+- The list of 22 points could not be checked at first, because the source was only a
+  screenshot on Moodle. The AI marked it as unverified instead of confirming it. Only
+  with the exported PDF did the comparison become possible – and it then produced
+  eight deviations.
+- The appointment "8 December, 11:00, SW301" could not be confirmed from the Moodle
+  page, because the page says the dates are only fixed after the group registration.
+- On the question of how to activate the cloud credit, the AI said it did not know the
+  exact command, instead of inventing one.
 
-### 6. Dokumentation und Code liefen auseinander (01.11.2026)
+### 6. Documentation and code drifted apart (1 November 2026)
 
-Beim Abgleich der Projektanleitung mit Metehans Beschaffungsskript kamen **drei
-Stellen** heraus, an denen die Dokumentation etwas anderes sagt als der Code. Alle drei
-stammen aus Angaben, die niemand gegen die Quelle geprüft hatte.
+Comparing the project instructions against Metehan's collection script brought out
+**three places** where the documentation says something different from the code. All
+three come from statements that nobody had checked against the source.
 
-**a) Falsche Endpunkt-Adressen.** Die Anleitung nannte
-`https://lindas.admin.ch/query` und `https://lindas.admin.ch/elcom/electricityprice`.
-Im Skript stehen `https://ld.admin.ch/query` und
-`https://energy.ld.admin.ch/elcom/electricityprice`. Wer die Adressen aus unserer
-Dokumentation ausprobiert hätte, wäre ins Leere gelaufen.
+**a) Wrong endpoint addresses.** The instructions named
+`https://lindas.admin.ch/query` and `https://lindas.admin.ch/elcom/electricityprice`.
+The script has `https://ld.admin.ch/query` and
+`https://energy.ld.admin.ch/elcom/electricityprice`. Anyone trying the addresses from
+our documentation would have come up empty.
 
-**b) Eine Behauptung über Geodaten, die die AI selbst erfunden hatte.** Am 27.10. hatte
-die AI in die Anleitung geschrieben, im Kurs-Repo von Dr. Gellrich lägen brauchbare
-Gemeindegrenzen. Grundlage war ein Hinweis auf Moodle, **nicht** ein Blick in die
-Dateien. Am 30.10. wurde nachgesehen: Die KML-Datei enthält 166 Gemeinden mit
-BFS-Nummern zwischen 0 und 298, also nur den Kanton Zürich. Die Behauptung stand vier
-Tage lang unwidersprochen in der Projektanleitung.
+**b) A claim about geodata that the AI had invented itself.** On 27 October the AI had
+written into the instructions that usable municipal boundaries were lying in
+Dr Gellrich's course repository. The basis for that was a note on Moodle, **not** a
+look into the files. On 30 October someone looked: the KML file contains 166
+municipalities with FSO numbers between 0 and 298, that is, only the canton of Zurich.
+The claim stood unchallenged in the project instructions for four days.
 
-**c) Eine Einschränkung, die falsch war.** Anleitung und geplanter Bericht sagten, die
-Fixkosten blieben aussen vor und für Gemeinden mit hoher Grundgebühr unterschätze die
-Analyse die Kosten. Der Kommentar im Skript sagte das Gegenteil: Die Fixkosten stecken
-bereits in der Netznutzung. Noch am selben Tag an der ElCom-Wegleitung zur
-Tarifdeklaration 2026 geklärt: Grund- und Leistungspreise werden in Rappen pro kWh
-umgerechnet, die Rappenwerte enthalten die Grundgebühren also bereits. Der
-Skriptkommentar stimmt, die Einschränkung war falsch und wurde gestrichen.
+**c) A limitation that was wrong.** The instructions and the planned report said that
+the fixed costs were left out and that the analysis underestimates the costs for
+municipalities with a high basic fee. The comment in the script said the opposite: the
+fixed costs are already inside the grid usage charge. Clarified on the same day
+against ElCom's guidance on tariff declaration 2026: basic and capacity prices are
+converted into centimes per kWh, so the centime figures already contain the basic
+fees. The script comment is right, the limitation was wrong and was deleted.
 
-**Ein vierter Widerspruch, beim selben Abgleich gefunden:** Abschnitt 4 der Anleitung
-ging davon aus, dass es den Messtarif vor 2026 nicht gab. Das Skript sagte, er sei
-vorher in der Netznutzung enthalten gewesen. Davon hing die Richtung einer Korrektur
-von 1.67 Rappen ab. Dieser Punkt wurde ebenfalls noch am selben Tag geklärt und
-erwies sich als der folgenreichste von allen – siehe Fall 7.
+**A fourth contradiction, found in the same comparison:** section 4 of the
+instructions assumed that the metering tariff did not exist before 2026. The script
+said it had previously been contained in the grid usage charge. The direction of a
+correction of 1.67 centimes depended on this. This point too was clarified on the same
+day and turned out to be the most consequential of them all – see case 7.
 
-**Lehre:** Eine Projektanleitung altert gegenüber dem Code, und zwar unbemerkt. Beide
-wurden von Menschen und AI gemeinsam geschrieben, aber nie gegeneinander gelesen. Dass
-die Fehler auffielen, lag allein an einem ausdrücklichen Abgleich Zeile für Zeile. Wer
-Dokumentation schreibt, muss sie gegen die Quelle prüfen, nicht gegen die Erinnerung.
+**Lesson:** project instructions age against the code, and they do it unnoticed. Both
+were written by humans and AI together, but never read against each other. That the
+errors were noticed was due solely to an explicit line-by-line comparison. Whoever
+writes documentation must check it against the source, not against their memory.
 
-Bemerkenswert ist Fall b: Hier hat die AI nicht eine fremde Angabe übernommen, sondern
-selbst eine plausible Behauptung aufgestellt, ohne sie zu prüfen – und sie dann vier
-Tage später selbst widerlegt.
+Case b is worth noting: here the AI did not adopt somebody else's statement, it put up
+a plausible claim of its own without checking it – and then refuted it itself four days
+later.
 
-### 7. Eine falsche Annahme war bereits in die Daten eingebaut (27.10. bis 01.11.2026)
+### 7. A wrong assumption was already built into the data (27 October to 1 November 2026)
 
-Das ist der lehrreichste Fall bisher, weil der Fehler nicht in einem Text stand,
-sondern **in einer Datei, die an zwei Teammitglieder gehen sollte**.
+This is the most instructive case so far, because the error was not in a text but **in
+a file that was due to go to two team members**.
 
-**Die Annahme.** Am 27.10. hielt die AI fest: Der Messtarif sei ab 2026 ein neuer
-Preisbestandteil, den es 2021 und 2024 nicht gab, und darum beim Vergleich über die
-Zeit wegzulassen. Die Beobachtung dahinter stimmte: Das Feld `messtarif` ist 2021 und
-2024 leer und 2027 in jeder Zeile gefüllt. Der Schluss daraus war plausibel – und
-falsch.
+**The assumption.** On 27 October the AI recorded: the metering tariff is a new price
+component from 2026 onwards which did not exist in 2021 and 2024, and is therefore to
+be left out of the comparison over time. The observation behind it was correct: the
+field `messtarif` is empty in 2021 and 2024 and filled in every row in 2027. The
+conclusion drawn from it was plausible – and wrong.
 
-**Wie weit sie sich ausgebreitet hatte.** Bis zum 01.11. stand die Regel
-- in Abschnitt 4 der Projektanleitung,
-- hinter den Zahlen in Abschnitt 5 (Mittelwert 2027, Nettoanstieg, Anteil der
-  Gemeinden unter dem Niveau von 2021),
-- als drei eigene Spalten `vergleichbar_*` in
+**How far it had spread.** By 1 November the rule stood
+- in section 4 of the project instructions,
+- behind the figures in section 5 (mean for 2027, net increase, share of
+  municipalities below the 2021 level),
+- as three columns of their own, `vergleichbar_*`, in
   `daten/verbunden/strompreise_gemeinden.csv`,
-- und in einer ausdrücklichen Empfehlung an Subraj, für Zeitvergleiche genau diese
-  Spalten zu verwenden.
+- and in an explicit recommendation to Subraj to use precisely those columns for
+  comparisons over time.
 
-**Wie sie aufflog.** Nicht durch Nachdenken, sondern durch einen Abgleich: Beim
-Durchlesen von Metehans Beschaffungsskript fand sich der Kommentar «Erst ab 2026
-separat ausgewiesen, vorher in der Netznutzung enthalten». Das widersprach der
-Projektanleitung direkt. Die AI hat den Widerspruch gemeldet, statt eine Seite zu
-wählen, und beide Fassungen als ungeklärt markiert.
+**How it was exposed.** Not by thinking it through, but by a comparison: while reading
+Metehan's collection script, the comment «Erst ab 2026 separat ausgewiesen, vorher in
+der Netznutzung enthalten» turned up – reported separately only from 2026, previously
+contained in the grid usage charge. That contradicted the project instructions
+directly. The AI reported the contradiction instead of picking a side, and marked both
+versions as unresolved.
 
-**Wie sie geklärt wurde.** An der Primärquelle. Die ElCom schreibt zu den Tarifen 2026
-wörtlich: «Der Messtarif wird neu separat ausgewiesen. Er war bislang im
-Netznutzungstarif integriert.» Damit war die Richtung eindeutig: Die Messkosten gab es
-vorher auch, sie standen nur in der Netznutzung.
+**How it was settled.** At the primary source. ElCom writes about the 2026 tariffs,
+verbatim: «Der Messtarif wird neu separat ausgewiesen. Er war bislang im
+Netznutzungstarif integriert.» That made the direction unambiguous: the metering costs
+existed before as well, they were simply inside the grid usage charge.
 
-**Was falsch gewesen wäre.** 2027 ohne Messkosten gegen 2021 mit Messkosten zu
-vergleichen. Das hätte 2027 um rund 1.67 Rappen zu billig gemacht und den
-Preisanstieg unterschätzt:
+**What would have been wrong.** Comparing 2027 without metering costs against 2021
+with metering costs. That would have made 2027 about 1.67 centimes too cheap and would
+have understated the price rise:
 
-| | vorher | richtig |
+| | before | correct |
 |---|---|---|
-| Mittelwert 2027 | 25.58 Rp | 27.25 Rp |
-| Netto 2021 bis 2027 | +4.72 Rp | +6.39 Rp |
-| Gemeinden unter dem Niveau 2021 | 14.5 % | 10.9 % |
+| Mean 2027 | 25.58 cts. | 27.25 cts. |
+| Net 2021 to 2027 | +4.72 cts. | +6.39 cts. |
+| Municipalities below the 2021 level | 14.5 % | 10.9 % |
 
-**Lehre:** Eine Annahme, die einmal in die Daten eingebaut ist, verbreitet sich. Sie
-stand nicht nur in einem Dokument, das man korrigieren kann, sondern bereits in einer
-CSV-Datei, die an zwei Teammitglieder gehen sollte, zusammen mit der Empfehlung, sie zu
-verwenden. Wer die Datei benutzt hätte, hätte den Fehler übernommen, ohne ihn sehen zu
-können.
+**Lesson:** an assumption that has once been built into the data spreads. It did not
+only stand in a document that can be corrected, it was already in a CSV file due to go
+to two team members, together with the recommendation to use it. Anyone who had used
+the file would have inherited the error without being able to see it.
 
-Zwei Dinge haben hier funktioniert: dass der Widerspruch **gemeldet** statt aufgelöst
-wurde, und dass die Klärung an der **Primärquelle** erfolgte und nicht an der
-plausibelsten Erklärung. Die drei betroffenen Spalten wurden entfernt und nicht nur
-umbenannt – eine Spalte, die niemand verwenden soll, wird früher oder später verwendet.
+Two things worked here: that the contradiction was **reported** instead of resolved,
+and that the clarification happened at the **primary source** and not at the most
+plausible explanation. The three affected columns were removed and not merely renamed
+– a column nobody is supposed to use will sooner or later be used.
 
-### 8. Eine AI räumte auf und zerstörte dabei stillschweigend beide Notebooks (07.11.2026)
+### 8. An AI tidied up and silently destroyed both notebooks in the process (7 November 2026)
 
-Metehans AI hat die Ordnerstruktur umgebaut und die Dateien sauber in Unterordner
-sortiert. Die Sortierung selbst war gut. Nur wurden die Pfade in den Notebooks nicht
-nachgezogen.
+Metehan's AI rearranged the folder structure and sorted the files neatly into
+subfolders. The sorting itself was good. Only the paths in the notebooks were not
+updated.
 
-Danach brachen **beide** Notebooks auf einem frischen Klon mit `FileNotFoundError` ab,
-und zwar aus jedem Arbeitsverzeichnis: Aus `scripts/` suchte `daten/bfs/...` nach
-`scripts/daten/bfs/...`, aus der Wurzel fand Metehans Notebook die Preisdateien nicht
-mehr, weil sie inzwischen eine Ebene tiefer lagen.
+After that **both** notebooks aborted with `FileNotFoundError` on a fresh clone, and
+did so from every working directory: from `scripts/`, `daten/bfs/...` was looked for
+under `scripts/daten/bfs/...`; from the root, Metehan's notebook no longer found the
+price files, because by then they were one level deeper.
 
-**Warum es niemandem auffiel:** Die Ausgaben in den Notebooks stammten noch von vor
-dem Umbau und waren mit eingecheckt. Wer die Dateien auf GitHub öffnete, sah
-vollständige Tabellen, Zahlen und Resultate. Es sah korrekt aus. Kaputt war es erst,
-wenn man es ausführte – und ausgeführt hatte es seit dem Umbau niemand.
+**Why nobody noticed:** the outputs in the notebooks still came from before the
+rearrangement and had been checked in with them. Anyone opening the files on GitHub
+saw complete tables, figures and results. It looked correct. It was broken only when
+you ran it – and nobody had run it since the rearrangement.
 
-**Lehre:** Eine AI, die eine Struktur verändert, prüft nicht von selber, ob der Code
-danach noch läuft. Eingebettete Ausgaben in einem Notebook sind kein Beleg dafür, dass
-es heute noch funktioniert; sie sind ein Foto von gestern.
+**Lesson:** an AI that changes a structure does not check by itself whether the code
+still runs afterwards. Embedded outputs in a notebook are no proof that it still works
+today; they are a photograph of yesterday.
 
-Die Regel steht jetzt im README und in Abschnitt 10 der Projektanleitung: Wer Dateien
-verschiebt, zieht die Pfade in beiden Notebooks und im Beschaffungsskript nach und
-lässt beide Notebooks einmal komplett durchlaufen.
+The rule now stands in the README and in section 10 of the project instructions:
+whoever moves files updates the paths in both notebooks and in the collection script
+and lets both notebooks run through once completely.
 
-### 9. Eine Datenquelle beschrieben, ohne sie anzusehen (27.10. bis 07.11.2026)
+### 9. A data source described without looking at it (27 October to 7 November 2026)
 
-In Abschnitt 2 der Projektanleitung stand, die BFS-Regionalporträts enthielten
-Einwohner, Fläche, Dichte, **Gemeindetypologie, Kanton und Sprachregion**. Die letzten
-drei stimmen nicht. Die Rohdatei hat acht Spalten – `PERIOD_REF`, `PERIOD_COMP`,
-`CODE_REGION`, `REGION`, `INDICATORS`, `UNIT_MES`, `VALUE`, `STATUS` – und unter den
-41 Kennzahlen ist keine davon. Die ElCom-Daten enthalten sie ebenfalls nicht.
+Section 2 of the project instructions said the FSO Regional portraits contained
+population, area, density, **municipality typology, canton and language region**. The
+last three are not true. The raw file has eight columns – `PERIOD_REF`, `PERIOD_COMP`,
+`CODE_REGION`, `REGION`, `INDICATORS`, `UNIT_MES`, `VALUE`, `STATUS` – and none of
+them is among the 41 indicators. The ElCom data does not contain them either.
 
-Aufgefallen ist es erst am 07.11., bei der Vorbereitung der Karte. Zwischen der
-falschen Beschreibung und dem Fund lag **eine Woche**.
+It was noticed only on 7 November, while preparing the map. **A week** lay between the
+wrong description and the discovery.
 
-**Folge:** Unterfrage 1 der Forschungsfrage, die Unterschiede zwischen Kantonen und
-Sprachregionen, und die ANOVA dazu (Bonus 4) sind mit dem aktuellen Datenstand nicht
-rechenbar. Es braucht eine dritte Datenquelle. Subraj beginnt gerade mit der Analyse
-und wäre genau dort aufgelaufen.
+**Consequence:** sub-question 1 of the research question, the differences between
+cantons and language regions, and the ANOVA that goes with it (bonus 4) cannot be
+computed with the current data. A third data source is needed. Subraj is just starting
+the analysis and would have run into exactly that wall.
 
-**Lehre:** Die Beschreibung einer Datenquelle, die aus einer AI stammt und nie gegen
-die Datei geprüft wurde, ist eine Vermutung, kein Fakt. Sie liest sich aber wie einer,
-weil sie plausibel und konkret klingt. Beim Arbeiten mit den Daten fiel es nicht auf,
-weil wir genau die Merkmale verwendet hatten, die tatsächlich vorhanden sind.
+**Lesson:** the description of a data source that comes from an AI and was never
+checked against the file is a guess, not a fact. It reads like a fact, though, because
+it sounds plausible and concrete. While working with the data it did not show up,
+because we had used exactly those characteristics that really are present.
 
-Das ist derselbe Fehlertyp wie Fall 7, nur mit umgekehrtem Vorzeichen: Dort stand eine
-ungeprüfte Annahme in den Daten, hier eine ungeprüfte Behauptung über die Daten.
+This is the same type of error as case 7, only with the sign reversed: there, an
+unverified assumption stood in the data; here, an unverified claim stood about the
+data.
 
-### 10. Zwei Fälle, in denen das Prüfen vor dem Bauen etwas gebracht hat (07.11.2026)
+### 10. Two cases in which checking before building paid off (7 November 2026)
 
-Diesmal ging nichts schief, und genau das ist dokumentationswürdig: Beide Male
-verhinderte eine Prüfung einen Fehler, der sonst in den Bericht gewandert wäre.
+This time nothing went wrong, and that is exactly what makes it worth documenting:
+both times a check prevented an error that would otherwise have travelled into the
+report.
 
-**a) Eine Quelle vor dem Herunterladen geöffnet.** Vor dem Einbau der dritten Quelle
-wurde die Datei in einen Zwischenordner geladen und ihre Spalten gelesen, statt sich
-auf die Beschreibung der Infoseite zu verlassen. Erst dadurch war klar, dass sie
-Kanton, Sprachgebiet **und** Gemeindetypologie zugleich liefert – drei Merkmale aus
-einer Datei statt aus dreien. Nach Fall 9 war das die direkte Konsequenz.
+**a) A source opened before downloading it.** Before building in the third source, the
+file was loaded into a staging folder and its columns were read, instead of relying on
+the description on the information page. Only that made it clear that it supplies
+canton, language area **and** municipality typology at once – three characteristics
+from one file instead of from three. After case 9, that was the direct consequence.
 
-**b) Eine Plausibilitätsprüfung, die zuerst falsch aussah.** Erwartet wurden rund
-drei Viertel deutschsprachige Gemeinden, herausgekommen sind 65.4 Prozent. Statt die
-Zahl zu akzeptieren oder zu «korrigieren», wurde gegen alle 2212 Schweizer Gemeinden
-gerechnet: Dort sind es 64.2 Prozent. Unsere Auswahl entspricht also der
-Gesamtschweiz; die Erwartung stammte vom **Bevölkerungsanteil**, nicht von der Zahl
-der Gemeinden. Beides zu verwechseln wäre ein Fehler im Bericht gewesen, und zwar
-einer, den man im Video nicht hätte erklären können.
+**b) A plausibility check that looked wrong at first.** Around three quarters
+German-speaking municipalities were expected, 65.4 per cent came out. Instead of
+accepting the figure or «correcting» it, it was computed against all 2,212 Swiss
+municipalities: there it is 64.2 per cent. Our selection therefore matches Switzerland
+as a whole; the expectation came from the **share of population**, not from the number
+of municipalities. Confusing the two would have been an error in the report, and one
+that could not have been explained away in the video.
 
-**Lehre:** Eine Zahl, die von der Erwartung abweicht, ist nicht automatisch falsch.
-Erst der Vergleich mit einer unabhängigen Grundgesamtheit zeigt, ob die Daten oder
-die Erwartung daneben liegen.
+**Lesson:** a figure that deviates from expectation is not automatically wrong. Only
+the comparison with an independent base population shows whether the data or the
+expectation is off.
 
-### 11. Eine Karte, die ihre eigene Aufgabe verfehlte (07.11.2026)
+### 11. A map that failed at its own job (7 November 2026)
 
-Die zweite Karte sollte zeigen, welche Gemeinden 2027 wieder günstiger sind als
-2021 – laut Abschnitt 5 sind das 10.9 Prozent. Der erste Entwurf verwendete eine
-symmetrische Farbskala um null, was bei einer divergierenden Darstellung die
-Lehrbuchlösung ist.
+The second map was supposed to show which municipalities are cheaper again in 2027
+than in 2021 – according to section 5 that is 10.9 per cent. The first draft used a
+symmetric colour scale around zero, which is the textbook solution for a diverging
+display.
 
-Das Ergebnis war unbrauchbar. Die Veränderung reicht von −2.1 bis +27.7 Rappen. Eine
-Skala von −27.7 bis +27.7 drängt alle negativen Werte in ein kaum sichtbares
-Hellblau. Die 227 Gemeinden, um die es ging, waren auf der Karte praktisch nicht zu
-finden. Dieselbe Karte hätte so in die Präsentation wandern können, mit einer
-Bildlegende, die etwas verspricht, was das Bild nicht zeigt.
+The result was unusable. The change ranges from −2.1 to +27.7 centimes. A scale from
+−27.7 to +27.7 pushes all the negative values into a barely visible pale blue. The 227
+municipalities the map was about were practically impossible to find on it. That same
+map could have gone into the presentation like that, with a caption promising
+something the picture does not show.
 
-Aufgefallen ist es nur, weil die fertige PNG-Datei **angeschaut** wurde. Die Zahlen
-in der Ausgabe waren korrekt, das Notebook lief fehlerfrei durch, und die
-Farbskala war nach Lehrbuch richtig gewählt. Kein automatischer Test hätte das
-gefunden.
+It was noticed only because the finished PNG file was **looked at**. The figures in the
+output were correct, the notebook ran through without errors, and the colour scale was
+chosen correctly by the textbook. No automated test would have found this.
 
-Korrigiert mit einer Skala, deren Nullpunkt in der Mitte der Farben liegt, deren
-Äste aber unterschiedlich lang sind. Der Preis dafür ist dokumentiert: Gleich
-kräftiges Blau und Rot bedeuten nicht gleich viele Rappen.
+Corrected with a scale whose zero point lies at the centre of the colours but whose
+arms are of different length. The price for that is documented: equally strong blue and
+red do not mean equally many centimes.
 
-**Lehre:** Bei einer Grafik ersetzt keine Prüfung das Hinschauen. Eine Zahl kann
-man nachrechnen, ein Bild muss man ansehen – und zwar das fertige Bild, nicht den
-Code, der es erzeugt.
+**Lesson:** with a graphic, no check replaces looking at it. A figure can be
+recomputed, a picture has to be looked at – and it has to be the finished picture, not
+the code that produces it.
 
-### 12. Ein Audit des eigenen Teils, und was dabei herauskam (08.11.2026)
+### 12. An audit of my own part, and what it turned up (8 November 2026)
 
-Vor der Abgabe wurde mein Teil vollständig gegen die Aufgabenstellung und gegen die
-Rohdaten geprüft, mit der ausdrücklichen Auflage, keine Zahl aus der eigenen
-Dokumentation als gegeben zu nehmen. Vier Befunde, die sonst in den Bericht gewandert
-wären:
+Before the submission, my part was checked completely against the assignment and
+against the raw data, with the explicit condition that no figure from our own
+documentation be taken as given. Four findings that would otherwise have travelled
+into the report:
 
-**a) Ein Beleg, den es nicht gab.** Abschnitt 3 der Projektanleitung behauptete seit
-dem 1. November, die Grundgebühren steckten im Rappenpreis, und nannte als Quelle eine
-ElCom-Adresse. Beim Nachprüfen lieferte sie **404**. Insgesamt waren sechs geprüfte
-ElCom-Adressen tot – die ElCom hatte ihre Website auf `/dam/de/sd-web/` umgestellt. Die
-Aussage stimmt, wie die aufgefundene Wegleitung für die Tarife 2027 auf Seite 10 zeigt,
-aber zehn Tage lang stand im Dokument ein Beleg, den niemand aufgerufen hatte. Der
-Abschnitt trug dabei die Markierung «Geklärt am 01.11.2026».
+**a) A piece of evidence that did not exist.** Since 1 November, section 3 of the
+project instructions had claimed that the basic fees are inside the centime price, and
+named an ElCom address as the source. When checked, it returned **404**. In total six
+checked ElCom addresses were dead – ElCom had moved its website to `/dam/de/sd-web/`.
+The statement is correct, as the guidance for the 2027 tariffs that was eventually
+found shows on page 10, but for ten days the document carried a piece of evidence that
+nobody had opened. The section was marked «Clarified on 1 November 2026» while it did.
 
-**b) Eine Behauptung, die der Test nicht hergab.** Die Integrationsdokumentation sagte,
-die ausgeschlossenen Gemeinden seien «deutlich kleiner und etwas teurer». Ein
-Permutationstest mit 20 000 Ziehungen zeigt: kleiner ja, klar belegt (p = 0.007 und
-p = 0.0003). Teurer nicht – bei den Fusionsgemeinden ist der Median zwar höher, der
-Mittelwert aber praktisch gleich (20.83 gegen 20.86 Rappen, p = 0.91), bei der zweiten
-Gruppe hält nicht einmal der Median stand (p = 0.25). Die Aussage beruhte auf einem
-Vergleich von drei Medianen ohne Test.
+**b) A claim the test did not support.** The integration documentation said the
+excluded municipalities were «clearly smaller and somewhat more expensive». A
+permutation test with 20,000 draws shows: smaller yes, clearly established (p = 0.007
+and p = 0.0003). More expensive no – among the merged municipalities the median is
+indeed higher, but the mean is practically the same (20.83 against 20.86 centimes,
+p = 0.91), and in the second group not even the median holds up (p = 0.25). The
+statement rested on a comparison of three medians without a test.
 
-**c) Eine Tabelle, die so nicht rechenbar war.** Unterfrage 1 fragt, welcher
-Preisbestandteil die Unterschiede ausmacht. Die ausgelieferte Tabelle enthielt nur
-`total`. Subraj hätte die Bestandteile selber aus den Rohdaten aggregieren müssen –
-und wäre dabei mit hoher Wahrscheinlichkeit in dieselbe Messtarif-Falle gelaufen wie
-wir im Oktober. Dasselbe galt für die «Grösse des Netzbetreibers» aus Unterfrage 2.
+**c) A table that could not be computed with.** Sub-question 1 asks which price
+component accounts for the differences. The delivered table contained only `total`.
+Subraj would have had to aggregate the components out of the raw data himself – and
+would very probably have walked into the same metering-tariff trap as we did in
+October. The same applied to the «size of the grid operator» from sub-question 2.
 
-**d) Verstreute Zeitebenen.** In einer Zeile der Tabelle stecken fünf Gebietsstände und
-sechs Datenjahre. Dokumentiert war das an sechs Stellen in vier Dateien, nirgends
-zusammengefasst. Niemand hätte beim Lesen gesehen, dass wir Preise von 2021 bis 2027
-mit Gemeindemerkmalen von 2016 bis 2019 erklären.
+**d) Scattered time levels.** A single row of the table holds five territorial
+statuses and six data years. That was documented in six places across four files, and
+nowhere summarised. Nobody reading it would have seen that we explain prices from 2021
+to 2027 with municipality characteristics from 2016 to 2019.
 
-**Lehre:** Eine Dokumentation prüft sich nicht selbst. Alle vier Befunde entstanden in
-Dokumenten, die mit AI geschrieben und vorher mehrfach gelesen worden waren – und alle
-vier fielen erst auf, als jemand gezielt gegen die Primärquelle und gegen die Rohdaten
-prüfte statt gegen den eigenen Text. Besonders tückisch war a): Eine Markierung wie
-«Geklärt am …» erzeugt Vertrauen, ohne dass irgendjemand den Link angeklickt hat.
+**Lesson:** documentation does not check itself. All four findings arose in documents
+written with AI and read several times beforehand – and all four came to light only
+when somebody checked deliberately against the primary source and against the raw
+data instead of against their own text. The most treacherous was a): a marker such as
+«Clarified on …» creates trust without anybody having clicked the link.
 
-### 13. Ein Versionspin, der das ganze Projekt unbenutzbar machte (22.11.2026)
+### 13. A version pin that made the whole project unusable (22 November 2026)
 
-Beim Audit nach den Ferien wurde das Projekt frisch geklont und in einer frischen
-virtuellen Umgebung aufgesetzt – also so, wie es der Dozent tun wird. Der erste Befehl
-scheiterte:
+During the audit after the holidays the project was freshly cloned and set up in a
+fresh virtual environment – that is, the way the lecturer will do it. The first command
+failed:
 
 ```
 ERROR: Ignored the following versions that require a different python version:
@@ -457,163 +453,162 @@ ERROR: Ignored the following versions that require a different python version:
 ERROR: No matching distribution found for scipy>=1.18.1
 ```
 
-Beim Nachtragen der neuen Pakete war `scipy>=1.18.1` in die `requirements.txt`
-geraten. Diese Version verlangt Python 3.12, das Projekt läuft auf 3.11.4. Der Pin kam
-vermutlich daher, dass auf dem Rechner, auf dem er entstand, eine neuere Python-Version
-lief, und dass `pip freeze` oder eine AI die dort installierte Version eingetragen hat.
+While adding the new packages, `scipy>=1.18.1` had found its way into
+`requirements.txt`. That version requires Python 3.12, the project runs on 3.11.4. The
+pin presumably came about because a newer Python version was running on the machine
+where it was created, and because `pip freeze` or an AI entered the version installed
+there.
 
-**Die Folge:** Ein frischer Klon liess sich nicht aufsetzen. Nicht ein Notebook
-scheiterte, sondern die Installation selbst – noch bevor überhaupt etwas starten
-konnte. Zwei weitere Pakete fehlten ganz: `psycopg2-binary`, das in Metehans
-PostgreSQL-Notebook hart importiert wird, und `statsmodels`, das Subraj für eine
-Gegenprobe braucht.
+**The consequence:** a fresh clone could not be set up. It was not a notebook that
+failed, it was the installation itself – before anything could even start. Two further
+packages were missing entirely: `psycopg2-binary`, which is imported directly in
+Metehan's PostgreSQL notebook, and `statsmodels`, which Subraj needs for a
+cross-check.
 
-**Warum es niemandem auffiel:** Alle drei haben eine funktionierende Umgebung auf
-ihrem eigenen Rechner. Dort war scipy längst installiert, und ein `pip install -r
-requirements.txt` hätte nur gemeldet, dass alles vorhanden ist. Der Fehler zeigt sich
-ausschliesslich auf einem Rechner, auf dem noch nichts installiert ist – also genau
-beim Dozenten.
+**Why nobody noticed:** all three of us have a working environment on our own machine.
+scipy had long been installed there, and a `pip install -r requirements.txt` would only
+have reported that everything is present. The error shows up exclusively on a machine
+where nothing is installed yet – that is, precisely at the lecturer's.
 
-**Lehre:** Eine `requirements.txt` ist erst geprüft, wenn sie **auf einem frischen
-Klon in einer frischen Umgebung** durchgelaufen ist. Auf dem eigenen Rechner kann man
-sie nicht testen; dort ist sie immer erfüllt. Dasselbe gilt für Pfade und für alles
-andere, was «bei mir läuft».
+**Lesson:** a `requirements.txt` is only checked once it has run through **on a fresh
+clone in a fresh environment**. You cannot test it on your own machine; there it is
+always satisfied. The same goes for paths and for everything else that "works on my
+machine".
 
-Nebenbefund derselben Prüfung: Nirgends im Repo stand, welche Python-Version das
-Projekt braucht. Steht jetzt in der `requirements.txt` und im README.
+A side finding of the same check: nowhere in the repository did it say which Python
+version the project needs. It now says so in `requirements.txt` and in the README.
 
-### 14. Eine Vermutung, die sich beim Nachprüfen auflöste (22.11.2026)
+### 14. A suspicion that dissolved when it was checked (22 November 2026)
 
-Vor dem Audit stand der Verdacht im Raum, Subrajs Modell erfülle Pflicht 6 nicht: In
-seinem Notebook fanden sich weder `r2_score` noch `mean_squared_error` noch
-`train_test_split`. Eine Textsuche im Code bestätigte das.
+Before the audit, the suspicion was in the room that Subraj's model does not satisfy
+mandatory requirement 6: his notebook contained neither `r2_score` nor
+`mean_squared_error` nor `train_test_split`. A text search in the code confirmed that.
 
-Nachgeprüft stimmte keiner der drei Punkte. Subraj berechnet R², angepasstes R² und
-RMSE in einer selbstgeschriebenen Funktion `ols_geclustert`, die zugleich nach
-Netzbetreiber geclusterte Standardfehler liefert. Statt eines einzelnen
-Train-Test-Splits verwendet er 5-fache Kreuzvalidierung, zusätzlich mit nach
-Netzbetreiber **gruppierten** Folds – für diese Daten das methodisch stärkere
-Verfahren, weil ein zufälliger Split Gemeinden desselben Betreibers auf beide Seiten
-verteilen und die Güte überschätzen würde.
+Checked properly, not one of the three points held. Subraj computes R², adjusted R²
+and RMSE in a function he wrote himself, `ols_geclustert`, which at the same time
+delivers standard errors clustered by grid operator. Instead of a single train-test
+split he uses 5-fold cross-validation, additionally with folds **grouped** by grid
+operator – for these data the methodologically stronger procedure, because a random
+split would distribute municipalities of the same operator across both sides and
+overstate the quality of fit.
 
-**Lehre:** Eine Suche nach Funktionsnamen prüft, welche Bibliothek jemand benutzt hat,
-nicht ob die Anforderung erfüllt ist. Die Abwesenheit eines bekannten Namens ist kein
-Befund. Es braucht das Lesen des Codes und das Anschauen der Ausgaben.
+**Lesson:** a search for function names checks which library somebody used, not
+whether the requirement is satisfied. The absence of a familiar name is not a finding.
+It takes reading the code and looking at the outputs.
 
-Das ist der umgekehrte Fall zu Nummer 9: Dort stand etwas im Dokument, was in den
-Daten nicht war. Hier war etwas in den Daten, was im Dokument nicht gefunden wurde.
+This is the reverse of case 9: there, something stood in the document that was not in
+the data. Here, something was in the data that was not found in the document.
 
 ---
 
-### 15. Eine externe Abhängigkeit war still gebrochen (25.11.2026)
+### 15. An external dependency was silently broken (25 November 2026)
 
-Beim Übersetzen der Kartentexte lief Notebook 01 neu durch. Es meldete **null
-Fehler** – und trotzdem waren beide interaktiven Karten unbrauchbar.
+While translating the map texts, notebook 01 was run again. It reported **zero
+errors** – and both interactive maps were unusable all the same.
 
-In den Ausgaben stand eine Warnung von folium:
+A warning from folium stood in the outputs:
 
 ```
 UserWarning: CartoDB tiles now require an API key.
 Please provide one to continue using the tiles.
 ```
 
-Eine Warnung ist kein Fehler. Das Notebook lief durch, die HTML-Dateien wurden
-geschrieben, die Dateigrössen stimmten, jede Zahl stimmte. Wer nur auf den
-Rückgabewert schaut, sieht hier nichts.
+A warning is not an error. The notebook ran through, the HTML files were written, the
+file sizes were right, every figure was right. Anyone looking only at the return value
+sees nothing here.
 
-Statt die Warnung einzuordnen, wurde die Karte **angeschaut**: ein Screenshot im
-Browser zeigte, dass die Sperre längst aktiv ist. Die Hintergrundkarte bestand
-flächendeckend aus dem Schriftzug «API KEY REQUIRED». Ein Korrektor hätte im
-Januar zwei Karten geöffnet, auf denen die Schweiz unter einem Wasserzeichenraster
-verschwindet.
+Instead of merely classifying the warning, we **looked** at the map: a screenshot in
+the browser showed that the block has long been active. The basemap consisted, across
+its entire surface, of the words «API KEY REQUIRED». In January a marker would have
+opened two maps on which Switzerland disappears under a grid of watermarks.
 
-**Die Warnung war nicht neu.** Ein Blick in das Tag `deutsche-fassung` zeigte sie
-zweimal in den gespeicherten Ausgaben, also schon vor der Übersetzung. Sie stand
-dort unbemerkt, und ich hatte sie beim Audit vom 24. November selber überlesen:
-damals meldete ich für dieses Notebook «0 Fehler, 0 Zellen ohne Ausgabe» und
-erwähnte die Warnung mit keinem Wort. Geprüft hatte ich, ob das Notebook
-*durchläuft*, nicht, ob sein Ergebnis *brauchbar* ist.
+**The warning was not new.** A look into the tag `deutsche-fassung` showed it twice in
+the stored outputs, that is, from before the translation. It had been sitting there
+unnoticed, and I had overlooked it myself during the audit of 24 November: back then I
+reported «0 errors, 0 cells without output» for this notebook and did not mention the
+warning with a single word. What I had checked was whether the notebook *runs*, not
+whether its result is *usable*.
 
-Der naheliegende Ersatz war OpenStreetMap: schlüsselfrei, eine Zeile Arbeit. Nach
-dem Umstellen wurde die Karte wieder angeschaut, und sie war schlechter:
+The obvious replacement was OpenStreetMap: no key needed, one line of work. After
+switching, the map was looked at again, and it was worse:
 
-- Die grünen und beigen Kacheln drücken durch die 15 Prozent Transparenz der
-  Flächen. Die hellen Werte, also die Gemeinden ohne grosse Veränderung, wirken
-  dadurch schmutzig statt weiss.
-- Die Seen sind auf OSM blau. Blau bedeutet in unserer Karte aber «günstiger
-  geworden». Genau die 227 Gemeinden, die wir in Fall 11 mühsam sichtbar gemacht
-  haben, stehen nun neben gleich blauen Seen.
+- The green and beige tiles push through the 15 per cent transparency of the areas.
+  The light values, that is the municipalities without much change, therefore look
+  dirty instead of white.
+- On OSM the lakes are blue. But in our map blue means «became cheaper». Precisely
+  those 227 municipalities, which we made visible with such effort in case 11, now sit
+  next to lakes of the same blue.
 
-Gewählt wurde darum Esri World Light Gray Base. Der Dienst braucht keinen
-Schlüssel, und seine eigene Beschreibung sagt, wofür er gebaut ist: *«This map
-draws attention to your thematic content by providing a neutral background with
-minimal colors, labels, and features.»* Die Seen sind dort grau. Die
-Quellenangabe wurde aus den Metadaten des Dienstes übernommen (`copyrightText`),
-nicht selber formuliert.
+Esri World Light Gray Base was therefore chosen. The service needs no key, and its own
+description says what it was built for: *«This map draws attention to your thematic
+content by providing a neutral background with minimal colors, labels, and features.»*
+There, the lakes are grey. The attribution was taken from the service's metadata
+(`copyrightText`), not formulated by us.
 
-Die Reparatur ging bewusst als **eigener Commit** ins Repo, getrennt von der
-Übersetzung. Im Log soll erkennbar bleiben, was Übersetzung war und was ein
-inhaltlicher Eingriff.
+The repair went into the repository deliberately as a **commit of its own**, separate
+from the translation. The log should keep showing what was translation and what was an
+intervention in substance.
 
-**Lehre:** «Läuft fehlerfrei durch» ist keine Aussage über das Ergebnis. Warnungen
-sind genau deshalb gefährlich, weil sie nichts anhalten – und eine AI, die den
-Durchlauf meldet, meldet gern den Erfolg und überliest die Warnung, so wie ich es
-beim Audit getan habe. Das Gegenmittel ist billig: das Ergebnis anschauen, nicht
-nur den Rückgabewert lesen. Und: die Entscheidung am Bild treffen. Der
-naheliegende Ersatz war hier der schlechtere, und das hätte man der Zeile Code
-nicht angesehen.
+**Lesson:** «runs without errors» says nothing about the result. Warnings are dangerous
+for exactly that reason, because they stop nothing – and an AI that reports the run
+likes to report the success and overlooks the warning, just as I did during the audit.
+The remedy is cheap: look at the result, do not just read the return value. And: take
+the decision at the picture. Here the obvious replacement was the worse one, and you
+would not have seen that in the line of code.
 
-**Nachtrag vom 25.11.2026: dasselbe Muster ein zweites Mal.** Beim Übersetzen des
-Notebooks meldete das eigens dafür gebaute Prüfskript «alle Prüfungen grün»,
-während drei deutsche Spaltenüberschriften stehen geblieben waren – es erkannte
-deutsche *Sätze*, aber keine einzelnen *Etiketten*, und genau die sieht ein Leser
-in jeder Ausgabe zuerst. Beide Male war nicht das Ergebnis falsch, sondern **die
-Prüfung schwächer als ihre eigene Meldung**: einmal ein Notebook, das «0 Fehler»
-sagte und unbrauchbare Karten lieferte, einmal ein Prüfskript, das «grün» sagte
-und deutsche Beschriftungen durchliess. Eine grüne Meldung belegt nur, dass die
-Prüfung nichts gefunden hat – nicht, dass nichts da ist.
+**Addendum of 25 November 2026: the same pattern a second time.** While translating the
+notebook, the verification script built specifically for the job reported «all checks
+green», while three German column headings had been left standing – it recognised
+German *sentences*, but not individual *labels*, and those are exactly what a reader
+sees first in any output. Both times it was not the result that was wrong, but **the
+check that was weaker than its own report**: once a notebook that said «0 errors» and
+delivered unusable maps, once a verification script that said «green» and let German
+captions through. A green report proves only that the check found nothing – not that
+there is nothing there.
 
 ---
 
-## Was gut funktioniert hat
+## What worked well
 
-- **Widersprüche in eigenen Texten finden.** Die fünf Fehler in der Projektanleitung
-  und die acht Abweichungen zur Aufgabenstellung hätte ich beim Durchlesen nicht
-  gefunden. Ein systematischer Abgleich Zeile für Zeile ist genau das, was eine AI
-  besser aushält als ein Mensch.
-- **Nachrechnen statt glauben.** Jede Zahl, die ins Dokument kam, wurde vorher an
-  den CSV-Dateien geprüft. Dabei fiel unter anderem die fehlende Netzzuschlag-Zeile
-  auf, ohne die eine Tabellenspalte nur 99.2 Prozent ergab.
-- **Einrichtung der Umgebung.** Virtuelle Umgebung, `requirements.txt` und
-  `.gitignore` waren in wenigen Minuten erledigt und kommentiert.
-- **Unlesbare Quellen erschliessen.** Ein 21 546 Pixel hoher Screenshot und ein
-  1795-seitiges PDF wurden maschinell zerlegt und durchsucht.
-- **Eine Reparatur, die nachprüfbar war (07.11.2026).** Beim Nachziehen der Pfade
-  wurde nichts behauptet, sondern gezeigt: der sha256-Hash der Ergebnisdatei vor und
-  nach dem Lauf (identisch), die Kontrollzelle in Metehans Notebook mit 0 Abweichungen
-  in allen acht Spalten, beide Notebooks mit 0 Fehlern aus `scripts/` heraus
-  ausgeführt, und der Anker aus drei verschiedenen Arbeitsverzeichnissen getestet.
-  Ein Umbau an fremdem Code lässt sich so absichern, dass man nicht hoffen muss.
+- **Finding contradictions in our own texts.** The five errors in the project
+  instructions and the eight deviations from the assignment I would not have found by
+  reading through. A systematic line-by-line comparison is exactly what an AI endures
+  better than a human.
+- **Recomputing instead of believing.** Every figure that went into the document was
+  checked against the CSV files beforehand. Among other things that revealed the
+  missing grid surcharge row, without which one table column came to only 99.2 per
+  cent.
+- **Setting up the environment.** Virtual environment, `requirements.txt` and
+  `.gitignore` were done and commented within a few minutes.
+- **Opening up unreadable sources.** A screenshot 21,546 pixels high and a
+  1,795-page PDF were cut up and searched mechanically.
+- **A repair that could be verified (7 November 2026).** When the paths were updated,
+  nothing was claimed, everything was shown: the sha256 hash of the result file before
+  and after the run (identical), the control cell in Metehan's notebook with 0
+  deviations across all eight columns, both notebooks executed with 0 errors from
+  `scripts/`, and the anchor tested from three different working directories. A
+  rearrangement of somebody else's code can be secured well enough that you do not
+  have to hope.
 
-## Was mühsam war
+## What was tedious
 
-- **Kontextverlust zwischen Sitzungen.** Jede neue Sitzung beginnt ohne Erinnerung.
-  Ohne die Projektanleitung im Repo müsste jedes Mal alles neu erklärt werden. Das
-  spricht dafür, Entscheide schriftlich im Repo festzuhalten statt im Chat.
-- **Dateigrenzen.** Grosse PDFs und Bilder mussten erst zerlegt werden, bevor sie
-  lesbar waren.
-- **Versionsunterschiede.** Installiert wurde pandas 3.1.0, während die Kursfolien
-  von pandas 2.x ausgehen. Bisher ohne Folgen, aber ein möglicher Stolperstein bei
-  Codebeispielen aus dem Unterricht.
-
----
-
-## Offene Punkte
-
-- Metehan und Subraj führen eigene AI-Notizen. Diese werden vor der Abgabe von mir
-  gebündelt (Pflicht 8).
-- Die Beispiele 1 und 2 oben gehören in die Folien und ins Video (Kriterium 6).
+- **Loss of context between sessions.** Every new session begins without memory.
+  Without the project instructions in the repository, everything would have to be
+  explained again each time. That argues for recording decisions in writing in the
+  repository instead of in the chat.
+- **File limits.** Large PDFs and images had to be cut up before they were readable.
+- **Version differences.** pandas 3.1.0 was installed, while the course slides assume
+  pandas 2.x. No consequences so far, but a possible stumbling block with code
+  examples from the lectures.
 
 ---
 
-*Letzte Nachführung: 22. November 2026*
+## Open points
+
+- Metehan and Subraj keep AI notes of their own. These will be bundled by me before
+  the submission (mandatory requirement 8).
+- Examples 1 and 2 above belong in the slides and in the video (criterion 6).
+
+---
+
+*Last updated: 22 November 2026*
