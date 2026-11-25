@@ -19,17 +19,30 @@ requirements see `moodle_aufgabenstellung.pdf`.
 ## Folder structure
 
 ```
-daten/strompreise/   ElCom raw data, one CSV per year          (Metehan)
-daten/bfs/           FSO municipality data with provenance     (Lenny)
-daten/verbunden/     the joined table, for all three of us     (Lenny)
-scripts/             collection scripts and notebooks 01 to 04
-sql/                 SQLite database and the PostgreSQL        (Metehan)
-                     notebook 03_postgresql.ipynb
-daten/geo/           municipal boundaries as GeoJSON           (Lenny)
-abbildungen/         maps as PNG for the presentation          (Lenny)
-karten/              interactive maps as HTML                  (Lenny)
-ai-doku/             AI documentation of the three of us
+daten/strompreise/      ElCom raw data, one CSV per year         (Metehan)
+daten/bfs/              FSO municipality data                    (Lenny)
+daten/raumgliederungen/ FSO spatial divisions: canton, language  (Lenny)
+                        region and municipality typology
+daten/geo/              municipal boundaries as GeoJSON          (Lenny)
+daten/verbunden/        the joined table, for all three of us    (Lenny)
+scripts/                collection scripts and notebooks 01 to 04
+sql/                    SQLite database and the PostgreSQL       (Metehan)
+                        notebook 03_postgresql.ipynb
+abbildungen/            maps as PNG for the presentation         (Lenny)
+karten/                 interactive maps as HTML                 (Lenny)
+präsentation_konzept/   slide deck for the concept presentation  (Metehan)
+ai-doku/                AI documentation of the three of us
+glossar.md              German-English glossary for the translation
 ```
+
+**Where the data comes from.** Each data folder carries a provenance record of its
+own, with the source, the retrieval date, the licence and the exact download URL:
+
+- `daten/strompreise/QUELLE.md` - ElCom via LINDAS. **This is the primary source**,
+  collected by us with `scripts/strompreise_holen.py`
+- `daten/bfs/QUELLE.md` - FSO regional portraits and the historicized commune register
+- `daten/raumgliederungen/QUELLE.md` - FSO spatial divisions
+- `daten/geo/QUELLE.md` - swissBOUNDARIES3D by swisstopo
 
 Two kinds of file are regenerated on every run and differ in their bytes afterwards,
 even when nothing has changed in substance:
@@ -44,12 +57,8 @@ For the same reason the notebook does **not** display the interactive maps inlin
 it only writes them to `karten/`. Embedded, they would grow the notebook file by
 about 4 MB on every run.
 
-The four notebooks in `scripts/` determine the repository root themselves
-(`finde_wurzel`) and derive every path from it. They therefore run both from
-`scripts/` and from the repository root.
-
-**All five notebooks** determine the repository root themselves and derive their
-paths from it. They therefore run both from their own directory and from the
+**All five notebooks** determine the repository root themselves (`finde_wurzel`) and
+derive their paths from it. They therefore run both from their own directory and from the
 repository root. Checked on 22 November 2026 for `sql/03_postgresql.ipynb` from both
 places.
 
@@ -57,6 +66,25 @@ places.
 `scripts/strompreise_holen.py` and lets them run through once completely. On
 7 November 2026 the structure was rearranged without updating the paths - after that,
 two notebooks broke on a fresh clone.
+
+## Language
+
+The project is written in **English**, following the lecturer's announcement in the
+Moodle forum of 24 November 2026.
+
+Two files stay in German on purpose, because they are internal working material and
+are not part of the submission:
+
+- `CLAUDE Data Analytics.md` - the team's working instructions
+- `glossar.md` - the German-English glossary the translation follows
+
+German also remains **inside the data** and wherever an official German title or a
+German source is quoted verbatim. Column names such as `gemeinde_nr` or
+`netzbetreiber`, the values of `sprachregion` and all file and folder names are
+identifiers shared by the CSV, the SQLite database, PostgreSQL and the SPARQL
+query. Translating them would break the project, so they stay as they are. Where a
+Swiss legal term is used, the German original follows in brackets on its first
+occurrence in a document, for example *grid surcharge (German: «Netzzuschlag»)*.
 
 ## Setting up the project
 
@@ -168,10 +196,12 @@ get committed.
 
 ## Status
 
-- Last change: 22 November 2026
+- Last change: 25 November 2026
 - **Done:** data collection and SQLite (Metehan), join of the three sources with
   canton, language region and municipality typology as well as geodata and maps
   (Lenny), EDA with statistical tests and model with k-means (Subraj), PostgreSQL
   (Metehan)
+- **In progress:** translating the project into English, see the Language section
+  above. Group deadline 27 November 2026.
 - **Next:** concept presentation on 8 December, then report, video and submission.
   Open points are in `CLAUDE Data Analytics.md`, section 11, and in `punkteliste.md`.
