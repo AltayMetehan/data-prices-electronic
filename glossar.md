@@ -491,7 +491,8 @@ Datei **genau eine Person ganz**.
 |---|---|---|
 | `README.md` | alle drei, die PostgreSQL- und macOS-Teile sind Metehans | **Lenny**, die ganze Datei |
 | `punkteliste.md` | alle drei | **Lenny**, die ganze Datei |
-| `requirements.txt` | alle drei | ⚠️ **noch offen**, nur Kommentare. Wer es macht, sagt es vorher in der Gruppe. |
+| `requirements.txt` | alle drei | ✅ **erledigt am 25.11. von Lenny.** Nur die 26 Kommentarzeilen; die 14 Paketzeilen sind Zeichen für Zeichen unverändert, inklusive der Obergrenze `scipy<1.18` |
+| `ai-doku/ai_dokumentation_gruppe_15.md` | von Subraj angelegt, von Metehan und Lenny ergänzt | ⚠️ **offen, kommt zuletzt.** Erst **nach dem Merge am Freitag**, wenn alle drei Einzeldokus englisch sind. Vorher hätte die Bündelung englische Zusammenfassungen von deutschen Quelltexten, und die L-, M- und S-Nummern zeigten auf Fälle, die anders heissen |
 | `glossar.md` | diese Datei | bleibt deutsch, ist Arbeitsmittel |
 
 **Metehan und Subraj: `README.md` und `punkteliste.md` bitte nicht anfassen.**
