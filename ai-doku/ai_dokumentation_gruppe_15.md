@@ -35,6 +35,7 @@ eine zweite, unabhängige Rechnung, nie durch die AI allein.
 | Claude Code in einer Cloud-Sitzung | Lenny | ein Zwischenschritt am 27./28.10.2026; das Ergebnis ging verloren (Fall L1) |
 | eine weitere, externe AI-Prüfung | Lenny | Durchsicht des Projekts; lieferte den Befund zur Netzbetreiberebene |
 | Claude (Anthropic), in der Claude-App mit einer Cloud-Arbeitsumgebung | Subraj | Aufgabenstellung und Themenwahl, Forschungsfrage, EDA und Tests, Regression und k-means, Prüfung des ganzen Repos |
+| Claude Code (Claude Opus 5.5) in VS Code, mit der Folienvorlage «Slides» auf claude.ai | Metehan | Konzeptpräsentation: Gliederung, Foliengestaltung, Diagramme, Sprechskript (24./25.11.2026, siehe Abschnitt 6) |
 
 ---
 
@@ -136,6 +137,52 @@ Pflicht 8 verlangt den AI-Einsatz «for creating the code and the presentation»
 entstehen ab dem 24. November 2026. Festzuhalten ist dann, wofür AI bei Gliederung, Texten,
 Grafiken und Video eingesetzt wurde, was übernommen wurde und was verworfen oder korrigiert
 werden musste. Dieser Abschnitt wird danach ergänzt.
+
+### 6.1 Konzeptpräsentation (Metehan, 24./25.11.2026)
+
+**Werkzeug.** Claude Code mit dem Modell Claude Opus 5.5 in VS Code, im Projektordner. Die
+Folien entstanden mit der Folienvorlage «Slides» auf claude.ai, als privates Deck, das im
+Browser angezeigt und als PDF exportiert wird.
+
+**Eingaben.** Ein Bildschirmfoto der Bewertungskriterien aus Moodle (acht Kriterien, 10 Minuten),
+dazu die Dateien aus dem Repo: `README.md`, `folien_entwurf_lenny.md`, `punkteliste.md`,
+`dokumentation_integration_lenny.md` und das Notebook `scripts/03_analyse_subraj.ipynb`. Die
+Zahlen auf den Folien stammen aus diesen Dateien, die Grafiken zu Rangfolge, Heatmap, Kantonen,
+Boxplots und die Karte sind die Bilder aus Subrajs Notebook und Lennys Karte.
+
+**Ablauf in sechs Runden.**
+
+| Runde | Auftrag | Ergebnis |
+|---|---|---|
+| 1 | Folien nach den Kriterien, «stichwortartig und schöner Style» | Gliederung entlang der acht Kriterien, eigenes Farbschema |
+| 2 | «sieht sehr mager aus», «kaum Sätze» | Aufzählungen durch Diagramme, Kennzahlen und Schlagworte ersetzt; Sätze in die Sprechernotizen verschoben |
+| 3 | übersichtlicher, Backup-Folien, Grafiken aus Subrajs EDA | Navigationsleiste, je Folie eine Grafik mit drei Kernaussagen, zwei neue EDA-Folien, acht Backup-Folien |
+| 4 | Backup-Folien wieder heraus, Wichtigstes in die Hauptfolien | 14 Folien; Kernpunkte (H4, Ausfall, Datenjahre, Messtarif) auf «Struktur» und «Hintergrund» verdichtet |
+| 5 | Sprechskript in die Notizen | ausformulierter Text pro Folie mit Sprecher, Zeit und Hinweisen für Rückfragen |
+| 6 | Rückmeldung aus dem Team zur Rahmung | Navigationsleiste «Erwartete Resultate», ein Satz im Skript, dass die Rechnungen erste Bestätigungen sind |
+
+**Übernommen.** Aufbau nach den Bewertungskriterien, das Layout «eine Grafik, drei Kernaussagen»,
+die selbst gezeichneten Diagramme (Preisbestandteile, R² nach Validierungsart, Ausfalltrichter),
+das Sprechskript als Vorlage, die wir noch in eigene Worte bringen.
+
+**Verworfen.** Die erste Fassung mit vielen ganzen Sätzen auf den Folien (zu textlastig). Die
+acht Backup-Folien, weil sie das Deck aufblähten; nur ihre Kernaussagen blieben.
+
+**Wo es nicht funktioniert hat.**
+
+| Nr | Was nicht funktioniert hat | Wie es auffiel | Folge |
+|---|---|---|---|
+| P1 | Die Datenfolie behauptete «202 von 2201 Gemeinden fehlen». 88 dieser 202 sind aber Teil der 2087, ihnen fehlt nur die Beschäftigtenzahl | Abgleich mit der Integrationsdoku (§7) bei der Überarbeitung | als Trichter 2201 → 2087 → 1999 neu dargestellt |
+| P2 | Lennys Folienentwurf verortete die günstiger gewordenen Gemeinden um ZH/ZG/AG. Auf der Karte liegen sie vor allem im Raum Bern/Jura. Die AI hatte den Satz zuerst übernommen | Vergleich des Textes mit dem Kartenbild | Aussage auf der Folie neutral formuliert |
+| P3 | Die Beschreibung des Referenzhaushalts H4 (5-Zimmer-Wohnung, Elektroherd, Tumbler) stammte aus dem Allgemeinwissen der AI, nicht aus unseren Quellen | von der AI selbst markiert | nur «4500 kWh pro Jahr» übernommen; Rest an der ElCom zu prüfen |
+| P4 | Mehrere Folien waren zu voll und liefen über den Rand. Die AI hat das Layout nicht als Bild angesehen, sondern die Höhen nur nachgerechnet | Überarbeitung, Durchklicken durch das Team | Inhalte gekürzt; Sichtprüfung bleibt beim Team |
+| P5 | Die AI zeigte die Rechnungen als fertige Resultate, ohne die Modulbeschreibung zu prüfen: Die Live-Präsentation «does not cover the finished project work or final results» | Rückmeldung aus dem Team | «Erwartete Resultate» in der Navigationsleiste, Hinweis im Skript, Stand auf der Modellfolie |
+| P6 | Die Zuordnung der Sprachregionen-Mittelwerte (27.2 / 27.5 / 26.8) zu Deutschschweiz, Romandie und Tessin folgte nur der Reihenfolge im Notebook-Text | von der AI selbst markiert | von Subraj zu bestätigen; Folie entfernt, Zahlen nur noch in der Spickliste |
+
+**Gelernt.** Auch bei Folien gilt Abschnitt 7: Jede Zahl auf einer Folie braucht eine Quelle im
+Repo (P1, P3), ein Text über eine Grafik muss gegen die Grafik geprüft werden (P2), und eine
+Folie muss man als fertiges Bild ansehen (P4). Die AI optimiert auf den Auftrag, den sie bekommt;
+die Rahmenbedingungen der Modulbeschreibung musste das Team selbst einbringen (P5).
 
 ---
 
