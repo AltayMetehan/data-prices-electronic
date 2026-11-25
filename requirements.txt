@@ -1,76 +1,76 @@
-# Data Analytics Projekt: Strompreise der Schweizer Gemeinden
-# ZHAW, HS2026 - Gruppe Frei / Metehan / Sub Raj
+# Data Analytics project: electricity prices of Swiss municipalities
+# ZHAW, autumn semester 2026 - group Frei / Metehan / Sub Raj
 #
-# PYTHON 3.11 ERFORDERLICH (entwickelt und geprüft auf 3.11.4).
-# Die Pins unten sind auf 3.11 installierbar. Auf Python 3.12 oder neuer
-# funktioniert es vermutlich auch, geprüft ist es dort aber nicht.
+# PYTHON 3.11 REQUIRED (developed and checked on 3.11.4).
+# The pins below are installable on 3.11. On Python 3.12 or newer it probably
+# works as well, but it has not been checked there.
 #
-# Diese Datei muss ALLE Pakete enthalten, die irgendeines der fünf Notebooks
-# braucht. Geprüft am 22.11.2026 gegen die Importe aller fünf.
+# This file must contain ALL packages that any of the five notebooks needs.
+# Checked on 22 November 2026 against the imports of all five.
 #
 # Installation:
-#   python3 --version          # muss 3.11.x anzeigen
+#   python3 --version          # must show 3.11.x
 #   python3 -m venv .venv
 #   source .venv/bin/activate
 #   pip install -r requirements.txt
 
-# --- Grundlage, alle Notebooks ---------------------------------------------
+# --- Foundation, all notebooks ---------------------------------------------
 
-# Daten einlesen, aufbereiten, zusammenführen
+# Reading, preparing and joining data
 pandas>=3.1.0
 
-# Zahlen und Felder. Kommt zwar als Abhängigkeit von pandas mit, wird aber in
-# den Notebooks 01, 03 und 04 direkt importiert und gehört deshalb hierher.
+# Numbers and arrays. It does come along as a dependency of pandas, but it is
+# imported directly in notebooks 01, 03 and 04 and therefore belongs here.
 numpy>=2.4.6
 
-# Diagramme
+# Charts
 matplotlib>=3.11.2
 
 # Notebooks
 jupyter>=1.1.1
 
-# Daten über Web-APIs abholen
+# Fetching data over web APIs
 requests>=2.34.2
 
-# Excel-Dateien lesen (BFS-Regionalporträts kommen als .xlsx)
+# Reading Excel files (the FSO regional portraits come as .xlsx)
 openpyxl>=3.1.5
 
-# --- Geodaten, Notebook 01 -------------------------------------------------
+# --- Geodata, notebook 01 --------------------------------------------------
 
-# Gemeindegrenzen einlesen und verarbeiten
+# Reading and processing the municipal boundaries
 geopandas>=1.2.0
 
-# Interaktive Karten
+# Interactive maps
 folium>=0.20.0
 
-# Farbskalen für die folium-Karten. Kommt als Abhängigkeit von folium mit,
-# wird in Notebook 01 aber direkt importiert.
+# Colour scales for the folium maps. It comes along as a dependency of folium,
+# but it is imported directly in notebook 01.
 branca>=0.8.2
 
-# --- Statistik und Modell, Notebooks 03 und 04 -----------------------------
+# --- Statistics and model, notebooks 03 and 04 -----------------------------
 
-# Tests mit p-Wert (ANOVA, Korrelation, t-Test)
+# Tests with a p-value (ANOVA, correlation, t-test)
 #
-# Die Obergrenze <1.18 ist zwingend: Ab scipy 1.18 verlangt das Paket
-# Python >= 3.12. Ohne die Grenze schlägt "pip install -r requirements.txt"
-# auf unserer Python-Version 3.11 fehl, bevor überhaupt ein Notebook startet.
-# 1.17.1 ist die höchste Version, die auf 3.11 installierbar ist.
+# The upper bound <1.18 is mandatory: from scipy 1.18 onwards the package
+# requires Python >= 3.12. Without that bound, "pip install -r requirements.txt"
+# fails on our Python version 3.11 before any notebook even starts.
+# 1.17.1 is the highest version installable on 3.11.
 scipy>=1.17.1,<1.18
 
-# Diagramme mit Gruppen (Boxplots, Heatmap)
+# Charts with groups (box plots, heat map)
 seaborn>=0.13.2
 
-# Regression, Kreuzvalidierung und k-means
+# Regression, cross-validation and k-means
 scikit-learn>=1.9.1
 
-# Gegenprobe der geclusterten Standardfehler in Notebook 04.
-# Dort in try/except gekapselt: Ohne das Paket läuft das Notebook zwar
-# durch, überspringt die Gegenprobe aber stillschweigend. Darum aufnehmen.
+# Cross-check of the clustered standard errors in notebook 04.
+# Wrapped in try/except there: without the package the notebook does run
+# through, but it silently skips the cross-check. Hence it is listed here.
 statsmodels>=0.15.0
 
-# --- PostgreSQL, Notebook sql/03_postgresql.ipynb --------------------------
+# --- PostgreSQL, notebook sql/03_postgresql.ipynb --------------------------
 
-# Treiber für PostgreSQL, wird dort hart importiert.
-# Das Notebook braucht zusätzlich einen laufenden PostgreSQL-Server,
-# siehe README, Abschnitt "PostgreSQL einrichten".
+# Driver for PostgreSQL, imported directly there.
+# The notebook additionally needs a running PostgreSQL server,
+# see the README, section "Setting up PostgreSQL".
 psycopg2-binary>=2.9.11
