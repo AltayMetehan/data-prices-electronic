@@ -286,13 +286,16 @@ Vereinfachen.
 Netzbetreiber erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die
 Sprachregion 0.4 bis 3.0.
 
-**Zwei offene Punkte zu den Karten.** Beide kosten heute keinen Punkt, beide können
-Bonus 3 nachträglich kaputtmachen:
+**Drei offene Punkte vor der Abgabe.** Keiner kostet heute einen Punkt, alle drei
+können nachträglich etwas kaputtmachen. Punkt 1 und 2 betreffen Bonus 3, Punkt 3
+das Repo als Ganzes; sie stehen hier zusammen, damit alle Abgabe-Prüfungen an
+einem Ort sind:
 
 | | Was | Wann |
 |---|---|---|
 | 1 | **Beide interaktiven Karten im Browser öffnen und anschauen.** Die Hintergrundkacheln kommen von einem Drittanbieter, und genau das ist am 25.11.2026 schon einmal gebrochen: CartoDB verlangt seither einen Schlüssel und lieferte statt der Karte ein flächendeckendes Raster aus «API KEY REQUIRED». Umgestellt auf Esri World Light Gray Base – schlüsselfrei, aber derselbe Anbietertyp und damit dasselbe Risiko. **Das Notebook meldet in diesem Fall keinen Fehler.** Die Prüfung geht nur mit dem Auge. | vor der Abgabe im Januar |
 | 2 | **Kantonsumrisse als eigene Ebene in die beiden folium-Karten legen.** Die Geometrie liegt bereits vor und wird in Zelle 54 für die statischen Karten verwendet (`kantone.boundary`). Danach bleibt die Schweiz erkennbar, auch wenn gar keine Kacheln mehr laden, und die Karte hängt nur noch an unseren eigenen swisstopo-Daten statt an einem Drittanbieter. | nach Freitag, 27.11. |
+| 3 | **README nachführen: Datum und Abschnitt «Status».** Dort steht ein festes Datum und eine Liste, was fertig ist und was als Nächstes kommt. Beides veraltet bis zum 10. Januar sicher. Das README ist über Bonus 6 die Eingangstür für die Dozenten; ein falsches Datum auf der ersten Seite ist der billigste vermeidbare Fehler im ganzen Projekt. Dazu gehören die Passwort-Platzhalter in dieser Punkteliste, die noch deutsch sind. | vor der Abgabe im Januar |
 
 ### Bonus 4 ✅ Chi-Quadrat, ANOVA oder Korrelation mit p-Wert · Subraj
 
