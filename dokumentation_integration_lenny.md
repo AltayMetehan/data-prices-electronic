@@ -53,8 +53,8 @@ silently.
 ## 3. Preparation: from long to wide format
 
 The FSO file comes in **long format**: one row per municipality *and* indicator.
-Aeugst am Albis occupies 41 rows. In total there are 89,093 rows for 2,172
-municipalities.
+Aeugst am Albis occupies 41 rows. The file has 89,093 rows in total, 41 of them
+for Switzerland as a whole, leaving 89,052 rows for the 2,172 municipalities.
 
 A join needs one row per municipality. With `pivot` the table was turned around: 41
 rows become one row with 39 columns. Without this step every municipality would have
@@ -148,8 +148,14 @@ Both reasons sound harmless. Taken together they are not:
 | Group | Count | Median population | Median price 2021 |
 |---|---|---|---|
 | Kept, all five characteristics present | 1,999 | **1,717** | 20.53 cts. |
-| Dropped: jobs figure suppressed | 88 | **313** | 21.03 cts. |
+| Dropped: jobs figure suppressed | 88 | **312** | 21.03 cts. |
 | Dropped: municipal merger | 114 | **669** | 21.14 cts. |
+
+A note on the median of 312, so that nobody «corrects» it back later: the exact
+median of the 88 municipalities is **312.5** - the two middle values are 310 and 315.
+Python's formatting rounds that to 312, and the notebook prints 312. This
+documentation records what the notebook outputs, so 312 it is. Commercial rounding
+would give 313; that is not the figure the code produces.
 
 Medians alone carry no conclusion. Hence a **permutation test** with 20,000 draws:
 the values of both groups are redistributed at random, and the p-value says how often
