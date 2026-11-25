@@ -672,7 +672,7 @@ selber korrigieren.
 - Metehan: `scripts/strompreise_holen.py`, `query.txt`,
   `daten/strompreise/Daten_Strompreise_*.csv`, `scripts/02_sqlite_metehan.ipynb`,
   `sql/`, alles zu SQLite und PostgreSQL,
-  `ai-doku/AI-Dokumentation_*_Metehan.md`
+  `ai-doku/AI-Documentation_*_Metehan.md`
 - Subraj: `scripts/03_analyse_subraj.ipynb`
 - Lenny: `scripts/01_daten_bfs_lenny.ipynb`, `daten/bfs/`, `daten/verbunden/`,
   `README.md`, `CLAUDE Data Analytics.md`, `dokumentation_integration_lenny.md`,
