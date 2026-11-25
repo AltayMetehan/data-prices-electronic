@@ -99,7 +99,7 @@ PostgreSQL server. See the next section.
    ```
    If the project is to use a database account of its own:
    ```sql
-   CREATE USER strompreise_app WITH PASSWORD 'ein-eigenes-passwort';
+   CREATE USER strompreise_app WITH PASSWORD 'your-own-password';
    GRANT ALL PRIVILEGES ON DATABASE strompreise TO strompreise_app;
    ```
    Then run the notebook as `strompreise_app`, or use the PostgreSQL default
@@ -114,7 +114,7 @@ PostgreSQL server. See the next section.
    $env:PGPORT="5432"
    $env:PGDATABASE="strompreise"
    $env:PGUSER="postgres"
-   $env:PGPASSWORD="das-eigene-passwort"
+   $env:PGPASSWORD="your-own-password"
    jupyter notebook sql/03_postgresql.ipynb
    ```
    The variables can be set per terminal. The notebook reads environment variables
@@ -135,7 +135,7 @@ echo 'export PATH="$(brew --prefix postgresql@17)/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 # Homebrew creates your own macOS user as the superuser, not postgres:
 createdb strompreise
-psql -d strompreise -c "ALTER USER $(whoami) WITH PASSWORD 'das-eigene-passwort';"
+psql -d strompreise -c "ALTER USER $(whoami) WITH PASSWORD 'your-own-password';"
 ```
 Alternatively, install and start Postgres.app (postgresapp.com). Then use your own
 macOS user name as `PGUSER`.
@@ -144,7 +144,7 @@ macOS user name as `PGUSER`.
 ```bash
 sudo apt install postgresql
 sudo systemctl enable --now postgresql
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'das-eigene-passwort';"
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'your-own-password';"
 sudo -u postgres createdb strompreise
 ```
 Fedora: `sudo dnf install postgresql-server`, then `sudo postgresql-setup --initdb`
@@ -160,7 +160,7 @@ export PGHOST=localhost
 export PGPORT=5432
 export PGDATABASE=strompreise
 export PGUSER=postgres          # macOS/Homebrew: export PGUSER=$(whoami)
-export PGPASSWORD='das-eigene-passwort'
+export PGPASSWORD='your-own-password'
 jupyter notebook sql/03_postgresql.ipynb
 ```
 The `export` lines apply only in the current terminal and do not belong in files that
