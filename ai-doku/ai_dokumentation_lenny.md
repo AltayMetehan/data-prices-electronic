@@ -563,6 +563,16 @@ nur den Rückgabewert lesen. Und: die Entscheidung am Bild treffen. Der
 naheliegende Ersatz war hier der schlechtere, und das hätte man der Zeile Code
 nicht angesehen.
 
+**Nachtrag vom 25.11.2026: dasselbe Muster ein zweites Mal.** Beim Übersetzen des
+Notebooks meldete das eigens dafür gebaute Prüfskript «alle Prüfungen grün»,
+während drei deutsche Spaltenüberschriften stehen geblieben waren – es erkannte
+deutsche *Sätze*, aber keine einzelnen *Etiketten*, und genau die sieht ein Leser
+in jeder Ausgabe zuerst. Beide Male war nicht das Ergebnis falsch, sondern **die
+Prüfung schwächer als ihre eigene Meldung**: einmal ein Notebook, das «0 Fehler»
+sagte und unbrauchbare Karten lieferte, einmal ein Prüfskript, das «grün» sagte
+und deutsche Beschriftungen durchliess. Eine grüne Meldung belegt nur, dass die
+Prüfung nichts gefunden hat – nicht, dass nichts da ist.
+
 ---
 
 ## Was gut funktioniert hat
