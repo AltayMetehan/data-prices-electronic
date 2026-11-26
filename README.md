@@ -11,7 +11,7 @@ rise of 2023?
 - Municipality data: Federal Statistical Office (FSO)
 - Years compared: 2021, 2024, 2027
 
-**Group:** Lenny Frei, Altay Metehan, Singh Sub Raj
+**Group:** Lenny Frei, Metehan Altay, Singh Sub Raj
 
 Project instructions see `CLAUDE Data Analytics.md`,
 requirements see `moodle_aufgabenstellung.pdf`.

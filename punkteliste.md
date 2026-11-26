@@ -157,7 +157,7 @@ Kreuzvalidierung ist ausdrücklich gedeutet (04 §6).
 | Teil | Beleg |
 |---|---|
 | Lenny | `ai-doku/ai_dokumentation_lenny.md` – 15 dokumentierte Fehlschläge mit Datum, dazu Abschnitte «Was gut funktioniert hat» und «Was mühsam war» |
-| Metehan | `ai-doku/AI-Dokumentation_Datenbeschaffung_Metehan.md`, `ai-doku/AI-Dokumentation_SQLite_Metehan.md`, `ai-doku/AI-Dokumentation_PostgreSQL_Metehan.md` |
+| Metehan | `ai-doku/AI-Documentation_DataCollection_Metehan.md`, `ai-doku/AI-Documentation_SQLite_Metehan.md`, `ai-doku/AI-Documentation_PostgreSQL_Metehan.md`, `ai-doku/AI-Documentation_Presentation_Metehan.md` |
 | Subraj | `ai-doku/ai_dokumentation_subraj.md` – Sitzungsprotokoll mit dokumentierten Fehlschlägen, Vorteile, Nachteile |
 
 | Gebündelt | `ai-doku/ai_dokumentation_gruppe_15.md` – Werkzeuge, Einsatz pro Aufgabe, Vorteile, Nachteile, 18 Fälle, in denen etwas nicht funktioniert hat, Lehren, Vorschlag für Folien und Video |
