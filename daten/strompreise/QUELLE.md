@@ -12,8 +12,8 @@ Web Scraping and/or a Web API». The data was collected by the group itself, wit
   in Switzerland»
 - **Publisher:** Federal Electricity Commission ElCom, as
   `https://register.ld.admin.ch/opendataswiss/org/elcom`
-- **Collected by:** Altay Metehan, via `scripts/strompreise_holen.py`
-- **Collected on:** ⚠️ **retrieval date to be confirmed by Altay Metehan.** The Git
+- **Collected by:** Metehan Altay, via `scripts/strompreise_holen.py`
+- **Collected on:** ⚠️ **retrieval date to be confirmed by Metehan Altay.** The Git
   history proves the three files were committed on 2 November 2026 (`0d56262`) at
   the latest, and they have not been modified since.
 - **Endpoint:** https://ld.admin.ch/query (LINDAS SPARQL)

@@ -6,7 +6,7 @@
 
 ZHAW, Modul Data Analytics, HS2026. Dozenten: Dr. Mario Gellrich (modulverantwortlich),
 Dr. Alexander Walter.
-Gruppe: Lenny Frei, Altay Metehan, Singh Sub Raj.
+Gruppe: Lenny Frei, Metehan Altay, Singh Sub Raj.
 
 Sprache in Code, Kommentaren und Abgaben: **Englisch**, seit der Ansage des
 Dozenten vom 24. November 2026. Diese Anleitung selber bleibt deutsch.

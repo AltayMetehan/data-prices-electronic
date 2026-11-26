@@ -1,6 +1,6 @@
 # AI Documentation: PostgreSQL
 
-ZHAW Data Analytics HS2026 · Altay Metehan · As of 22 November 2026
+ZHAW Data Analytics HS2026 · Metehan Altay · As of 22 November 2026
 
 ## Overview
 

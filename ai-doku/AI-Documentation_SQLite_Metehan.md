@@ -1,6 +1,6 @@
 # AI Documentation: SQLite Database
 
-ZHAW Data Analytics HS2026 · Altay Metehan · As of 2 November 2026
+ZHAW Data Analytics HS2026 · Metehan Altay · As of 2 November 2026
 
 ## Overview
 

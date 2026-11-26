@@ -1,6 +1,6 @@
 # AI Documentation: Collecting the Electricity Prices
 
-ZHAW Data Analytics HS2026 · Altay Metehan · As of 1 November 2026
+ZHAW Data Analytics HS2026 · Metehan Altay · As of 1 November 2026
 
 ## Overview
 

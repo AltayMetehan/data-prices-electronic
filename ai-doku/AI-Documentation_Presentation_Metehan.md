@@ -1,6 +1,6 @@
 # AI Documentation: Concept Presentation
 
-ZHAW Data Analytics HS2026 · Altay Metehan · As of 25 November 2026
+ZHAW Data Analytics HS2026 · Metehan Altay · As of 25 November 2026
 
 ## Overview
 
