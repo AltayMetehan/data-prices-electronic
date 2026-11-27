@@ -117,8 +117,8 @@ swisstopo's terms of use permit use and modification with attribution. Coverage 
 checked rather than assumed: all 2,087 municipalities are contained in edition
 2026-01. Two maps built, each as a PNG and interactive. The change map had to be
 corrected after the first run, see case 11. Measured: the grid operator explains 94 to
-97 per cent of the price dispersion, the canton 23 to 60, the language region 0.4 to
-3.0.
+97 per cent of the price dispersion, the canton 23 to 62, the language region 0.4 to
+3.4.
 
 ---
 
@@ -423,6 +423,14 @@ and p = 0.0003). More expensive no – among the merged municipalities the media
 indeed higher, but the mean is practically the same (20.83 against 20.86 centimes,
 p = 0.91), and in the second group not even the median holds up (p = 0.25). The
 statement rested on a comparison of three medians without a test.
+
+*Addendum of 27 November 2026: the figures quoted here were correct on 8 November.
+Filtering the placeholder rows in the 2021 data has since moved them - the mean of
+the analysis set is now 20.90 instead of 20.86, and the p-value of this cross-check
+is 0.7974 instead of 0.91. The finding itself is unchanged: no bias by price level
+is established. Details in `dokumentation_integration_lenny.md`, section 6b. The old
+figures are left standing here on purpose, because this case records what the audit
+found on that day.*
 
 **c) A table that could not be computed with.** Sub-question 1 asks which price
 component accounts for the differences. The delivered table contained only `total`.

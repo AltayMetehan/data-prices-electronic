@@ -283,8 +283,8 @@ Geprüft: Alle 2087 Gemeinden haben eine Geometrie, 0 leere und 0 ungültige nac
 Vereinfachen.
 
 **Stand: ✅ erfüllt.** Die Karte beantwortet zusätzlich eine inhaltliche Frage: Der
-Netzbetreiber erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 60, die
-Sprachregion 0.4 bis 3.0.
+Netzbetreiber erklärt 94 bis 97 Prozent der Preisstreuung, der Kanton 23 bis 62, die
+Sprachregion 0.4 bis 3.4.
 
 **Drei offene Punkte vor der Abgabe.** Keiner kostet heute einen Punkt, alle drei
 können nachträglich etwas kaputtmachen. Punkt 1 und 2 betreffen Bonus 3, Punkt 3

@@ -441,8 +441,8 @@ herausgefiltert. Alles hier ist 🟡 **Vorschlag**, sofern nicht anders markiert
 
 # 5. Zwei Regeln für den Stil
 
-**Zahlen.** Der Dezimalpunkt bleibt wie er ist: `20.86` ist in beiden Sprachen
-`20.86`. Beim Tausendertrennzeichen kommt es darauf an, **wo** die Zahl steht:
+**Zahlen.** Der Dezimalpunkt bleibt wie er ist: `20.90` ist in beiden Sprachen
+`20.90`. Beim Tausendertrennzeichen kommt es darauf an, **wo** die Zahl steht:
 
 | wo | Trennzeichen | Beispiel |
 |---|---|---|

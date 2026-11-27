@@ -130,6 +130,87 @@ the SPARQL query runs again.
 
 ---
 
+## 6b. Placeholder rows in the 2021 data
+
+This is the inconsistency that took longest to find, because nothing about it looks
+broken: no error, no missing value, no implausible total. It was found by
+recomputing, not by reading.
+
+**What the rows are.** For the 2021 tariff year, some grid operators declared a row
+with a **grid usage charge of zero**, in most cases with zero energy as well. An H4
+household tariff without a grid usage charge cannot exist - every household pays for
+the grid. Eleven such rows are in `daten/strompreise/Daten_Strompreise_2021.csv`,
+from four operators:
+
+| Operator | Municipalities | `total` of the placeholder row |
+|---|---|---|
+| Albula Netz AG | Schmitten (GR), Albula/Alvra, Bergün Filisur | 0.000 |
+| DransGrid SA | Bourg-Saint-Pierre, Liddes, Orsières | 0.500 / 0.000 / 0.000 |
+| Elektra Genossenschaft Waldhäusern | Bünzen | 0.000 |
+| Media Mesolcina Energia | Lostallo, Soazza, Grono | 7.200, energy only |
+| Gemeinde Sufers, Stromverkauf | Sufers | 12.433, energy only |
+
+**Why these are placeholders and not a cheap tariff.** The same operators report real
+grid usage in 2024 and 2027. Media Mesolcina Energia, for example, reports 0.000 in
+2021 and between 12.139 and 15.784 in 2024. A tariff that is genuinely cheap stays
+cheap; a field that is empty in one year and filled in the next was not a tariff.
+
+**Why it mattered.** The analysis set takes the **mean** across the rows of a
+municipality. Where a placeholder row sits next to a real tariff, that municipality's
+2021 price is roughly halved - Bergün Filisur appeared at 12.280 instead of 24.560.
+On the change map all affected municipalities were clipped at the top of the colour
+scale and appeared as maximally red, in two conspicuous clusters in Valais and the
+Albula valley. Bourg-Saint-Pierre sat in the 99th percentile of the price rise; after
+cleaning it sits in the 44th.
+
+**Two cases, treated differently.** The eleven rows are not one problem but two:
+
+| | Case | Treatment | Count |
+|---|---|---|---|
+| a) | Placeholder **next to** a real tariff | an artefact of the mean. **Removed**, the municipality keeps its real tariff | **10** |
+| b) | Placeholder as the municipality's **only** row | not an artefact but a **missing value**. **Kept** - removing it would drop the municipality out of the intersection of all three years | **1** |
+
+Case b) is **Sufers (3695)**. Its only 2021 row reports energy of 6.433 and grid
+usage of 0.000. Filtering it would shrink the analysis set from 2,087 to 2,086 and
+the number of municipalities cheaper in 2027 from 227 to 226. The row is therefore
+kept, and Sufers is recorded here as a **residual case**: its 2021 price of 12.433
+is probably too low, and it is the only municipality in the set for which that is
+true.
+
+**Records lost.** 10 of 2,374 rows in the 2021 file, so **2,374 → 2,364**. No
+municipality was lost: the analysis set remains at 2,087, and the number of
+municipalities present in all three years is unchanged. The filter sits in
+`scripts/01_daten_bfs_lenny.ipynb`, cell 17, and prints how many rows it removed and
+which one it kept.
+
+**What changed in the figures.** All values below come from the notebook run of
+27 November 2026:
+
+| | before | after |
+|---|---|---|
+| Rows in the 2021 file (H4/standard) | 2,374 | **2,364** |
+| Mean `total_2021` | 20.86 | **20.90** |
+| Median `total_2021` | 20.53 | **20.55** |
+| Minimum `total_2021` | 7.96 | **8.59** |
+| Share of dispersion 2021, canton | 60.3 % | **62.3 %** |
+| Share of dispersion 2021, grid operator | 95.0 % | **94.9 %** |
+| Share of dispersion 2021, language region | 3.0 % | **3.4 %** |
+| Municipalities in the analysis | 2,087 | 2,087 |
+| Cheaper in 2027 than in 2021 | 227 = 10.9 % | 227 = 10.9 % |
+| Mean 2024 / 2027 | 31.99 / 27.25 | 31.99 / 27.25 |
+| Range of the change | −2.1 to +27.7 | −2.1 to +27.7 |
+
+**No conclusion of the project changes.** The grid operator still explains around
+95 per cent of the dispersion, the share of municipalities that became cheaper is
+identical, no sign flips and no p-value crosses a threshold. What was wrong was the
+map and three figures on the slides.
+
+**Found by Sub Raj Singh on 21 November 2026** while recomputing the raw data
+independently, and fixed on 27 November 2026. It survived every check until then
+because a placeholder row passes the sum check as well: 0 = 0 + 0 + 0 + 0.
+
+---
+
 ## 7. Which municipalities drop out of the analysis, and are they randomly distributed?
 
 Nothing is lost in the join itself. What is lost, is lost before and after it - for
@@ -168,8 +249,8 @@ a jobs figure are part of the 2,087 and are compared with the remaining 1,999.
 
 | Group | Population, diff. median | p | Price, diff. median | p | Price, diff. mean | p |
 |---|---|---|---|---|---|---|
-| Merger (114), against all 2,087 | **−958** | **0.007** | +0.61 cts. | **0.009** | −0.03 cts. | 0.91 |
-| Jobs figure suppressed (88), against 1,999 | **−1,404** | **0.0003** | +0.50 cts. | 0.25 | +0.34 cts. | 0.30 |
+| Merger (114), against all 2,087 | **−958** | **0.0066** | +0.59 cts. | **0.0095** | −0.07 cts. | 0.7974 |
+| Jobs figure suppressed (88), against 1,999 | **−1,404** | **0.0003** | +0.50 cts. | 0.2452 | +0.42 cts. | 0.1892 |
 
 **Finding, as far as the numbers carry:**
 
@@ -180,10 +261,11 @@ p = 0.0003). Of the 2,201 municipalities present in 2021, 202 drop out, a good
 statement about urban and rural areas this matters.
 
 **By price level no bias is established.** Among the merged municipalities the median
-is indeed 0.61 centimes higher (p = 0.009), but the **mean is practically identical**:
-20.83 against 20.86 centimes, p = 0.91. The higher median therefore comes from the
+is indeed 0.59 centimes higher (p = 0.0095), but the **mean is practically identical**:
+20.83 against 20.90 centimes, p = 0.7974. The higher median therefore comes from the
 shape of the distribution, not from a generally more expensive price level. In the
-second group neither the median (p = 0.25) nor the mean (p = 0.30) survives a test.
+second group neither the median (p = 0.2452) nor the mean (p = 0.1892) survives a
+test.
 
 An earlier version of this section said both groups were «clearly smaller and somewhat
 more expensive». The first part holds, the second was written without a test and does
@@ -450,7 +532,7 @@ share of the price dispersion that lies between the groups:
 
 | Year | Canton | Grid operator | Language region |
 |---|---|---|---|
-| 2021 | 60.3 % | **95.0 %** | 3.0 % |
+| 2021 | 62.3 % | **94.9 %** | 3.4 % |
 | 2024 | 23.1 % | **94.0 %** | 1.7 % |
 | 2027 | 35.2 % | **96.8 %** | 0.4 % |
 
@@ -460,7 +542,7 @@ block around Zurich, Zug and Aargau, where prices in 2027 are back below the lev
 2021.
 
 **Limitation:** canton and grid operator are not independent. Many large suppliers are
-historically cantonal utilities. The cantonal share of 23 to 60 per cent therefore
+historically cantonal utilities. The cantonal share of 23 to 62 per cent therefore
 arises largely because the cantonal border and the operator boundary often coincide.
 The map shows which boundary is the sharper one, not which one is the cause.
 
