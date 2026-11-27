@@ -65,7 +65,9 @@ For all 2,087 municipalities, the database returns exactly the same values as Le
 | Municipalities only in the database or only at Lenny's | 0 / 0 |
 | Deviating values in `v_analyse` compared with Lenny's file (prices 2021/2024/2027, population, density, area, employees, share 65+) | 0 in all 8 columns |
 
-Still open: run the notebook in Jupyter on my computer and compare the 36 derived FSO labels with the original file.
+Still open: compare the 36 derived FSO labels with the original file.
+
+Done on 27 November 2026: the notebook ran through in Jupyter on my own computer (Python 3.11, fresh environment from `requirements.txt`), without errors and again with 0 deviations from Lenny's join. Since that day the view `v_preis_h4` leaves out the ten 2021 placeholder rows (grid usage 0 next to a real tariff, see `dokumentation_integration_lenny.md`, section 6b); the analysis set stays at 2,087 municipalities.
 
 ## Conclusion and lessons
 

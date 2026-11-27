@@ -64,6 +64,8 @@ PostgreSQL and SQLite demonstrably contain the same data and return the same ana
 
 Done: the real `psycopg2` connection was tested locally on PostgreSQL 17.12. The only thing still open is a complete rerun of all notebook cells on every new development computer.
 
+Re-run on 27 November 2026 on my own computer after the placeholder filter in `v_preis_h4`: all cells without errors, same row counts and the same 2,087 municipalities as SQLite, largest deviation 7.1 × 10⁻¹⁵.
+
 ## Conclusion and lessons
 
 The SQL and the real local Python connection are tested. For the initial task, the AI openly named the difference between the substitute module and the real driver.

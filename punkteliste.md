@@ -111,8 +111,10 @@ Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
 
 - 🔍 R², **angepasstes R²** und **RMSE** für alle fünf Zielgrössen, RMSE verglichen
   mit der Standardabweichung der Zielgrösse (`04_modell_subraj.ipynb` §3, Tabelle
-  `guete_A`). Nachgeprüft: R² 0.218 / 0.068 / 0.069 / 0.214 / 0.290, R² adj.
-  0.215 / 0.065 / 0.065 / 0.212 / 0.288, RMSE 2.645 bis 3.893 Rp.
+  `guete_A`). Nachgeprüft: R² 0.227 / 0.068 / 0.069 / 0.221 / 0.297, R² adj.
+  0.224 / 0.065 / 0.065 / 0.218 / 0.295, RMSE 2.563 bis 3.837 Rp. (nachgezogen am
+  27.11.2026 aus Subrajs Lauf `ed9b39e` nach dem Platzhalter-Filter; vorher R² 0.218 /
+  0.068 / 0.069 / 0.214 / 0.290)
 - 🔍 **Kein Train-Test-Split, sondern 5-fache Kreuzvalidierung** (§6) – und zwar in
   zwei Varianten: mit zufälligen Folds (`KFold`) und mit nach Netzbetreiber
   **gruppierten** Folds (`GroupKFold`). Das ist für diese Daten das **stärkere**
@@ -122,9 +124,9 @@ Kontrollzelle zeigt 0 Abweichungen gegenüber Lennys Join in allen acht Spalten.
   gruppierten Folds halten ganze Versorgungsgebiete zurück und messen damit, was das
   Modell wirklich überträgt.
 - 🔍 Das Ergebnis dieser Prüfung ist zugleich das Hauptresultat des Projekts: Bei
-  zufälligen Folds bleibt R² fast unverändert (0.213 gegen 0.218 in der Stichprobe),
-  bei gruppierten Folds wird es **negativ** (−0.104 / −0.007 / −0.025 / −0.058 /
-  −0.050). Das Modell sagt dann schlechter voraus als der blosse Mittelwert.
+  zufälligen Folds bleibt R² fast unverändert (0.222 gegen 0.227 in der Stichprobe),
+  bei gruppierten Folds wird es **negativ** (−0.120 / −0.007 / −0.025 / −0.066 /
+  −0.063). Das Modell sagt dann schlechter voraus als der blosse Mittelwert.
 - Residuen gegen Vorhersage, Histogramm und Q-Q-Plot (§7)
 - Varianzinflationsfaktor gegen Multikollinearität (§1.2)
 
