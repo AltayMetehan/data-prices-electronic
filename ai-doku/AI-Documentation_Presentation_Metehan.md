@@ -67,7 +67,7 @@ Every number on the slides can be traced back to a file in the repo.
 
 | Check | Result |
 | --- | --- |
-| Prices and components 2021 / 2024 / 2027 | same as in notebook 03: 20.86 / 31.99 / 27.25 Rp./kWh |
+| Prices and components 2021 / 2024 / 2027 | same as in notebook 03: 20.86 / 31.99 / 27.25 Rp./kWh; since 27 Nov 2026, after the 2021 placeholder filter, 20.90 / 31.99 / 27.25 |
 | Dropout of municipalities | same as in the integration documentation §7: 2201 → 2087 → 1999, p = 0.91 for the price |
 | Rank correlation, heatmap, variance shares | same as in notebook 03 |
 | Figures | images from notebook 03 and Lenny's map, not regenerated |

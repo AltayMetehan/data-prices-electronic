@@ -302,12 +302,18 @@ H4, standard, 2087 Gemeinden in allen drei Jahren, Gesamtpreis `total`:
 
 | | 2021 | 2024 | 2027 |
 |---|---|---|---|
-| Mittelwert | 20.86 Rp | 31.99 Rp | 27.25 Rp |
-| Standardabweichung | 2.99 | 3.71 | 3.05 |
+| Mittelwert | 20.90 Rp | 31.99 Rp | 27.25 Rp |
+| Standardabweichung | 2.92 | 3.71 | 3.05 |
 
-Netto 2021 bis 2027: **+6.39 Rp**.
+Netto 2021 bis 2027: **+6.35 Rp**.
 **10.9 Prozent** der Gemeinden (227 von 2087) sind 2027 wieder unter dem Niveau von
 2021, 89.1 Prozent zahlen weiterhin mehr.
+
+Korrigiert am 27.11.2026: Für 2021 standen hier 20.86 Rp, Standardabweichung 2.99 und
+ein Netto von +6.39 Rp. Die View `v_preis_h4` lässt seither die zehn Platzhalterzeilen
+von 2021 weg (Netznutzung 0 neben einem echten Tarif), siehe
+`dokumentation_integration_lenny.md`, Abschnitt 6b. 2024, 2027 und die 227 Gemeinden
+bleiben gleich.
 
 Korrigiert am 01.11.2026: Hier standen vorher eine Spalte «2027 bereinigt» mit
 25.58 Rp, ein Netto von +4.72 Rp und 14.5 Prozent. Diese Zahlen beruhten auf der
@@ -322,9 +328,12 @@ falschen Annahme, der Messtarif sei 2027 neu hinzugekommen. Siehe Abschnitt 4.
 >
 > | Jahr | alle Gemeinden des Jahres | nur die 2087 gemeinsamen |
 > |---|---|---|
-> | 2021 | 2201 Gem. → 20.860 | 2087 Gem. → 20.862 |
+> | 2021 | 2201 Gem. → 20.898 | 2087 Gem. → 20.901 |
 > | 2024 | 2140 Gem. → **31.996** → 32.00 | 2087 Gem. → **31.988** → 31.99 |
 > | 2027 | 2109 Gem. → **27.244** → 27.24 | 2087 Gem. → **27.251** → 27.25 |
+>
+> Zeile 2021 nachgerechnet am 27.11.2026 nach dem Platzhalter-Filter, vorher 20.860
+> und 20.862.
 >
 > **Festlegung für Bericht und Präsentation: Es gelten die Zahlen über die 2087
 > gemeinsamen Gemeinden.** Begründung: Jede Aussage über die Veränderung zwischen
