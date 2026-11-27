@@ -1,226 +1,221 @@
-# AI-Dokumentation Gruppe 15
+# AI documentation – Group 15
 
-Data Analytics, ZHAW, HS2026 · Subraj Singh, Lenny Frei, Metehan Altay · Pflichtanforderung 8
+Data Analytics, ZHAW, HS2026 · Subraj Singh, Lenny Frei, Metehan Altay · Mandatory requirement 8
 
-Stand: 21. November 2026. Gebündelt aus den fünf Einzeldokumenten im Ordner `ai-doku/`.
-Dort stehen die vollständigen Protokolle mit allen Einzelheiten.
+As of 27 November 2026. Bundled from the individual documents in the folder `ai-doku/`.
+The full logs with all details are there.
 
-> Moodle verlangt die AI-Reflexion an drei Stellen: als Dokumentation (Pflicht 8), als
-> Abschnitt «Reflection on AI usage» im Präsentations-PDF und in Folien und Video
-> (Kriterium 6 der Videobewertung). Dieses Dokument ist die Grundlage für alle drei.
-> Der Einsatz von AI für die Präsentation selbst fehlt noch (Abschnitt 6).
-
----
-
-## Kurzfassung
-
-Alle drei haben Claude von Anthropic eingesetzt, für Datenbeschaffung, Datenbanken, Join,
-Karten, Analyse, Modell und Dokumentation. Die AI hat Arbeit ermöglicht, die im Unterricht
-nicht vorkam (SPARQL, PostgreSQL, geclusterte Standardfehler), und Widersprüche in langen
-Dokumenten zuverlässig gefunden.
-
-Ihr grösster Nachteil: Fehler sahen plausibel aus. Code lief ohne Fehlermeldung und lieferte
-falsche Zahlen, und Behauptungen über Daten waren konkret formuliert, ohne geprüft zu sein.
-Gefunden wurden diese Fehler fast immer erst durch Nachrechnen an den Rohdaten oder durch
-eine zweite, unabhängige Rechnung, nie durch die AI allein.
+> Moodle asks for the AI reflection in three places: as documentation (mandatory
+> requirement 8), as the section «Reflection on AI usage» in the presentation PDF, and in
+> the slides and the video (criterion 6 of the video assessment). This document is the basis
+> for all three. The use of AI for the final presentation is still missing (section 6).
 
 ---
 
-## 1. Verwendete Werkzeuge
+## Summary
 
-| Werkzeug | Wer | Wofür |
+All three of us used Claude by Anthropic: for data collection, databases, the join, maps,
+analysis, the model and the documentation. The AI made work possible that was not covered in
+class (SPARQL, PostgreSQL, clustered standard errors), and it reliably found contradictions in
+long documents.
+
+Its biggest disadvantage: errors looked plausible. Code ran without an error message and
+produced wrong figures, and statements about data were phrased concretely without having been
+checked. These errors were almost always found only by recalculating from the raw data or by a
+second, independent calculation, never by the AI alone.
+
+---
+
+## 1. Tools used
+
+| Tool | Who | For what |
 |---|---|---|
-| Claude (Anthropic), Modell Claude Opus 5.5, in der Claude-App mit Websuche und Zugriff auf den eigenen Browser | Metehan | SPARQL-Abfrage und Beschaffungsskript, SQLite-Datenbank, PostgreSQL |
-| Claude Code (Claude Opus 5) in VS Code | Lenny | Umgebung einrichten, Daten prüfen, Join, Gemeindefusionen, Karten, Projektanleitung und Punkteliste |
-| Claude Code in einer Cloud-Sitzung | Lenny | ein Zwischenschritt am 27./28.10.2026; das Ergebnis ging verloren (Fall L1) |
-| eine weitere, externe AI-Prüfung | Lenny | Durchsicht des Projekts; lieferte den Befund zur Netzbetreiberebene |
-| Claude (Anthropic), in der Claude-App mit einer Cloud-Arbeitsumgebung | Subraj | Aufgabenstellung und Themenwahl, Forschungsfrage, EDA und Tests, Regression und k-means, Prüfung des ganzen Repos |
-| Claude Code (Claude Opus 5.5) in VS Code, mit der Folienvorlage «Slides» auf claude.ai | Metehan | Konzeptpräsentation: Gliederung, Foliengestaltung, Diagramme, Sprechskript (24./25.11.2026, siehe Abschnitt 6) |
+| Claude (Anthropic), model Claude Opus 5.5, in the Claude app with web search and access to the user's own browser | Metehan | SPARQL query and collection script, SQLite database, PostgreSQL |
+| Claude Code (Claude Opus 5) in VS Code | Lenny | setting up the environment, checking data, join, municipal mergers, maps, project guide and requirements checklist |
+| Claude Code in a cloud session | Lenny | one intermediate step on 27/28 October 2026; the result was lost (case L1) |
+| a further, external AI review | Lenny | review of the project; delivered the finding on the grid operator level |
+| Claude (Anthropic), in the Claude app with a cloud workspace | Subraj | assignment and choice of topic, research question, EDA and tests, regression and k-means, review of the whole repository, translation of his files into English |
+| Claude Code (Claude Opus 5.5) in VS Code, with the «Slides» template on claude.ai | Metehan | concept presentation: outline, slide design, diagrams, speaker script (24/25 November 2026, see section 6) |
 
 ---
 
-## 2. Wofür die AI eingesetzt wurde
+## 2. What the AI was used for
 
-| Aufgabe | Wer | Was die AI gemacht hat | Wie das Ergebnis geprüft wurde |
+| Task | Who | What the AI did | How the result was checked |
 |---|---|---|---|
-| Aufgabenstellung, Themenwahl, Forschungsfrage | Subraj | Aufgabe zusammengefasst, Themen auf alle Zusatzpunkte geprüft, Hauptfrage mit fünf Unterfragen und Methoden formuliert | Abgleich mit dem Wortlaut auf Moodle |
-| Projektanleitung und Punkteliste | Lenny | Anleitung auf Widersprüche geprüft (fünf gefunden), Punkteliste gegen die Moodle-Seite abgeglichen (acht Abweichungen gefunden) | Zeilenweiser Abgleich mit dem Original |
-| Datenbeschaffung (Pflicht 1) | Metehan | Endpunkt gefunden, Datenmodell des ElCom-Cubes ausgelesen, SPARQL-Abfrage und Python-Skript geschrieben | Summenkontrolle über alle 143 837 Zeilen, Stichprobe von Hand |
-| Join (Pflicht 2) | Lenny | BFS-Quelle vor dem Download geprüft, Regionalporträts ins Breitformat gedreht, Join über die Gemeindenummer, Fusionen über die Mutationstabelle aufgelöst | Trefferquote, Permutationstest auf Auswahlverzerrung, Vergleich mit der Gesamtschweiz |
-| SQLite (Pflicht 3) | Metehan | Datenmodell mit 5 Tabellen und 2 Views entworfen, Notebook geschrieben | 0 Abweichungen gegenüber Lennys Join in allen 8 Spalten |
-| Karten (Bonus 3) | Lenny | Lizenz geklärt, Abdeckung geprüft, zwei Karten als Bild und interaktiv gebaut | fertige Bilder angesehen (Fall L11) |
-| PostgreSQL (Bonus 2) | Metehan | Schema übertragen, Views nachgebaut, sechs Auswertungen mit Joins, Aggregationen und Fensterfunktionen | gleiche Zeilenzahlen und Werte wie SQLite, Abweichung höchstens 7 × 10⁻¹⁵ |
-| EDA und Tests (Pflicht 4, Bonus 4) | Subraj | Notebook 03 auf den echten Daten gebaut, jeder Test auf Gemeinde- und Betreiberebene | jede Zahl im Text gegen die Ausgabe im Notebook geprüft |
-| Regression, Modellgüte, k-means (Pflicht 5 bis 7, Bonus 5) | Subraj | Notebook 04, mit selbst programmierten geclusterten Standardfehlern und gruppierter Kreuzvalidierung | Koeffizienten gegen scikit-learn geprüft (identisch), Gegenprobe gegen statsmodels vorbereitet |
-| Prüfung des ganzen Repos | Subraj | Rohdaten, Join und Datenbank unabhängig nachgerechnet, Kreativitätsbelege gegen die Kurs-Repos geprüft | Join exakt nachgebaut, Datenbank neu gebaut und Tabelle für Tabelle verglichen |
+| Assignment, choice of topic, research question | Subraj | summarised the assignment, checked topics against all bonus points, formulated a main question with five sub-questions and methods | compared with the wording on Moodle |
+| Project guide and requirements checklist | Lenny | checked the guide for contradictions (five found), compared the checklist with the Moodle page (eight deviations found) | line-by-line comparison with the original |
+| Data collection (mandatory requirement 1) | Metehan | found the endpoint, read the data model of the ElCom cube, wrote the SPARQL query and the Python script | sum check over all 143,837 rows, manual sample |
+| Join (mandatory requirement 2) | Lenny | checked the Federal Statistical Office (FSO) source before downloading, pivoted the regional portraits to wide format, joined via the municipality number, resolved mergers via the mutation table | match rate, permutation test for selection bias, comparison with Switzerland as a whole |
+| SQLite (mandatory requirement 3) | Metehan | designed a data model with 5 tables and 2 views, wrote the notebook | 0 deviations from Lenny's join in all 8 columns |
+| Maps (bonus point 3) | Lenny | clarified the licence, checked coverage, built two maps as images and interactively | looked at the finished images (case L11) |
+| PostgreSQL (bonus point 2) | Metehan | transferred the schema, rebuilt the views, six analyses with joins, aggregations and window functions | same row counts and values as SQLite, deviation at most 7 × 10⁻¹⁵ |
+| EDA and tests (mandatory requirement 4, bonus point 4) | Subraj | built notebook 03 on the real data, every test at municipality and at operator level | every number in the text checked against the output in the notebook |
+| Regression, model quality, k-means (mandatory requirements 5 to 7, bonus point 5) | Subraj | notebook 04, with self-programmed clustered standard errors and grouped cross-validation | coefficients checked against scikit-learn (identical), cross-check against statsmodels prepared |
+| Review of the whole repository | Subraj | independently recalculated raw data, join and database, checked the creativity evidence against the course repositories | rebuilt the join exactly, rebuilt the database and compared it table by table |
 
 ---
 
-## 3. Vorteile
+## 3. Advantages
 
-1. SPARQL, PostgreSQL und geclusterte Standardfehler kamen im Unterricht
-   nicht vor. Die AI hat das Datenmodell des ElCom-Cubes direkt am Endpunkt ausgelesen und die
-   Formel für die Standardfehler mit Kontrolle umgesetzt (Metehan, Subraj).
-2. Fünf Fehler in der Projektanleitung, acht
-   Abweichungen der Punkteliste von der Aufgabenstellung und vier Fehler im Projektplan hätte
-   beim Durchlesen niemand gefunden. Ein Abgleich Zeile für Zeile hält eine AI besser durch als
-   ein Mensch (Lenny, Subraj).
-3. Die AI hat Abfragen und Code nicht nur geschrieben, sondern
-   ausgeführt und Zeilenzahlen, Mediane und Summen ausgegeben. Ob die ElCom die Tarife 2027
-   schon publiziert hatte, war offen; die AI hat es nachgeprüft (Metehan).
-4. Die AI hat Kontrollen eingebaut: Summenkontrolle, Fremdschlüssel, Vergleich zweier Datenbanken,
-   `assert`-Prüfungen beim Verbinden der Daten. Sie laufen bei jedem Durchgang mit (alle).
-5. Die AI hat 36 nicht geprüfte BFS-Bezeichnungen als
-   «abgeleitet» gekennzeichnet, nicht reproduzierbare Zahlen einer anderen AI als solche benannt
-   und gesagt, was mit einem Ersatzmodul statt dem echten Treiber getestet wurde (Metehan, Lenny).
-6. Die Preise werden pro Netzbetreiber gesetzt, nicht pro
-   Gemeinde. Daraus folgten die geclusterten Standardfehler, die Rechnungen auf Betreiberebene
-   und die gruppierte Kreuzvalidierung. Ohne sie hätten wir die Modellgüte deutlich überschätzt
-   (Lenny, Subraj).
-7. Ein 21 546 Pixel hoher Screenshot der Moodle-Seite und
-   ein PDF mit 1795 Seiten wurden zerlegt und durchsucht (Lenny).
+1. SPARQL, PostgreSQL and clustered standard errors were not covered in class. The AI read
+   the data model of the ElCom cube directly at the endpoint and implemented the formula for
+   the standard errors together with a check (Metehan, Subraj).
+2. Nobody would have found five errors in the project guide, eight deviations of the checklist
+   from the assignment and four errors in the project plan just by reading. An AI keeps up a
+   line-by-line comparison better than a person (Lenny, Subraj).
+3. The AI did not only write queries and code, it also ran them and printed row counts,
+   medians and sums. Whether ElCom had already published the 2027 tariffs was open; the AI
+   checked it (Metehan).
+4. The AI built in checks: sum check, foreign keys, comparison of two databases, `assert`
+   checks when joining the data. They run every time (all).
+5. The AI marked 36 unchecked FSO labels as «derived», named figures from another AI that
+   could not be reproduced as such, and said what had been tested with a substitute module
+   instead of the real driver (Metehan, Lenny).
+6. Prices are set per grid operator, not per municipality. From this followed the clustered
+   standard errors, the calculations at operator level and the grouped cross-validation.
+   Without them we would have clearly overestimated the model quality (Lenny, Subraj).
+7. A screenshot of the Moodle page 21,546 pixels high and a PDF with 1,795 pages were split up
+   and searched (Lenny).
 
 ---
 
-## 4. Nachteile
+## 4. Disadvantages
 
-1. Die erste SPARQL-Abfrage lief fehlerfrei und lieferte
-   sinnvolle Zahlen, aber ohne Messtarif. Auch falsche Vermutungen kamen überzeugend formuliert
-   (alle).
-2. Die AI hat Datenquellen beschrieben, ohne sie zu öffnen, und
-   Belege angegeben, ohne sie aufzurufen. Eine Markierung «Geklärt am …» erzeugte Vertrauen,
-   obwohl der Link tot war (Lenny).
-3. Auf eine knappe Anfrage wählte die AI selbst eine Gemeinde, statt nach
-   Jahren und Umfang zu fragen. In einem anderen Fall wollte sie mit erfundenen Testdaten
-   beginnen, bevor die echten vorlagen (Metehan, Subraj).
-4. Die AI hat ungefragt Auswertungen gemacht, etwa Korrelationen in der
-   PostgreSQL-Datenbank. Ungetestet verleiten solche Zahlen zu vorschnellen Schlüssen (Metehan).
-5. Die Cloud-Umgebungen der AI konnten Pakete nicht installieren
-   (Jupyter, statsmodels, psycopg2) oder Schnittstellen nicht erreichen (LINDAS). Was dort nicht
-   lief, war nicht getestet (alle).
-6. Jede neue Sitzung beginnt ohne Vorwissen. Entscheide
-   müssen deshalb schriftlich im Repo stehen (Lenny).
+1. The first SPARQL query ran without errors and returned sensible figures, but without the
+   metering tariff (German: «Messtarif»). Wrong guesses were also phrased convincingly (all).
+2. The AI described data sources without opening them and cited evidence without calling it
+   up. A note «Clarified on …» created trust although the link was dead (Lenny).
+3. Given a short request, the AI picked a municipality itself instead of asking about years
+   and scope. In another case it wanted to start with invented test data before the real data
+   were available (Metehan, Subraj).
+4. The AI ran analyses nobody had asked for, for example correlations in the PostgreSQL
+   database. Untested, such figures invite hasty conclusions (Metehan).
+5. The AI's cloud environments could not install packages (Jupyter, statsmodels, psycopg2) or
+   could not reach interfaces (LINDAS). What did not run there was not tested (all).
+6. Every new session starts without prior knowledge. Decisions therefore have to be written
+   down in the repository (Lenny).
+7. The AI's own checks were not complete. A second AI reviewing the same files found gaps the
+   first had missed (Subraj).
 
 ---
 
-## 5. Wo etwas mit AI nicht funktioniert hat
+## 5. Where something did not work with AI
 
-Die wichtigsten Fälle aus allen drei Teilen. Die L-Nummern entsprechen den Fällen in Lennys
-Dokument. Die M- und S-Nummern sind für diese Übersicht vergeben; die Einzelheiten stehen in
-den Dokumenten von Metehan und Subraj.
+The most important cases from all three parts. The L numbers correspond to the cases in
+Lenny's document. The M and S numbers are assigned for this overview; the details are in the
+documents of Metehan and Subraj.
 
-| Nr | Datum | Was nicht funktioniert hat | Wie es auffiel | Folge |
+| No | Date | What did not work | How it was noticed | Consequence |
 |---|---|---|---|---|
-| M1 | 26./27.10. | Die erste SPARQL-Abfrage liess den Messtarif weg. 2027 fehlten im Median 1.74 Rp./kWh. Die AI bemerkte es nicht und tippte auf Metehans Hinweis zuerst auf die Fixkosten | Metehan beim Nachrechnen | Abfrage korrigiert, Summenkontrolle ins Skript eingebaut |
-| L7 | 27.10. bis 01.11. | Die AI legte fest, den Messtarif beim Zeitvergleich wegzulassen. Die Regel stand in der Anleitung und in drei Spalten der verbundenen Tabelle, die an zwei Teammitglieder gehen sollte. 2027 wäre um 1.67 Rp. zu billig gewesen | Widerspruch zwischen Anleitung und Kommentar im Skript, geklärt an der Primärquelle der ElCom | Spalten entfernt, Zahlen korrigiert |
-| L1 | 27./28.10. | Eine Cloud-Sitzung konnte nicht pushen; vier Commits und acht Dateien gingen verloren | Suche auf dem eigenen Rechner | rund zwei Stunden Arbeit neu gemacht |
-| L2 | 30.10. | Eine externe AI lieferte Zahlen zu den Netzbetreibern, die sich nicht nachrechnen liessen; sie hingen an der zufälligen Zeilenreihenfolge | eine zweite AI konnte sie nicht reproduzieren | dokumentierte Regel: Betreiber mit der kleinsten ID |
-| L6 | 27.10. bis 30.10. | Die AI behauptete, im Kurs-Repo lägen brauchbare Gemeindegrenzen. Die Datei deckt nur den Kanton Zürich ab | Blick in die Datei | Grenzen von swisstopo geholt |
-| L9 | 27.10. bis 07.11. | Die Anleitung beschrieb die BFS-Daten mit Kanton und Sprachregion, die darin nicht enthalten sind. Unterfrage 1 und die ANOVA wären nicht rechenbar gewesen | Vorbereitung der Karte, eine Woche später | dritte Datenquelle eingebaut |
-| L8 | 07.11. | Metehans AI sortierte die Dateien in Unterordner, ohne die Pfade nachzuziehen. Beide Notebooks brachen ab, die eingecheckten Ausgaben sahen aber korrekt aus | Lauf auf einem frischen Klon | Pfade von der Repo-Wurzel abgeleitet, Regel im README |
-| L11 | 07.11. | Die Farbskala der Veränderungskarte war nach Lehrbuch gewählt und versteckte genau die Gemeinden, um die es ging | Ansehen des fertigen Bildes | Skala mit ungleich langen Ästen |
-| L12 | 08.11. | Ein Beleg in der Anleitung führte auf eine tote Adresse, eine Aussage («etwas teurer») hielt einem Test nicht stand | Audit gegen Primärquellen und Rohdaten | Belege ersetzt, Aussage abgeschwächt |
-| L15 | 25.11. | Die Kachelquelle der interaktiven Karten (CartoDB) verlangt neu einen API-Schlüssel und lieferte statt der Hintergrundkarte ein flächendeckendes Raster aus «API KEY REQUIRED». Das Notebook meldete dabei null Fehler. Die AI hatte die Warnung selbst ausgegeben und sie beim Audit vom 24.11. überlesen | Screenshot der fertigen Karte im Browser, nicht die Rückmeldung des Notebooks | auf Esri World Light Gray Base umgestellt; der naheliegende Ersatz OpenStreetMap wurde nach dem Ansehen verworfen, weil blaue Seen und blaue, also günstiger gewordene Gemeinden verwechselbar sind |
-| M2 | 02.11. | 36 von 41 BFS-Bezeichnungen hat die AI nur aus Plausibilität erschlossen | von der AI selbst markiert | nur die 5 geprüften Kennzahlen verwendet |
-| M3 | 02.11., 17.11. und 22.11. | Jupyter und psycopg2 liessen sich in der ursprünglichen Cloud-Umgebung nicht installieren. Das PostgreSQL-Notebook lief zuerst mit einem Ersatzmodul auf einem Testserver | von der AI selbst benannt; am 22.11. lokale PostgreSQL-17.12-/psycopg2-Verbindung geprüft | echtes psycopg2 eingebunden, interaktive Passwortabfrage entfernt, Repo-Pfad ergänzt |
-| S1 | 10.10. | Die erste Themenliste prüfte nicht, ob die Daten per Scraping oder API selbst erhoben würden; bei mehreren Themen wäre ein fertiger Datensatz die Hauptquelle gewesen | Nachfrage von Subraj | neue Themen mit eigener Datenerhebung |
-| S2 | 08.11. und 17.11. | statsmodels liess sich nicht installieren; die geclusterten Standardfehler wurden selbst programmiert | Umgebung | Gegenprobe gegen statsmodels im Notebook vorbereitet |
-| S3 | 17.11. | In der eigenen Interpretation standen drei Aussagen, die stärker waren als die Zahlen | Gegenlesen jeder Zahl gegen die Ausgabe | korrigiert |
-| S4 | 21.11. | In Notebook 03 fehlte die Korrelation mit der Grösse des Netzbetreibers, obwohl Unterfrage 2 sie ausdrücklich nennt | Abgleich mit dem Projektplan | als Abschnitt 8.6 nachgetragen; stärkster Zusammenhang im Projekt |
-| S5 | 21.11. | Sieben Gemeinden haben 2021 bei einem von zwei Netzbetreibern einen leeren Tarif von 0.00 Rp. Datenbank und Join bilden den Mittelwert, ihr Preis 2021 ist deshalb halbiert. Alle bisherigen Kontrollen liefen durch, weil auch ein leerer Tarif die Summenkontrolle besteht (0 = 0 + 0 + …) | unabhängiges Nachrechnen der Rohdaten | Bereinigung in Notebook 01 und 02 offen; nachgerechnet kippt keine Aussage, ein Befund wird stärker |
-| S6 | 21.11. | Die Punkteliste beanspruchte die Karte in Python als kreativ. Die Übungen zu Woche 5 machen genau das | Abgleich mit den Kurs-Repos | Beleg gestrichen |
+| M1 | 26/27 Oct | The first SPARQL query left out the metering tariff. In 2027 a median of 1.74 cts./kWh was missing. The AI did not notice it and, after Metehan's hint, first suspected the fixed costs | Metehan, when recalculating | query corrected, sum check built into the script |
+| L7 | 27 Oct to 1 Nov | The AI decided to leave out the metering tariff in the time comparison. The rule was in the guide and in three columns of the joined table that was to go to two team members. 2027 would have been 1.67 cts. too cheap | contradiction between the guide and a comment in the script, clarified with ElCom's primary source | columns removed, figures corrected |
+| L1 | 27/28 Oct | A cloud session could not push; four commits and eight files were lost | search on the own computer | about two hours of work redone |
+| L2 | 30 Oct | An external AI delivered figures on the grid operators that could not be recalculated; they depended on the random row order | a second AI could not reproduce them | documented rule: operator with the smallest ID |
+| L6 | 27 Oct to 30 Oct | The AI claimed the course repository contained usable municipal boundaries. The file covers only the canton of Zurich | looking into the file | boundaries taken from swisstopo |
+| L9 | 27 Oct to 7 Nov | The guide described the FSO data as containing canton and language region, which they do not. Sub-question 1 and the ANOVA could not have been computed | preparing the map, one week later | third data source added |
+| L8 | 7 Nov | Metehan's AI sorted the files into subfolders without updating the paths. Both notebooks broke, but the committed outputs looked correct | run on a fresh clone | paths derived from the repository root, rule in the README |
+| L11 | 7 Nov | The colour scale of the change map was chosen by the textbook and hid exactly the municipalities that mattered | looking at the finished image | scale with branches of unequal length |
+| L12 | 8 Nov | A reference in the guide led to a dead address, and one statement («somewhat more expensive») did not survive a test | audit against primary sources and raw data | references replaced, statement weakened |
+| L15 | 25 Nov | The tile source of the interactive maps (CartoDB) now requires an API key and delivered a full-coverage grid of «API KEY REQUIRED» instead of the background map. The notebook reported zero errors. The AI had printed the warning itself and overlooked it in the audit of 24 Nov | screenshot of the finished map in the browser, not the notebook's output | switched to Esri World Light Gray Base; the obvious substitute OpenStreetMap was rejected after looking at it, because blue lakes and blue (i.e. cheaper) municipalities can be confused |
+| M2 | 2 Nov | The AI inferred 36 of 41 FSO labels only by plausibility | marked by the AI itself | only the 5 checked indicators used |
+| M3 | 2, 17 and 22 Nov | Jupyter and psycopg2 could not be installed in the original cloud environment. The PostgreSQL notebook first ran with a substitute module on a test server | named by the AI itself; on 22 Nov a local PostgreSQL 17.12 / psycopg2 connection was checked | real psycopg2 included, interactive password prompt removed, repository path added |
+| S1 | 10 Oct | The first list of topics did not check whether the data would be collected by scraping or an API; for several topics a ready-made dataset would have been the main source | Subraj asked | new topics with own data collection |
+| S2 | 8 and 17 Nov | statsmodels could not be installed; the clustered standard errors were programmed by hand | environment | cross-check against statsmodels prepared in the notebook; still to be run locally |
+| S3 | 17 Nov | The AI's own interpretation contained three statements that were stronger than the figures | checking every number against the output | corrected |
+| S4 | 21 Nov | Notebook 03 lacked the correlation with the size of the grid operator, although sub-question 2 names it explicitly | comparison with the project plan | added as section 8.6; at municipality level the strongest relationship in the project |
+| S5 | 21 Nov | In 2021, ten municipalities have a placeholder tariff with grid usage (German: «Netznutzung») of 0 next to a real tariff of another operator. Database and join take the mean, so their 2021 price was roughly halved. All previous checks passed, because a placeholder row also passes the sum check (0 = 0 + 0 + …) | independent recalculation from the raw data (first seven municipalities found; the clean-up found ten) | cleaned up on 27 Nov in notebooks 01 and 02 and in PostgreSQL; notebooks 03 and 04 re-run, no conclusion changes, one finding becomes stronger |
+| S6 | 21 Nov | The requirements checklist claimed the map in Python as creative. The exercises in week 5 do exactly that | comparison with the course repositories | claim removed |
+| S7 | 23 Nov | Two cells in notebook 03 reported correlations without a p-value, although bonus point 4 requires one for every test. Subraj's AI had not noticed it in its own checks | review by Lenny's AI | p-values added, the heatmap with a Bonferroni threshold |
 
 ---
 
-## 6. AI-Einsatz für die Präsentation
+## 6. AI use for the presentation
 
-Pflicht 8 verlangt den AI-Einsatz «for creating the code and the presentation». Die Folien
-entstehen ab dem 24. November 2026. Festzuhalten ist dann, wofür AI bei Gliederung, Texten,
-Grafiken und Video eingesetzt wurde, was übernommen wurde und was verworfen oder korrigiert
-werden musste. Dieser Abschnitt wird danach ergänzt.
+Mandatory requirement 8 asks for the AI use «for creating the code and the presentation». The
+final slides are made after the concept presentation. It will then be recorded what AI was used
+for in the outline, texts, graphics and video, what was adopted and what had to be rejected or
+corrected. This section will be completed then.
 
-### 6.1 Konzeptpräsentation (Metehan, 24./25.11.2026)
+### 6.1 Concept presentation (Metehan, 24/25 November 2026)
 
-**Werkzeug.** Claude Code mit dem Modell Claude Opus 5.5 in VS Code, im Projektordner. Die
-Folien entstanden mit der Folienvorlage «Slides» auf claude.ai, als privates Deck, das im
-Browser angezeigt und als PDF exportiert wird.
+**Tool.** Claude Code with the model Claude Opus 5.5 in VS Code, in the project folder. The
+slides were made with the «Slides» template on claude.ai, as a private deck that is shown in the
+browser and exported as PDF.
 
-**Eingaben.** Ein Bildschirmfoto der Bewertungskriterien aus Moodle (acht Kriterien, 10 Minuten),
-dazu die Dateien aus dem Repo: `README.md`, `folien_entwurf_lenny.md`, `punkteliste.md`,
-`dokumentation_integration_lenny.md` und das Notebook `scripts/03_analyse_subraj.ipynb`. Die
-Zahlen auf den Folien stammen aus diesen Dateien, die Grafiken zu Rangfolge, Heatmap, Kantonen,
-Boxplots und die Karte sind die Bilder aus Subrajs Notebook und Lennys Karte.
+**Inputs.** A screenshot of the assessment criteria from Moodle (eight criteria, 10 minutes),
+plus the files from the repository: `README.md`, `folien_entwurf_lenny.md`, `punkteliste.md`,
+`dokumentation_integration_lenny.md` and the notebook `scripts/03_analyse_subraj.ipynb`. The
+figures on the slides come from these files; the graphics on ranking, heatmap, cantons, box
+plots and the map are the images from Subraj's notebook and Lenny's map.
 
-**Ablauf in sechs Runden.**
+**Process in six rounds.**
 
-| Runde | Auftrag | Ergebnis |
+| Round | Request | Result |
 |---|---|---|
-| 1 | Folien nach den Kriterien, «stichwortartig und schöner Style» | Gliederung entlang der acht Kriterien, eigenes Farbschema |
-| 2 | «sieht sehr mager aus», «kaum Sätze» | Aufzählungen durch Diagramme, Kennzahlen und Schlagworte ersetzt; Sätze in die Sprechernotizen verschoben |
-| 3 | übersichtlicher, Backup-Folien, Grafiken aus Subrajs EDA | Navigationsleiste, je Folie eine Grafik mit drei Kernaussagen, zwei neue EDA-Folien, acht Backup-Folien |
-| 4 | Backup-Folien wieder heraus, Wichtigstes in die Hauptfolien | 14 Folien; Kernpunkte (H4, Ausfall, Datenjahre, Messtarif) auf «Struktur» und «Hintergrund» verdichtet |
-| 5 | Sprechskript in die Notizen | ausformulierter Text pro Folie mit Sprecher, Zeit und Hinweisen für Rückfragen |
-| 6 | Rückmeldung aus dem Team zur Rahmung | Navigationsleiste «Erwartete Resultate», ein Satz im Skript, dass die Rechnungen erste Bestätigungen sind |
+| 1 | slides following the criteria, «in keywords and a nice style» | outline along the eight criteria, own colour scheme |
+| 2 | «looks very thin», «hardly any sentences» | bullet lists replaced by diagrams, key figures and keywords; sentences moved to the speaker notes |
+| 3 | clearer, backup slides, graphics from Subraj's EDA | navigation bar, one graphic with three key messages per slide, two new EDA slides, eight backup slides |
+| 4 | backup slides out again, the most important into the main slides | 14 slides; key points (H4, drop-outs, data years, metering tariff) condensed on «Structure» and «Background» |
+| 5 | speaker script in the notes | full text per slide with speaker, time and notes for questions |
+| 6 | feedback from the team on the framing | navigation bar «Expected results», one sentence in the script that the calculations are first confirmations |
 
-**Übernommen.** Aufbau nach den Bewertungskriterien, das Layout «eine Grafik, drei Kernaussagen»,
-die selbst gezeichneten Diagramme (Preisbestandteile, R² nach Validierungsart, Ausfalltrichter),
-das Sprechskript als Vorlage, die wir noch in eigene Worte bringen.
+**Adopted.** Structure following the assessment criteria, the layout «one graphic, three key
+messages», the self-drawn diagrams (price components, R² by validation type, drop-out funnel),
+the speaker script as a template that we still put into our own words.
 
-**Verworfen.** Die erste Fassung mit vielen ganzen Sätzen auf den Folien (zu textlastig). Die
-acht Backup-Folien, weil sie das Deck aufblähten; nur ihre Kernaussagen blieben.
+**Rejected.** The first version with many full sentences on the slides (too text-heavy). The
+eight backup slides, because they bloated the deck; only their key messages remained.
 
-**Wo es nicht funktioniert hat.**
+**Where it did not work.**
 
-| Nr | Was nicht funktioniert hat | Wie es auffiel | Folge |
+| No | What did not work | How it was noticed | Consequence |
 |---|---|---|---|
-| P1 | Die Datenfolie behauptete «202 von 2201 Gemeinden fehlen». 88 dieser 202 sind aber Teil der 2087, ihnen fehlt nur die Beschäftigtenzahl | Abgleich mit der Integrationsdoku (§7) bei der Überarbeitung | als Trichter 2201 → 2087 → 1999 neu dargestellt |
-| P2 | Lennys Folienentwurf verortete die günstiger gewordenen Gemeinden um ZH/ZG/AG. Auf der Karte liegen sie vor allem im Raum Bern/Jura. Die AI hatte den Satz zuerst übernommen | Vergleich des Textes mit dem Kartenbild | Aussage auf der Folie neutral formuliert |
-| P3 | Die Beschreibung des Referenzhaushalts H4 (5-Zimmer-Wohnung, Elektroherd, Tumbler) stammte aus dem Allgemeinwissen der AI, nicht aus unseren Quellen | von der AI selbst markiert | nur «4500 kWh pro Jahr» übernommen; Rest an der ElCom zu prüfen |
-| P4 | Mehrere Folien waren zu voll und liefen über den Rand. Die AI hat das Layout nicht als Bild angesehen, sondern die Höhen nur nachgerechnet | Überarbeitung, Durchklicken durch das Team | Inhalte gekürzt; Sichtprüfung bleibt beim Team |
-| P5 | Die AI zeigte die Rechnungen als fertige Resultate, ohne die Modulbeschreibung zu prüfen: Die Live-Präsentation «does not cover the finished project work or final results» | Rückmeldung aus dem Team | «Erwartete Resultate» in der Navigationsleiste, Hinweis im Skript, Stand auf der Modellfolie |
-| P6 | Die Zuordnung der Sprachregionen-Mittelwerte (27.2 / 27.5 / 26.8) zu Deutschschweiz, Romandie und Tessin folgte nur der Reihenfolge im Notebook-Text | von der AI selbst markiert | von Subraj zu bestätigen; Folie entfernt, Zahlen nur noch in der Spickliste |
+| P1 | The data slide claimed «202 of 2,201 municipalities are missing». But 88 of these 202 are part of the 2,087; they only lack the job figure | comparison with the integration documentation (§7) during revision | shown as a funnel 2,201 → 2,087 → 1,999 |
+| P2 | Lenny's slide draft placed the municipalities that became cheaper around ZH/ZG/AG. On the map they lie mainly around Bern/Jura. The AI had first adopted the sentence | comparison of the text with the map | statement on the slide phrased neutrally |
+| P3 | The description of the reference household H4 (5-room flat, electric cooker, tumble dryer) came from the AI's general knowledge, not from our sources | marked by the AI itself | only «4,500 kWh per year» adopted; the rest to be checked with ElCom |
+| P4 | Several slides were too full and ran over the edge. The AI did not look at the layout as an image but only recalculated the heights | revision, the team clicking through | content shortened; visual check remains with the team |
+| P5 | The AI showed the calculations as finished results without checking the module description: the live presentation «does not cover the finished project work or final results» | feedback from the team | «Expected results» in the navigation bar, note in the script, status on the model slide |
+| P6 | The assignment of the language region means (27.2 / 27.5 / 26.8) to German-speaking Switzerland, French-speaking Switzerland and Ticino followed only the order in the notebook text | marked by the AI itself | to be confirmed by Subraj; slide removed, figures only in the cheat sheet |
 
-**Gelernt.** Auch bei Folien gilt Abschnitt 7: Jede Zahl auf einer Folie braucht eine Quelle im
-Repo (P1, P3), ein Text über eine Grafik muss gegen die Grafik geprüft werden (P2), und eine
-Folie muss man als fertiges Bild ansehen (P4). Die AI optimiert auf den Auftrag, den sie bekommt;
-die Rahmenbedingungen der Modulbeschreibung musste das Team selbst einbringen (P5).
-
----
-
-## 7. Was wir daraus gelernt haben
-
-1. Code ohne Fehlermeldung liefert nicht automatisch richtige
-   Zahlen (M1, L7, S5). Eine eingebaute Kontrolle findet viele Fehler sofort, aber nicht alle:
-   Die Summenkontrolle bestand auch leere Tarife.
-2. Die stärksten Tests waren zwei Wege zum selben
-   Ergebnis: Datenbank gegen Join, PostgreSQL gegen SQLite, eine zweite AI gegen die erste
-   (L2, M2, S5).
-3. Eine Beschreibung von Daten oder ein Beleg, den niemand
-   geöffnet hat, ist eine Vermutung (L6, L9, L12, S6).
-4. Eine Grafik muss man als fertiges Bild ansehen, ein Notebook auf einem
-   frischen Klon laufen lassen. Eingecheckte Ausgaben sind ein Foto von gestern (L8, L11).
-5. Mit Projektplan und Dateien von Anfang an musste die AI
-   nichts annehmen (M1, M2).
-6. Was nicht gepusht ist, existiert nicht (L1).
-7. Jede Methode in den Notebooks müssen wir im Video selbst
-   erklären können.
+**Learned.** Section 7 also applies to slides: every figure on a slide needs a source in the
+repository (P1, P3), a text about a graphic must be checked against the graphic (P2), and a
+slide has to be looked at as a finished image (P4). The AI optimises for the request it gets;
+the team had to bring in the constraints of the module description itself (P5).
 
 ---
 
-## 8. Vorschlag für Folien und Video
+## 7. What we learned
 
-Kriterium 6 verlangt die Reflexion in Folien und Video. Pro Person ein Beispiel, das zeigt, wo
-AI nicht funktioniert hat und wie der Fehler gefunden wurde:
+1. Code without an error message does not automatically produce correct figures (M1, L7, S5).
+   A built-in check finds many errors immediately, but not all: the sum check also passed
+   placeholder tariffs.
+2. The strongest tests were two routes to the same result: database against join, PostgreSQL
+   against SQLite, a second AI against the first (L2, M2, S5, S7).
+3. A description of data or a reference that nobody has opened is a guess (L6, L9, L12, S6).
+4. A graphic has to be looked at as a finished image, and a notebook has to be run on a fresh
+   clone. Committed outputs are a photo from yesterday (L8, L11).
+5. With the project plan and the files available from the start, the AI did not have to assume
+   anything (M1, M2).
+6. What is not pushed does not exist (L1).
+7. We have to be able to explain every method in the notebooks ourselves in the video.
 
-| Wer | Beispiel | Warum gut fürs Video |
+---
+
+## 8. Proposal for slides and video
+
+Criterion 6 asks for the reflection in the slides and the video. One example per person that
+shows where AI did not work and how the error was found:
+
+| Who | Example | Why it works well in the video |
 |---|---|---|
-| Metehan | M1, der fehlende Messtarif | zeigt plausible, aber falsche Daten und die Summenkontrolle als Gegenmittel |
-| Lenny | L7, die falsche Annahme in der verbundenen Tabelle | zeigt, wie sich ein Fehler über Dokument und Daten ausbreitet und an der Primärquelle geklärt wird |
-| Subraj | S5, die leeren Tarife, die alle Kontrollen bestanden | zeigt, dass auch eine gute Kontrolle blinde Flecken hat und erst eine unabhängige Rechnung hilft |
+| Metehan | M1, the missing metering tariff | shows plausible but wrong data and the sum check as the remedy |
+| Lenny | L7, the wrong assumption in the joined table | shows how an error spreads through documents and data and is clarified at the primary source |
+| Subraj | S5, the placeholder tariffs that passed every check | shows that even a good check has blind spots and only an independent calculation helps |
 
 ---
 
-## Einzeldokumente
+## Individual documents
 
 - `ai-doku/AI-Documentation_DataCollection_Metehan.md`
 - `ai-doku/AI-Documentation_SQLite_Metehan.md`

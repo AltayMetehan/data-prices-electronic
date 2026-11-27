@@ -2,9 +2,9 @@
 
 Data Analytics, ZHAW, HS2026. Part of mandatory requirement 8.
 
-> Draft compiled by Claude from the course of the working sessions. Subraj checks it and
-> adds his own impressions before it goes into the bundled documentation. The AI reflection
-> is also required in the slides and in the video (criterion 6 of the video assessment).
+> Written with Claude from the course of the working sessions. The AI reflection is also
+> required in the slides and in the video (criterion 6 of the video assessment); the bundled
+> version for the whole group is `ai_dokumentation_gruppe_15.md`.
 
 ---
 
@@ -96,10 +96,11 @@ Data Analytics, ZHAW, HS2026. Part of mandatory requirement 8.
   misses the Bonferroni threshold. The AI had used the threshold from section 8.5
   (25 tests) instead of the one from 8.6 (5 tests). Corrected during proofreading.
 - **Helpful:** While checking the repository, the AI found seven municipalities whose
-  2021 tariffs at two grid operators contain placeholder rows with an energy and grid usage
-  (German: «Netznutzung») price of zero. Averaging over the tariff rows roughly halves their 2021 price, which is
-  also visible on the map. Re-running notebooks 03 and 04 without these rows changed no
-  conclusion. The clean-up belongs in notebooks 01 and 02 and is still open.
+  2021 tariffs contain a placeholder row with an energy and grid usage (German:
+  «Netznutzung») price of zero next to a real tariff. Averaging over the tariff rows
+  roughly halves their 2021 price, which is also visible on the map. Re-running notebooks
+  03 and 04 without these rows changed no conclusion. The clean-up belongs in notebooks 01
+  and 02 (done on 27 November, see below).
 - **Did not work:** The push to the group repository failed twice, first because of
   missing write permissions, then because the Claude app for GitHub was not installed on
   the repository.
@@ -124,6 +125,28 @@ Data Analytics, ZHAW, HS2026. Part of mandatory requirement 8.
   column names, variable names and file names stay unchanged, only text is translated.
   After the re-run it compared every number in the outputs with the German version
   (identical) and looked at all charts.
+- **Did not work:** On request, the AI also renamed the three files into English
+  (`03_analysis_subraj.ipynb` and so on), without first checking the team glossary. The
+  glossary says that file names stay, because other files refer to them. Lenny's AI pointed
+  this out; the files kept their names.
+
+### 26 and 27 November 2026 – Audit, Moodle, re-run on the cleaned data
+
+- **Helpful:** The AI audited the whole repository against the Moodle assessment criteria
+  and estimated the points: 11 of 22 secured, 21 to 22 reachable, with the missing points
+  mostly in the presentation PDF, its appendix, the video and the zip file. After I logged
+  in, it checked Moodle in the browser: there is no breakdown per criterion, and the
+  submission still shows a due date in January 2026.
+- **Did not work:** In the audit the AI said that the seven municipalities belong to two
+  grid operators and named the wrong operator for Bünzen (the one with the placeholder row
+  instead of the real supplier). The cleaned data showed three operators with placeholder
+  rows and ten affected municipalities, not seven: Lenny's and Metehan's clean-up uses a
+  broader rule (grid usage 0 next to a real tariff).
+- **Helpful:** After the clean-up, the AI re-ran notebooks 03 and 04, compared every
+  output with the previous version and updated the figures in 19 text cells. No
+  conclusion changes. One finding becomes stronger: the change in the relationship between
+  density and price from 2021 to 2024 now also holds at operator level (p = 0.016 instead
+  of 0.059). A script then checked every decimal in the texts against the outputs.
 
 ---
 
