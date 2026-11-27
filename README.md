@@ -11,7 +11,7 @@ rise of 2023?
 - Municipality data: Federal Statistical Office (FSO)
 - Years compared: 2021, 2024, 2027
 
-**Group:** Lenny Frei, Metehan Altay, Singh Sub Raj
+**Group:** Lenny Frei, Metehan Altay, Sub Raj Singh
 
 Project instructions see `CLAUDE Data Analytics.md`,
 requirements see `moodle_aufgabenstellung.pdf`.
@@ -196,12 +196,14 @@ get committed.
 
 ## Status
 
-- Last change: 25 November 2026
+- Last change: 27 November 2026
 - **Done:** data collection and SQLite (Metehan), join of the three sources with
   canton, language region and municipality typology as well as geodata and maps
   (Lenny), EDA with statistical tests and model with k-means (Subraj), PostgreSQL
   (Metehan)
-- **In progress:** translating the project into English, see the Language section
-  above. Group deadline 27 November 2026.
+- **Done:** translation into English, see the Language section above. The two files
+  named there stay German on purpose, as does `punkteliste.md`.
+- **Done:** placeholder tariff rows in the 2021 data found and filtered, see
+  `dokumentation_integration_lenny.md`, section 6b.
 - **Next:** concept presentation on 8 December, then report, video and submission.
   Open points are in `CLAUDE Data Analytics.md`, section 11, and in `punkteliste.md`.

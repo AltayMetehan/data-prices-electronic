@@ -1,5 +1,5 @@
 # Data Analytics project: electricity prices of Swiss municipalities
-# ZHAW, autumn semester 2026 - group Frei / Metehan / Sub Raj
+# ZHAW, autumn semester 2026 - Lenny Frei, Metehan Altay, Sub Raj Singh
 #
 # PYTHON 3.11 REQUIRED (developed and checked on 3.11.4).
 # The pins below are installable on 3.11. On Python 3.12 or newer it probably

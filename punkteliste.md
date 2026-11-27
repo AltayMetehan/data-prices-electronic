@@ -1,7 +1,12 @@
+> **Internal working document.** This list is kept in German on purpose. It is the
+> team's working record of which requirement is covered by what, and it is not a
+> submission file. Its content goes into the appendix of the presentation PDF, and
+> it is translated at that point, not here.
+
 # Punkteliste
 
-Data Analytics, ZHAW, HS2026 · Gruppe Frei / Metehan / Sub Raj
-Stand: 24. November 2026
+Data Analytics, ZHAW, HS2026 · Lenny Frei · Metehan Altay · Sub Raj Singh
+Stand: 27. November 2026
 
 **Was geprüft ist und was nicht.** Die mit 🔍 markierten Angaben wurden unabhängig
 nachgerechnet oder nachgezählt: auf einem frischen Klon, in einer frischen virtuellen
@@ -310,9 +315,17 @@ einem Ort sind:
 | Korrelation nach Pearson und Spearman mit p-Wert und Bonferroni-Korrektur | `scripts/03_analyse_subraj.ipynb` §8.5, §8.6 |
 | Korrelationen in der EDA, ebenfalls mit p-Wert (Preise zwischen den Jahren; Heatmap Merkmal und Preis mit Bonferroni-Stern) | `scripts/03_analyse_subraj.ipynb` §3, §5.2 |
 | ANOVA über die k-means-Cluster, mit cluster-robustem Wald-Test | `scripts/04_modell_subraj.ipynb` §8.4 |
+| **Chi-Quadrat-Test** auf der Kontingenztafel k-means-Cluster gegen BFS-Gemeindetypologie, mit Cramérs V, Prüfung der erwarteten Häufigkeiten und standardisierten Residuen | `scripts/04_modell_subraj.ipynb`, **Zelle 39** |
 
 Jeder Test ist auf Gemeinde- und auf Betreiberebene gerechnet. Der gepaarte t-Test
 (§8.2) steht zusätzlich im Notebook, zählt für diesen Punkt aber nicht.
+
+🔍 **Am 27.11.2026 nachgeprüft:** Die Anforderung nennt drei Verfahren mit «or», es
+genügt also eines. Belegt sind **alle drei**. Der Chi-Quadrat-Test steht in Notebook
+04, Zelle 39, und gibt aus: `Chi² = 1247.5, degrees of freedom = 24, p = 1.8e-248`,
+dazu `Cramér's V = 0.446` und die Kontrollzeile `cells with expected frequency below
+5: 0 of 36`. Die Tafel umfasst 2086 Gemeinden, weil Prez (2237) keinen
+Typologiewert hat.
 
 **Nachtrag vom 23.11.2026.** Zwei Stellen in der EDA berichteten bis dahin nur den
 Korrelationskoeffizienten ohne p-Wert. Subraj hat beide ergänzt. 🔍 Am 24.11.2026
