@@ -137,11 +137,12 @@ Data Analytics, ZHAW, HS2026. Part of mandatory requirement 8.
   mostly in the presentation PDF, its appendix, the video and the zip file. After I logged
   in, it checked Moodle in the browser: there is no breakdown per criterion, and the
   submission still shows a due date in January 2026.
-- **Did not work:** In the audit the AI said that the seven municipalities belong to two
-  grid operators and named the wrong operator for Bünzen (the one with the placeholder row
-  instead of the real supplier). The cleaned data showed three operators with placeholder
-  rows and ten affected municipalities, not seven: Lenny's and Metehan's clean-up uses a
-  broader rule (grid usage 0 next to a real tariff).
+- **Did not work:** On 21 November the AI said that the placeholder rows of the seven
+  municipalities came from two grid operators; the audit on 26 November showed three
+  (Bünzen's placeholder row belongs to a third operator). The clean-up by Lenny and Metehan
+  then found ten municipalities and four operators with placeholder rows, because it uses
+  a broader rule (grid usage 0 next to a real tariff). The AI's own search had only looked
+  for rows where energy and grid usage are both 0.
 - **Helpful:** After the clean-up, the AI re-ran notebooks 03 and 04, compared every
   output with the previous version and updated the figures in 19 text cells. No
   conclusion changes. One finding becomes stronger: the change in the relationship between
