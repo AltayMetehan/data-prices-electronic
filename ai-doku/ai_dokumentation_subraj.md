@@ -71,8 +71,9 @@ Data Analytics, ZHAW, HS2026. Part of mandatory requirement 8.
   the standard errors clustered by grid operator itself, with the formula in the notebook.
   It checked the coefficients against scikit-learn (identical). The cross-check of the
   standard errors against statsmodels is in the notebook, but only runs on a computer where
-  statsmodels is installed. **Still open: run locally and check that the cross-check
-  passes.**
+  statsmodels is installed. Done on 27 November 2026 in a GitHub Codespace with
+  statsmodels 0.15.0: the whole notebook ran without errors and the cross-check reports
+  «Standard errors identical to statsmodels».
 - **Did not work:** The AI could not push to the GitHub repository because no GitHub
   account was connected to it. The files were uploaded by hand.
 - **Helpful, but only through checking:** When proofreading its own interpretation, the AI
